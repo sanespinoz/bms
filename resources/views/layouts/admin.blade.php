@@ -16,40 +16,31 @@
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
-                        <span class="sr-only">
-                            Toggle navigation
-                        </span>
-                        <span class="icon-bar">
-                        </span>
-                        <span class="icon-bar">
-                        </span>
-                        <span class="icon-bar">
-                        </span>
-                    </button>
-                    <a class="navbar-brand" href="/">
-                        BMS Admin
-                    </a>
+
+                    <a class="navbar-brand" href={!! url('/') !!}>BMS</a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                            {!!Auth::user()->name!!}<i class="fa fa-user fa-fw">
                             </i>
                             <i class="fa fa-caret-down">
                             </i>
                         </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
                                 <a href="#">
                                     <i class="fa fa-gear fa-fw">
                                     </i>
                                     Ajustes
                                 </a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
+                        </li>
+                        <li class="divider">
+                        </li>
+                         <li>
                                 <a href="{!!URL::to('logout')!!}">
                                     <i class="fa fa-sign-out fa-fw">
                                     </i>
@@ -59,6 +50,17 @@
                         </ul>
                     </li>
                 </ul>
+                </div>
+            </nav>
+
+            <div class="container">
+                @if (Session::has('errors'))
+                    <div class="alert alert-warning text-center" role="alert">
+                        Las credenciales que ingresaste no coinciden con nuestros registros.
+
+                    </div>
+                @endif
+            </div>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">

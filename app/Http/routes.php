@@ -16,7 +16,6 @@ Route::get('/',function(){
     return view('index');
 });
 
-
 // Authentication routes...
 
 Route::get('login', [
@@ -27,20 +26,28 @@ Route::post('login', [
 	'uses' => 'Auth\AuthController@postLogin',
 	'as' =>'auth/login'
 	]);
+
 Route::get('logout', [
 	 'uses' => 'Auth\AuthController@getLogout',
 	 'as' => 'auth/logout'
 	 ]);
 
-
 Route::get('register',[
 	'uses'=> 'Auth\AuthController@getRegister',
-    'as'=>'auth/register'
+    'as'=>'register'
 ]);
 Route::post('register', [
 	'uses' => 'Auth\AuthController@postRegister',
-	'as' => 'auth/register'
+	'as' => 'register'
 	]);
+
+// Password reset link request routes...
+Route::get('password/email', 'Auth\PasswordController@getEmail');
+Route::post('password/email', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::get('gestion',function() {
     if (Auth::user()->rol_id == '8')
@@ -51,7 +58,6 @@ Route::get('gestion',function() {
         return view('admin.index');
 
 });
-
 
 Route::resource('edificio','EdificioController');
 Route::resource('pisos','PisoController');

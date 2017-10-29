@@ -63,6 +63,26 @@
             }
         });
     });
+
+    $(function(){
+        <?php
+       if (Auth::guest()){
+
+      ?>
+       $("ul li:first").show();
+
+
+       <?php }
+       else{
+           ?>
+
+            $("ul li:first").hide();
+            $("section#login").hide();
+            <?php }
+            ?>
+
+        });
+
 </script>
 </head>
 
@@ -84,21 +104,29 @@
 		<div class="collapse navbar-collapse navbar-right navbar-main-collapse">
 			<ul class="nav navbar-nav">
 				<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-				<li class="hidden">
-					<a href="#page-top"></a>
-				</li>
-				<li ng-show="isLogged">
-					<a class="page-scroll" href="#dreams">Luminarias</a>
-				</li>
-				<li ng-show="isLogged">
-					<a class="page-scroll" href="gestion">Gestión</a>
-				</li>
-				<li ng-hide="isLogged">
-					<a class="page-scroll" href="login">Login</a> <!--tenia un ancla al pie de la pagina #Auth
-				</li>
-				<li ng-show="isLogged">
-					<a ng-click="logout()" href>Logout</a>
-				</li>
+				@if (Auth::guest())
+
+					<li>
+						<a class="page-scroll" href="#login">Iniciar Sesión</a> <!--tenia un ancla al pie de la pagina #Auth-->
+					</li>
+
+					<li><a class="page-scroll" href="#register">Registrarse</a></li>
+				@else
+					<!--<li class="hidden">
+						<a href="#page-top"></a>
+					</li>-->
+					<li>
+						<a class="page-scroll" href="#dreams">Luminarias</a>
+					</li>
+					<li>
+						<a class="page-scroll" href="gestion">Gestión</a>
+					</li>
+
+					<li>
+						<a ng-click="logout()" href>Logout</a>
+					</li>
+				@endif
+
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -135,8 +163,77 @@
 </section>
 
 
-<!-- Auth Section -->
-@yield('login')
+<!-- Auth Section
+-->
+<section id="login" class="container-fluid content-section text-center" style="background-color:#8aaafc">
+	<div class="row">
+		<div class="panel-heading">INICIO DE SESIÓN</div>
+		<div class="panel-body">
+			<form method="POST" action="login">
+			{!! csrf_field() !!}
+
+				<div class="form-group">
+					<label>Correo Electrónico</label>
+					<input type="email" name="email" value="{{ old('email') }}">
+				</div>
+
+				<div class="form-group">
+					<label>Contraseña</label>
+					<input type="password" name="password" id="password">
+				</div>
+
+				<div>
+					<input type="checkbox" name="remember"> Recuérdame
+				</div>
+				<div>
+					<a href="password/email"> Restablecer Contraseña</a>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-primary" >Ingresar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+
+<section id="register" class="container-fluid content-section text-center"  style="background-color: #8aaafc">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+
+				<div class="panel-heading">REGISTRO DE USUARIO</div>
+
+				<div class="panel-body">
+					{!! Form::open(['route' => 'register', 'class' => 'form']) !!}
+
+					<div class="form-group">
+						<label>Nombre</label>
+						{!! Form::input('text', 'name', '', ['class'=> 'form-control']) !!}
+					</div>
+					<div class="form-group">
+						<label>Correo Electrónico</label>
+						{!! Form::email('email', '', ['class'=> 'form-control']) !!}
+					</div>
+					<div class="form-group">
+						<label>Contraseña</label>
+						{!! Form::password('password', ['class'=> 'form-control']) !!}
+					</div>
+
+					<div class="form-group">
+						<label>Confirmación de Contraseña </label>
+						{!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
+					</div>
+
+					<div>
+						{!! Form::submit('Enviar',['class' => 'btn btn-primary']) !!}
+					</div>
+					{!! Form::close() !!}
+				</div>
+			</div>
+
+	</div>
+</section>
+
+
 
 <!-- Footer -->
 <footer>
