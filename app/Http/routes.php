@@ -53,12 +53,12 @@ Route::get('gestion',function() {
 });
 
 
-resource('edificio','EdificioController');
-resource('pisos','PisoController');
-resource('sector','SectorController');
-resource('grupo','GrupoController');
-resource('luminaria','LuminariaController');
-resource('lampara','LamparaController');
+Route::resource('edificio','EdificioController');
+Route::resource('pisos','PisoController');
+Route::resource('sector','SectorController');
+Route::resource('grupo','GrupoController');
+Route::resource('luminaria','LuminariaController');
+Route::resource('lampara','LamparaController');
 
 //ADMINISTRADOR
 /*

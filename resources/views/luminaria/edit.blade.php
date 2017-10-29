@@ -1,5 +1,5 @@
-@extends('app')
-	@section('content')
+@extends('layouts.admin')
+@section('content')
 		{{-- @include('alerts.request') --}}
 		
 		{!!Form::model($luminaria,['route'=> ['luminaria.update',$luminaria->id],'method'=>'PUT'])!!}

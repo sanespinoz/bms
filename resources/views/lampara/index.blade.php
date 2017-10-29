@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.admin')
 
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">

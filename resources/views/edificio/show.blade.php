@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.admin')
 @section('content')
     <div class="form-group col-xs-12">
         <h2>Datos del piso {{$edificio->nombre}} </h2>

@@ -1,5 +1,4 @@
-@extends('app')
-
+@extends('layouts.admin')
 @section('content')
 {{--@include('alerts.request')--}}
 <h1>Registrar Luminaria</h1>
