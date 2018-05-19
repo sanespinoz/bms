@@ -22,6 +22,30 @@ class CreateLuminariasTable extends Migration
             $table->integer('cant_lamparas');
             $table->integer('consumo');
             $table->integer('tiempo_uso');
+
+
+            $table->string('dimensiones',50);
+            $table->string('temperatura_color',50);
+            $table->string('flujo_luminoso',50);
+            $table->string('color_luz',50);
+            $table->string('distribucion_luza',50);
+
+            $table->integer('voltaje_nominal');
+            $table->double('factor_potencia',4,3);
+            $table->date('fecha_instalacion');
+            $table->date('fecha_baja');
+            $table->integer('potencia_nominal');
+            $table->integer('potencia_lampara');
+            $table->integer('frecuencia');
+            $table->integer('corriente_nominal');
+            $table->integer('vida');
+            $table->integer('horas_activas');
+            $table->integer('tiempo_restante');
+            $table->enum('estado',['activa','inactiva','mantenimiento']);
+
+
+
+
             $table->integer('grupo_id')->unsigned();
 
             $table->foreign('grupo_id')

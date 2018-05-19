@@ -12,7 +12,12 @@ class CreateRolsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('rols', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('rol');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +27,6 @@ class CreateRolsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('rols');
     }
 }

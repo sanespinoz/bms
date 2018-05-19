@@ -13,36 +13,42 @@
 		<h1>Grupos Registrados</h1>
 
 		<table class="table table-bordered table-striped">
-			
-			<head>
+
+			<thead>
 				<tr>
 					<th>Nombre</th>
 					<th>Descripción</th>
-					<th>Sector</th>
 					<th>Cantidad de Luminarias</th>
 					<th>Energía Consumida</th>
+					<th>Piso</th>
+					<th>Sector</th>
+					<th>Hs Activo</th>
+					<th>Activaciones</th>
 					<th>Operaciones</th>
 				</tr>
-			</head>
+			</thead>
 			<tbody>
 				@foreach($grupos as $grupo)
 					<tr>
 						<td>{{ $grupo->nombre }}</td>
 						<td>{{ $grupo->descripcion }}</td>
-						<td>{{ $grupo->sector->nombre}}</td>
 						<td>{{ $grupo->cant_luminarias}}</td>
 						<td>{{ $grupo->energia_consumida}}</td>
+						<td>{{ $grupo->piso_id}}</td>
+						<td>{{ $grupo->sector_id}}</td>
+						<td>{{ $grupo->cant_hs_activo}}</td>
+						<td>{{ $grupo->cant_activaciones}}</td>
 						<td>
 					{!!link_to_route('grupo.edit', $title = 'Editar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-primary'])!!}
 					{!!link_to_route('grupo.show', $title = 'Ver', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-success'])!!}
-					
+
 				</td>
 					</tr>
 
 				@endforeach
 			</tbody>
 		</table>
-		
-		{!! $grupos->render() !!}		
+
+		{!! $grupos->render() !!}
 
 @endsection

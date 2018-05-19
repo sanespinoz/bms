@@ -6,6 +6,7 @@ use App\Http\Requests\EdificioCreateRequest;
 use App\Http\Requests\EdificioUpdateRequest;
 use App\Edificio;
 use App\Piso;
+use Carbon\Carbon;
 use Session;
 use Redirect;
 use App\Http\Requests;
@@ -33,6 +34,9 @@ class EdificioController extends Controller
      */
     public function create()
     {
+
+
+
         return view('edificio.create');
     }
 
@@ -44,8 +48,21 @@ class EdificioController extends Controller
      */
     public function store(EdificioCreateRequest $request)
     {
-        $edificio = Edificio::create($request->all());
-        return redirect('edificio');
+      Edificio::create( $request->all());
+      Session::flash('message','Edificio Creado Correctamente');
+
+         return redirect('edificio');
+//  var_dump($request);
+//    die();
+/*$updat = Carbon::now()->format('Y-m-d H:i:s.000');
+
+$request['created_at'] = $creat;
+$request['updated_at'] = $updat;
+$edificio = Edificio::create($request->all());*/
+//$event = new Edificio($requestData);
+//$event->save();
+      //  $edificio = Edificio::create($request->all());
+
 
     }
 
@@ -64,7 +81,12 @@ class EdificioController extends Controller
         print_r($pisos);
         echo '</pre>';
          */
+      /*   $cre = $edificio->created_at;
 
+
+         dd($cre);
+         die();
+*/
         return view('edificio.show', compact('edificio', 'pisos'));
 
     }
@@ -111,3 +133,9 @@ class EdificioController extends Controller
 
     }
 }
+
+/*public function show(Request request, $eventId) {
+    $event = Event::findOrFail($eventId);
+    $startTime = $event->start_time->format('Y-m-d H:i');
+    $endTime = $event->end_time->format('Y-m-d H:i');
+}*/

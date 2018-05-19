@@ -27,7 +27,7 @@ class GrupoCreateRequest extends Request
             'nombre'=>'required|min:2',
             'cant_luminarias'=>'numeric|min:1|max:15',
             'energia_consumida'=>'numeric|min:1',
-            'sector_id'=>'required',
+      
         ];
     }
 }

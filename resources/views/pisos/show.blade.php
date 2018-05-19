@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('content')
         <div class="form-group col-xs-12">
             <h2>Datos del piso {{$piso->nombre}} </h2>
             Descripción:
@@ -15,5 +16,4 @@
             ?>
 
         </div>
-	@stop
-		
+@endsection

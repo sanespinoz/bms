@@ -1,4 +1,4 @@
-@extends('auth/template')
+@extends('auth.template')
 
 @section('content')
                 <h2 class="text-center">Cambiar Contraseña</h2>
@@ -17,7 +17,8 @@
                         </div>
                         
                         <div class="form-group col-lg-6 text-center">
-                            <input class="btn btn-default" type="submit" value="Send Password Reset Link">
+                            <input class="btn btn-default" type="submit" value="Send dsada">
+
                         </div> 
                         
                     </div>

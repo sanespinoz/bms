@@ -15,14 +15,19 @@
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- Custom CSS -->
 	<link href="css/grayscale.css" rel="stylesheet">
+	<link href="css/monitoreo.css" rel="stylesheet">
+
+	<!-- MetisMenu CSS -->
+	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
 	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 	<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
-	<script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="../node_modules/raphael/raphael.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+
 </head>
 
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,10 +55,6 @@
                 var rjs = Raphael('lienzo',1400, 700);
 
                 $(xml).find('svg > g ').each(function() {
-
-
-
-
                     var pid = $(this).attr('id');
                     //var rectan = $(this).attr('rect');
                     console.log(pid);
@@ -119,6 +120,9 @@
 						<a class="page-scroll" href="#dreams">Luminarias</a>
 					</li>
 					<li>
+						<a class="page-scroll" href="#monitoreo">Monitoreo</a>
+					</li>
+					<li>
 						<a class="page-scroll" href="gestion">Gestión</a>
 					</li>
 
@@ -140,8 +144,10 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<h1 class="brand-heading">Automatización de Iluminación</h1>
-					<p class="intro-text">Gestión de datos, visualización de información de dispositivos en tiempo real y de datos estadísticos relevantes</p>
+					<h1 class="brand-heading">Sistema de gestión y automatización de la energía eléctrica
+
+					</h1>
+					<p class="intro-text">Gestión de recursos, monitoreo de dispositivos en tiempo real y visualización de reportes, para edificios de oficinas</p>
 					<a href="#dreams" class="btn btn-circle page-scroll">
 						<i class="fa fa-angle-double-down animated"></i>
 					</a>
@@ -161,16 +167,42 @@
 	</div>
 
 </section>
+<section id="monitoreo">
 
+		<!--<div class="col-md-6 col-md-offset-3"> -->
+
+
+
+
+
+			<!--	<div class="embed-container"> -->
+				 <!--  <iframe width="640" height="360" src="http://192.168.0.111/BMS/login.html" frameborder="0" allowfullscreen></iframe> -->
+
+				<iframe allowfullscreen="true"
+	mozallowfullscreen="true" webkitallowfullscreen="true"
+	src="http://192.168.0.111/BMS/login.html"
+	width="1250px" height="700px" frameborder="0"></iframe>
+
+	<!--	</div>-->
+</div>
+</section>
 
 <!-- Auth Section
 -->
-<section id="login" class="container-fluid content-section text-center" style="background-color:#8aaafc">
+<section id="login" class="container-fluid content-section text-center" style="background-color:#ccebff">
 	<div class="row">
 		<div class="panel-heading">INICIO DE SESIÓN</div>
 		<div class="panel-body">
 			<form method="POST" action="login">
 			{!! csrf_field() !!}
+				@if (count($errors) > 0)
+					<ul>
+						@foreach ($errors->all() as $error)
+							<lu>{{ $error }}</lu>
+						@endforeach
+					</ul>
+				@endif
+
 
 				<div class="form-group">
 					<label>Correo Electrónico</label>
@@ -196,7 +228,7 @@
 	</div>
 </section>
 
-<section id="register" class="container-fluid content-section text-center"  style="background-color: #8aaafc">
+<section id="register" class="container-fluid content-section text-center"  style="background-color:#022B59">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 
@@ -243,39 +275,40 @@
 </footer>
 
 
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="../bower_components/velocity/velocity.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="../bower_components/velocity/velocity.js"></script>-->
 <script src="../bower_components/moment/min/moment-with-locales.js"></script>
-<script src="../bower_components/angular/angular.js"></script>
+<!--<script src="../bower_components/angular/angular.js"></script> -->
 
 
 
-<script src="assets/js/metisMenu.min.js"></script>
-<!-- Plugin JavaScript -->
+<script src="../vendor/metisMenu/metisMenu.min.js"></script>
+<!-- Plugin JavaScript
 <script src="js/jquery.easing.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="js/grayscale.js"></script>
+<!--<script src="assets/js/grayscale.js"></script>-->
 
-<!-- <script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js"></script>
 
 <!-- Angular JavaScript -->
 
 
 
 <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>-->
-<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script>-->
+<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.min.js"></script>
-<!-- Custom Angular JavaScript -->
-<script src="js/app.js"></script>
+<!-- Custom Angular JavaScript-->
+<!--<script src="js/app.js"></script>
 <script src="js/controllers.js"></script>
-<script src="js/services.js"></script>
+<script src="js/services.js"></script>-->
 <!--Internacionalizacion -->
-<script src="http://code.angularjs.org/1.2.9/i18n/angular-locale_es-cr.js"></script>
+<!--<script src="http://code.angularjs.org/1.2.9/i18n/angular-locale_es-cr.js"></script>-->
 <!--Raphael-->
+<script type="text/javascript" src="../vendor/raphael/raphael.min.js"></script>
 
 </body>
 

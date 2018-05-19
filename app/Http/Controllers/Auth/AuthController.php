@@ -25,6 +25,7 @@ class AuthController extends Controller
     
     //entre comillas la ruta a la que deseas redireccionar
   protected $redirectTo = 'gestion';
+  protected $loginPath = '/#login';
 
     /**
      * Create a new authentication controller instance.
@@ -64,7 +65,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        $user->rol_id = '8';
+        $user->rol_id = '3';
         $user->save();
         return $user;
     }

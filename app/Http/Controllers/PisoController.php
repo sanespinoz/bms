@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use \Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\PisoCreateRequest;
 use App\Edificio;
 use App\Piso;
 use App\Sector;
 use Session;
 use Redirect;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class PisoController extends Controller
 {
@@ -25,6 +25,8 @@ class PisoController extends Controller
 
       return view('pisos.index', compact('pisos'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +47,9 @@ class PisoController extends Controller
      */
     public function store(PisoCreateRequest $request)
     {
+
         $piso = Piso::create($request->all());
+        Session::flash('message','Grupo Creado Correctamente');
         return redirect('pisos');
 
 

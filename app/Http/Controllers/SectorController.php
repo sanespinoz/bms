@@ -21,12 +21,12 @@ class SectorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
     public function index()
     {
-        
+
         $sectores =Sector::orderBy('nombre', 'asc')->paginate(10);
-      
+
        return view('sector.index', compact('sectores'));
     }
 
@@ -37,10 +37,10 @@ class SectorController extends Controller
      */
     public function create()
     {
-        
-        $pisos = Piso::all();  
-        //dd($users);
-       
+
+        $pisos = Piso::all();
+      //  dd($pisos);
+
 
         return view('sector.create', compact('pisos'));
     }
@@ -55,7 +55,7 @@ class SectorController extends Controller
     {
        Sector::create( $request->all());
             Session::flash('message','Sector Creado Correctamente');
-       
+
             return redirect('sector');
     }
 
@@ -81,9 +81,9 @@ class SectorController extends Controller
      */
     public function edit($id)
     {
-      
+
         $pisos = Piso::all();
-       
+
         $sector = Sector::findOrFail($id);
         return view('sector.edit',compact('sector','pisos'));
     }
@@ -99,7 +99,7 @@ class SectorController extends Controller
      */
     public function update($id,SectorUpdateRequest $request)
     {
-       
+
         $sector= Sector::find($id);
         $sector->fill($request->all());
         $sector->save();
@@ -120,9 +120,16 @@ class SectorController extends Controller
          Sector::destroy($id);
          Session::flash('message','Sector Eliminado Correctamente');
          return redirect('sector');
-
-
-
    }
-}
 
+   public function sectores( $piso){
+
+       $sectores = Sector::where('piso_id',$piso)->get();
+        return $sectores;
+        //return \Response::json(['success' => $sectores]);
+       /* return response()->json([
+   "mensaje" => $request->all()
+   ]);*/
+ }
+
+}

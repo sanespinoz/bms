@@ -10,11 +10,11 @@
 		@endif
 
 		<!--VALIDACION -->
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::text('cant_luminarias', null, ['class'=>'form-control floating-label', 'placeholder'=>'Cantidad de Luminarias:']) !!}
@@ -23,31 +23,38 @@
 
 			<p class="text-danger">{{ $errors->first('cant_luminarias') }}</p>
 		@endif
-		
 	</div>
 	<div class="form-group">
-		{!! Form::text('energia_consumida', null, ['class'=>'form-control floating-label', 'placeholder'=>'Energía Consumida:']) !!}
-		
+		{!! Form::text('energia_consumida', null, ['class'=>'form-control floating-label', 'placeholder'=>'Energía consumida:']) !!}
+
+			@if($errors->has('energia_consumida'))
+
+			<p class="text-danger">{{ $errors->first('energia_consumida') }}</p>
+		@endif
 	</div>
 
-	<select class ="form-control floating-label" name="piso_id">
-	@foreach($pisos as $piso)
-		
-			<option value="{{ $piso->id }}">{{ $piso->nombre }}</option>
-		
-	@endforeach
-	</select>
-	{{-- <div class="form-group">
-	{!! Form::text('sector_id', null, ['class'=>'form-control floating-label', 'placeholder'=>'Sector:']) !!} --}}
-	
-	<select class ="form-control floating-label" name="sector_id">
-	@foreach($sectores as $sector)
-		
-			<option value="{{ $sector->id }}">{{ $sector->nombre }}</option>
-		
-	@endforeach
-	</select>
-	{{-- </div> --}}
+	<div class="form-group">
+{!! Form::select('piso_id',$pisos,null,['id'=>'piso_id']) !!}
 
+
+{!! Form::select('sector_id',['placeholder'=>'Selecciona'],null,['id'=>'sector_id']) !!}
+	</div>
+
+	<div class="form-group">
+		{!! Form::text('cant_hs_activo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Hs activo:']) !!}
+
+			@if($errors->has('cant_hs_activo'))
+
+			<p class="text-danger">{{ $errors->first('cant_hs_activo') }}</p>
+		@endif
+	</div>
+	<div class="form-group">
+		{!! Form::text('cant_activaciones', null, ['class'=>'form-control floating-label', 'placeholder'=>'Activaciones:']) !!}
+
+			@if($errors->has('cant_activaciones'))
+
+			<p class="text-danger">{{ $errors->first('cant_activaciones') }}</p>
+		@endif
+	</div>
 
 </div>

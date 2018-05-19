@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\GrupoCreateRequest;
 use App\Http\Requests\GrupoUpdateRequest;
 use App\Grupo;
@@ -11,9 +14,8 @@ use Redirect;
 use App\Sector;
 use App\Piso;
 use App\Luminaria;
-use App\Http\Requests;
-use Illuminate\Routing\Route;
-use App\Http\Controllers\Controller;
+
+
 
 class GrupoController extends Controller
 {
@@ -24,8 +26,9 @@ class GrupoController extends Controller
      */
     public function index()
     {
-         $grupos =Grupo::paginate(10); 
-      
+      $grupos = Grupo::orderBy('nombre', 'asc');
+      $grupos = Grupo::paginate(10);
+
        return view('grupo.index', compact('grupos'));
     }
 
@@ -36,14 +39,19 @@ class GrupoController extends Controller
      */
     public function create()
     {
-        $sectores = Sector::all();  
-        $pisos = Piso::all();
+       //$pisos = Piso::all();
 
+
+      $pisos = Piso::lists('nombre','id');
+      //dd($pisos);
         //dd($users);
-       
 
-        return view('grupo.create', compact('sectores', 'pisos', 'sectores'));
+
+        return view('grupo.create', compact('pisos'));
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -53,9 +61,7 @@ class GrupoController extends Controller
      */
     public function store(GrupoCreateRequest $request)
     {
-             Grupo::create( $request->all()
-       
-            );
+            $grupo = Grupo::create( $request->all());
             Session::flash('message','Grupo Creado Correctamente');
         //return redirect('/usuario')->with('message','store');
             return redirect('grupo');
@@ -89,7 +95,7 @@ class GrupoController extends Controller
         return view('grupo.edit',compact('grupo','sectores'));
 
 
-      
+
     }
 
     /**
@@ -117,10 +123,27 @@ class GrupoController extends Controller
      */
     public function destroy($id)
     {
-      
+
          Grupo::destroy($id);
          Session::flash('message','Grupo Eliminado Correctamente');
          return redirect('grupo');
 
     }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+
+public function getSectores(Request $request, $id){
+   if($request->ajax()){
+
+    $sectores = Sector::sectores($id)->get();
+
+      return response()->json($sectores);
+    }
+  }
 }

@@ -8,6 +8,8 @@ class Piso extends Model
 {
     protected $table = 'pisos';
     protected $fillable = ['nombre', 'descripcion', 'edificio_id'];
+    protected $dates = ['created_at', 'updated_at'];
+    protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function sectores()
     {
@@ -17,5 +19,10 @@ class Piso extends Model
     public function edificio()
     {
         return $this->belongsTo('App\Edificio');
+    }
+    public function energiaPisos()
+    {
+        //creamos una relacion con el modelo energiaPiso
+        return $this->hasMany('App\EnergiaPiso');
     }
 }

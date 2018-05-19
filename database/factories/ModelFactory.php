@@ -1,5 +1,8 @@
 <?php
 
+use App\EnergiaPiso;
+use App\Piso;
+use Faker\Generator;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,11 +14,22 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(EnergiaPiso::class, function (Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'energia' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'pico' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'prom_tension' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'max_tension' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'min_tension' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'prom_corriente' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+        'energia_iluminacion' => $faker->randomDigitNotNull,
+        'fecha' => $faker->date($format = 'Ymd', $max = 'now'),
+        'piso_id' => $faker->idPiso,
+        'created_at' => $faker->dateTime($max = 'now', $timezone = null),
+        'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
+
+
     ];
 });
+
+//Uso el EnergiaPisoTableSeeder

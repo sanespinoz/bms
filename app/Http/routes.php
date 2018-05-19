@@ -22,6 +22,7 @@ Route::get('login', [
 	 'uses'=>'Auth\AuthController@getLogin',
 	 'as'=>'auth/login'
 	 ]);
+
 Route::post('login', [
 	'uses' => 'Auth\AuthController@postLogin',
 	'as' =>'auth/login'
@@ -32,10 +33,11 @@ Route::get('logout', [
 	 'as' => 'auth/logout'
 	 ]);
 
-Route::get('register',[
+Route::get('register', [
 	'uses'=> 'Auth\AuthController@getRegister',
-    'as'=>'register'
-]);
+  'as'=>'register'
+  ]);
+
 Route::post('register', [
 	'uses' => 'Auth\AuthController@postRegister',
 	'as' => 'register'
@@ -50,7 +52,7 @@ Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::get('gestion',function() {
-    if (Auth::user()->rol_id == '8')
+    if (Auth::user()->rol_id == '3')
 
         return view('operador.index');
      else
@@ -65,6 +67,10 @@ Route::resource('sector','SectorController');
 Route::resource('grupo','GrupoController');
 Route::resource('luminaria','LuminariaController');
 Route::resource('lampara','LamparaController');
+Route::resource('energiapiso', 'EnergiaPisoController');
+Route::resource('reporte', 'ReporteController');
+Route::get('grupo/create/sectores/{id}','GrupoController@getSectores');
+
 
 //ADMINISTRADOR
 /*

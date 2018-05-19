@@ -10,11 +10,11 @@
 		@endif
 
 		<!--VALIDACION-->
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::text('direccion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Dirección:']) !!}
@@ -23,7 +23,7 @@
 
 			<p class="text-danger">{{ $errors->first('direccion') }}</p>
 		@endif
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::number('telefono', null, ['class'=>'form-control floating-label', 'placeholder'=>'Teléfono:']) !!}
@@ -47,7 +47,6 @@
 
 	</div>
 
-	{{-- </div> --}}
 
 
 </div>

@@ -6,10 +6,16 @@
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
                     <title>
                     </title>
-                    {!!Html::style('assets/css/bootstrap.css') !!}
-                    {!!Html::style('assets/css/metisMenu.min.css')!!}
-                    {!!Html::style('assets/css/sb-admin-2.css')!!}
-                    {!!Html::style('font-awesome/css/font-awesome.css')!!}
+                    {!! Html::style('assets/css/bootstrap.css') !!}
+                    {!! Html::style('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css') !!}
+
+
+   <!-- MetisMenu CSS -->
+
+                   {!! Html::style('assets/css/sb-admin-2.min.css') !!}
+                    {!! Html::style('font-awesome/css/font-awesome.min.css') !!}
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     </head>
     <body>
@@ -30,6 +36,7 @@
                             <i class="fa fa-caret-down">
                             </i>
                         </a>
+
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                                 <a href="#">
@@ -149,32 +156,32 @@
                                     </li>
                                 </ul>
                             </li>
-                          <!--  <li>
+                           <li>
                                 <a href="#">
                                     <i class="fa fa-folder-o">
                                     </i>
-                                    Lámpara
+                                    Reportes
                                     <span class="fa arrow">
                                     </span>
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/lampara/create')!!}">
+                                        <a href="{!!URL::to('/reporte')!!}">
                                             <i class="fa fa-plus fa-fw">
                                             </i>
-                                            Agregar
+                                            Energía
                                         </a>
                                     </li>
-                                    <li>
+                                  <!--  <li>
                                         <a href="{!!URL::to('/lampara')!!}">
                                             <i class="fa fa-list-ol fa-fw">
                                             </i>
                                             Lámparas
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </li>
-                            -->
+
                         </ul>
                     </div>
                 </div>
@@ -183,20 +190,31 @@
                 @yield('content')
             </div>
         </div>
-        {!!Html::script('assets/js/jquery.min.js')!!}
-        {!!Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')!!}
-        {!!Html::script('assets/js/metisMenu.min.js')!!}
-        {!!Html::script('assets/js/sb-admin-2.js')!!}
 
-        {!!Html::script('../bower_components/moment/moment.js')!!}
-        {!!Html::script('../bower_components/moment/locale/es.js')!!}
+        <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
 
-        {!!Html::script('https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js')!!}
+        {!! Html::script('assets/js/dropdown.js') !!}
+
+        {!! Html::script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js') !!}
+
+
+        {!! Html::script('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js') !!}
+        {!! Html::script('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js') !!}
+        <!-- Metis Menu Plugin JavaScript -->
+
+
+        {!! Html::script('../bower_components/moment/moment.js') !!}
+        {!! Html::script('../bower_components/moment/locale/es.js') !!}
+                    {!!Html::script('assets/js/sb-admin-2.js') !!}
+        {!! Html::script('//raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js') !!}
     </body>
     <script type="text/javascript">
         $(function() {
         $('#fecha_instalacion').datetimepicker({
-          format: 'YYYY/MM/DD', 
+          format: 'YYYY/MM/DD',
         });
         });
         $.ajaxSetup({
