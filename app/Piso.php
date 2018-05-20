@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Piso extends Model
@@ -9,7 +9,8 @@ class Piso extends Model
     protected $table = 'pisos';
     protected $fillable = ['nombre', 'descripcion', 'edificio_id'];
     protected $dates = ['created_at', 'updated_at'];
-    //protected $dateFormat = 'Y-m-d H:i:s.000';
+    protected $dateFormat = 'Y-m-d H:i:s.000';
+    public $timestamps = false;
 
     public function sectores()
     {

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Carbon\Carbon;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -22,8 +23,9 @@ class User extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'users';
-   //protected $dateFormat = 'Ymd H: i: s.000';
-   // protected $dateFormat = 'Ymd H: i: s +';
+    protected $dates = ['created_at', 'updated_at'];
+    protected $dateFormat = 'Y-m-d H:i:s.000';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
