@@ -8,5 +8,5 @@ class Modbus extends Model
 {
     //
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+  //  protected $dateFormat = 'Y-m-d H:i:s.000';
 }

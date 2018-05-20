@@ -9,7 +9,7 @@ class Piso extends Model
     protected $table = 'pisos';
     protected $fillable = ['nombre', 'descripcion', 'edificio_id'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+    //protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function sectores()
     {

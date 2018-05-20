@@ -22,7 +22,7 @@ class User extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'users';
-   protected $dateFormat = 'Ymd H: i: s.000';
+   //protected $dateFormat = 'Ymd H: i: s.000';
    // protected $dateFormat = 'Ymd H: i: s +';
 
     /**
@@ -46,4 +46,3 @@ class User extends Model implements AuthenticatableContract,
 
 
 }
-

@@ -141,9 +141,9 @@ class GrupoController extends Controller
 public function getSectores(Request $request, $id){
    if($request->ajax()){
 
-    $sectores = Sector::sectores($id)->get();
+   $sectores = Sector::sectores($id)->get();
 
-      return response()->json($sectores);
+   return response()->json($sectores);
     }
   }
 }

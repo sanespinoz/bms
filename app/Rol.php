@@ -9,7 +9,7 @@ class Rol extends Model
     protected $table    = 'rols';
     protected $fillable = ['rol'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+  //  protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function users()
     {

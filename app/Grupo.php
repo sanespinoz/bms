@@ -9,7 +9,7 @@ class Grupo extends Model
     protected $table    = 'grupos';
     protected $fillable = ['nombre', 'descripcion','cant_luminarias','energia_consumida','piso_id','sector_id','cant_hs_activo','cant_activaciones'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+  protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function sector()
     {

@@ -10,7 +10,7 @@ class Sector extends Model
     protected $table    = 'sectores';
     protected $fillable = ['nombre', 'descripcion','piso_id'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+   protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function piso()
     {
@@ -29,7 +29,7 @@ class Sector extends Model
         return $this->hasMany('App\EnergiaSector');
     }
 
-    //orm scope 
+    //orm scope
     public function scopeSectores($query,$id)
     {
       return $query->where('piso_id', $id);

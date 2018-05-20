@@ -9,7 +9,7 @@ class Report extends Model
     protected $table    = 'reports';
     protected $fillable = ['name', 'description_date','report_date'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+    //protected $dateFormat = 'Y-m-d H:i:s.000';
 
     public function edificio()
     {
