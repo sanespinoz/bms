@@ -25,7 +25,7 @@ class SectorController extends Controller
     public function index()
     {
 
-        $sectores =Sector::orderBy('nombre', 'asc')->paginate(10);
+        $sectores =Sector::orderBy('nombre', 'asc')->paginate(2);
 
        return view('sector.index', compact('sectores'));
     }

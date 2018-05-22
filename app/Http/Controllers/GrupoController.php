@@ -26,8 +26,8 @@ class GrupoController extends Controller
      */
     public function index()
     {
-      $grupos = Grupo::orderBy('nombre', 'asc');
-      $grupos = Grupo::paginate(10);
+      $grupos = Grupo::orderBy('nombre', 'asc')->paginate(2);
+
 
        return view('grupo.index', compact('grupos'));
     }

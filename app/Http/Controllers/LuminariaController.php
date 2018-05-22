@@ -21,8 +21,8 @@ class LuminariaController extends Controller
      */
     public function index()
     {
-        $luminarias =Luminaria::paginate(10); 
-      
+
+        $luminarias =Luminaria::orderBy('nombre', 'asc')->paginate(3);
         return view('luminaria.index', compact('luminarias'));
     }
 
@@ -33,10 +33,10 @@ class LuminariaController extends Controller
      */
     public function create()
     {
-    
-        $grupos = Grupo::all();  
+
+        $grupos = Grupo::all();
         //dd($grupos);
-       
+
 
         return view('luminaria.create')->with('grupos', $grupos);
     }
@@ -50,10 +50,10 @@ class LuminariaController extends Controller
     public function store(LuminariaCreateRequest $request)
     {
         Luminaria::create( $request->all()
-          
+
             );
             Session::flash('message','Luminaria Creada Correctamente');
-       
+
             return redirect('luminaria');
     }
 
@@ -66,11 +66,11 @@ class LuminariaController extends Controller
     public function show($id)
     {
 
-        $p = Luminaria::findOrFail($id); 
-        
+        $p = Luminaria::findOrFail($id);
+
         return view('luminaria.show',compact('p'));
     }
- 
+
     /**
      * Show the form for editing the specified resource.
      *
