@@ -61,6 +61,7 @@ Route::get('gestion',function() {
 
 });
 
+Route::resource('user','UserController');
 Route::resource('edificio','EdificioController');
 Route::resource('pisos','PisoController');
 Route::resource('sector','SectorController');

@@ -71,6 +71,24 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
+                          <li>
+                              <a href="#">
+                                  Usuario
+                              </a>
+                              <ul class="nav nav-second-level">
+                                  <li>
+                                      <a href="{!!URL::to('/user/create')!!}">
+                                          Agregar
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a href="{!!URL::to('/user')!!}">
+                                          Usuarios
+                                      </a>
+                                  </li>
+                              </ul>
+                          </li>
+                         <li>
                             <li>
                                 <a href="#">
                                     Edificio
@@ -172,13 +190,13 @@
                                             Energía
                                         </a>
                                     </li>
-                                  <!--  <li>
-                                        <a href="{!!URL::to('/lampara')!!}">
+                                  <li>
+                                        <a href="{!!URL::to('/user')!!}">
                                             <i class="fa fa-list-ol fa-fw">
                                             </i>
                                             Lámparas
                                         </a>
-                                    </li> -->
+                                    </li>
                                 </ul>
                             </li>
 

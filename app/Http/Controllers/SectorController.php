@@ -39,8 +39,6 @@ class SectorController extends Controller
     {
 
         $pisos = Piso::all();
-      //  dd($pisos);
-
 
         return view('sector.create', compact('pisos'));
     }

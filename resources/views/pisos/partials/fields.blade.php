@@ -10,11 +10,11 @@
 		@endif
 
 		<!--VALIDACION -->
-		
+
 	</div>
 	<div class="form-group">
 		{!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
-		
+
 	</div>
 
 	{{--<div class="form-group">
@@ -22,30 +22,15 @@
 	</div>--}}
 	 <select class ="form-control floating-label" name="edificio_id">
 	@foreach($edificios as $edificio)
-		
-			<option value="{{$edificio->id }}" <?php if($edificio['id']==$sector['piso_id']) echo 'selected' ; ?>>{{ $edificio->nombre }}</option>
-		
+
+			<option value="{{$edificio->id }}" <?php if($edificio['id']==$piso['edificio_id']) echo 'selected' ; ?>>{{ $edificio->nombre }}</option>
+
 	@endforeach
-	</select> 
+	</select>
 			
 
 
-	
+
 
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
