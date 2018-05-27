@@ -10,9 +10,18 @@ use App\Rol;
 use App\Http\Controllers\Controller;
 use Session;
 use Redirect;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
+/*  public function __construct()
+{
+
+$this->middleware('auth');
+//$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
+}
+*/
+/*
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +29,10 @@ class UserController extends Controller
      */
     public function index()
     {
-      // get all the users
-    $users = User::all();
+      $users =User::orderBy('name', 'asc')->paginate(2);
 
-    // load the view and pass the users
      return view('user.index', compact('users'));
+
 
     }
 
@@ -49,7 +57,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+  User::create([
+          'name'=> $request['name'],
+          'email'=> $request['email'],
+          'password'=> bcrypt($request['password']),
+          'rol_id'=>$request['rol_id'],
+          'created_at'=> Carbon::now(),
+          'updated_at'=> Carbon::now(),
+        ]);
+        Session::flash('message','Usuario Creado Correctamente');
+
+        return redirect('user');
+  /*
+        User::create( $request->all());
+             Session::flash('message','Usuario Creado Correctamente');
+
+             return redirect('user');
+               */
     }
 
     /**

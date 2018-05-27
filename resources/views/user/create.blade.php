@@ -4,7 +4,7 @@
 
 <h1>Registrar Usuario</h1>
 
-{!! Form::open(['route'=>'user.store']) !!}
+{!! Form::open(['route'=>'user.store', 'method'=>'POST']) !!}
 
 	@include('user.partials.form')
 

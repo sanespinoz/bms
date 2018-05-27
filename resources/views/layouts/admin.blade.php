@@ -226,7 +226,7 @@
 
         {!! Html::script('../bower_components/moment/moment.js') !!}
         {!! Html::script('../bower_components/moment/locale/es.js') !!}
-                    {!!Html::script('assets/js/sb-admin-2.js') !!}
+        {!! Html::script('assets/js/sb-admin-2.js') !!}
       <!--   {!! Html::script('//raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js') !!} -->
     </body>
     <script type="text/javascript">

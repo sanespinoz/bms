@@ -1,32 +1,18 @@
-<!-- app/views/users/index.blade.php -->
+@extends('layouts.admin')
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Look! I'm CRUDding</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
+@if(Session::has('message'))
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{Session::get('message')}}
 
-<nav class="navbar navbar-inverse">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="{{ URL::to('user') }}">user Alert</a>
-    </div>
-    <ul class="nav navbar-nav">
-        <li><a href="{{ URL::to('user') }}">Usuarios</a></li>
-        <li><a href="{{ URL::to('user/create') }}">Crear usuario</a>
-    </ul>
-</nav>
-
-<h1>Usuarios</h1>
-
-<!-- will be used to show any messages -->
-@if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
+</div>
 @endif
 
-<table class="table table-striped table-bordered">
+@section('content')
+
+		<h1>Grupos Registrados</h1>
+
+		<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <td>ID</td>
@@ -37,24 +23,18 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($users as $key => $value)
+    @foreach($users as $user)
         <tr>
-            <td>{{ $value->id }}</td>
-            <td>{{ $value->name }}</td>
-            <td>{{ $value->email }}</td>
-            <td>{{ $value->rol_id}}</td>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->rol->rol}}</td>
 
             <!-- we will also add show, edit, and delete buttons -->
             <td>
 
-                <!-- delete the user (uses the destroy method DESTROY /users/{id} -->
-                <!-- we will add this later since its a little more complicated than the other two buttons -->
-
-                <!-- show the user (uses the show method found at GET /users/{id} -->
-                <a class="btn btn-small btn-success" href="{{ URL::to('user/' . $value->id) }}">Ver usuario</a>
-
-                <!-- edit this user (uses the edit method found at GET /users/{id}/edit -->
-                <a class="btn btn-small btn-info" href="{{ URL::to('user/edit'. $value->id) }}">Editar usuario</a>
+              {!!link_to_route('user.edit', $title = 'Editar', $parameters = $user->id, $attributes = ['class'=>'btn btn-primary'])!!}
+    					{!!link_to_route('user.show', $title = 'Ver', $parameters = $user->id, $attributes = ['class'=>'btn btn-success'])!!}
 
             </td>
         </tr>
@@ -62,6 +42,6 @@
     </tbody>
 </table>
 
-</div>
-</body>
-</html>
+		{!! $users->render() !!}
+
+@endsection

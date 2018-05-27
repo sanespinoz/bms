@@ -144,7 +144,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<h1 class="brand-heading">Sistema de gestión y automatización de la energía eléctrica
+					<h1 class="brand-heading">Sistema de gestión y automatización de la iluminación
 
 					</h1>
 					<p class="intro-text">Gestión de recursos, monitoreo de dispositivos en tiempo real y visualización de reportes, para edificios de oficinas</p>
@@ -202,17 +202,16 @@
 						@endforeach
 					</ul>
 				@endif
-
-
 				<div class="form-group">
 					<label>Correo Electrónico</label>
-					<input type="email" name="email" value="{{ old('email') }}">
+					{!! Form::email('email', '', ['class'=> 'form-control']) !!}
 				</div>
-
 				<div class="form-group">
 					<label>Contraseña</label>
-					<input type="password" name="password" id="password">
+					{!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
 				</div>
+
+
 
 				<div>
 					<input type="checkbox" name="remember"> Recuérdame

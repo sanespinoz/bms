@@ -51,6 +51,8 @@ class SectorController extends Controller
      */
     public function store(SectorCreateRequest $request)
     {
+      dd($request->all());
+      die();
        Sector::create( $request->all());
             Session::flash('message','Sector Creado Correctamente');
 
