@@ -51,15 +51,26 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
-Route::get('gestion',function() {
-    if (Auth::user()->rol_id == '3')
+Route::get('gestion', function(){
+    if (Auth::user()->rol_id !== '3')
 
-        return view('operador.index');
+        return view('admin.index');
      else
+
+        return view('index');
+
+});
+/*Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', function(){
+  return view('admin.index');
+}]);
+*/
+/* CORREGIR XQ PASA OLIMPICAMENTE
+Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', function(){
 
         return view('admin.index');
 
-});
+}]);
+*/
 
 Route::resource('user','UserController');
 Route::resource('edificio','EdificioController');
@@ -70,7 +81,7 @@ Route::resource('luminaria','LuminariaController');
 Route::resource('lampara','LamparaController');
 Route::resource('energiapiso', 'EnergiaPisoController');
 Route::resource('reporte', 'ReporteController');
-Route::get('grupo/create/sectores/{id}','GrupoController@getSectores');
+Route::get('tendencia','ReporteController@tendenciaConsumo');
 
 
 //ADMINISTRADOR

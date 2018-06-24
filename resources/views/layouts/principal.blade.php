@@ -122,12 +122,13 @@
 					<li>
 						<a class="page-scroll" href="#monitoreo">Monitoreo</a>
 					</li>
+					@if (Auth::user()->rol_id !== '3')
 					<li>
 						<a class="page-scroll" href="gestion">Gestión</a>
 					</li>
-
+					@endif
 					<li>
-						<a ng-click="logout()" href>Logout</a>
+						<a href="{!!URL::to('logout')!!}">Salir</a>
 					</li>
 				@endif
 

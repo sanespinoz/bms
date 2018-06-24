@@ -6,15 +6,14 @@ use Closure;
 use Session;
 
 
-class Operador
+class Mantenimiento
 {
-
     protected $auth;
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
     }
-
+	
     /**
      * Handle an incoming request.
      *
@@ -23,34 +22,14 @@ class Operador
      * @return mixed
      */
     public function handle($request, Closure $next)
-
     {
-        if ($this->auth->check()) {
-            switch ($this->auth->user()->rol_id)
-            {
-
-                case '7':
-                    # Administrador
-                    return redirect()->to('admin');
-                    break;
-
-                case '8':
-                    # Operador
-                    return redirect()->to('operador');
-                    break;
-
-                case '9':
-                    # Mantenimiento
-                   // return redirect()->to('mantenimiento');
-                    break;
-
-                case '10':
-                    # Area
-                    return redirect()->to('area');
-                    break;
-            }
-            return redirect('operador');
-        }
+		$id_rol_user = $this->auth->user()->rol_id;
+		
+		if( $id_rol_user != 5 &&  $id_rol_user != 1)
+	{
+			Session::flash('message-error', 'Sin privilegios');
+			return redirect()->to('gestion');
+	}    
         return $next($request);
     }
 }

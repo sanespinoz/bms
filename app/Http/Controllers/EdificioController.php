@@ -15,6 +15,18 @@ use Illuminate\Http\Request;
 
 class EdificioController extends Controller
 {
+    
+    public function __construct()
+    {
+
+       $this->middleware('auth');
+       $this->middleware('mantenimiento');
+          
+       
+
+        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

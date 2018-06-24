@@ -51,7 +51,7 @@
                                 <a href="{!!URL::to('logout')!!}">
                                     <i class="fa fa-sign-out fa-fw">
                                     </i>
-                                    Salir
+                                    Logout
                                 </a>
                             </li>
                         </ul>
@@ -71,92 +71,7 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                          <li>
-                              <a href="#">
-                                  Usuario
-                              </a>
-                              <ul class="nav nav-second-level">
-                                  <li>
-                                      <a href="{!!URL::to('/user/create')!!}">
-                                          Agregar
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="{!!URL::to('/user')!!}">
-                                          Usuarios
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                         <li>
-                            <li>
-                                <a href="#">
-                                    Edificio
-                                 </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/edificio/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/edificio')!!}">
-                                            Edificios
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Piso
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/pisos/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/pisos')!!}">
-                                            Pisos
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Sector
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/sector/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/sector')!!}">
-                                            Sectores
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Grupo
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/grupo/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/grupo')!!}">
-                                            Grupos
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                         
                             <li>
                                 <a href="#">
                                     Luminaria

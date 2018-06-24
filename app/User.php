@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $table = 'users';
     protected $fillable = ['name', 'email', 'password','rol_id'];
-    protected $dates = ['created_at', 'updated_at'];  
+    protected $dates = ['created_at', 'updated_at'];
     protected $dateFormat = 'Y-m-d H:i:s.000';
     protected $hidden = ['password','remember_token'];
     public $timestamps = false;
@@ -47,6 +47,13 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsTo('App\Rol');
     }
-
+	
+    public function hasRole($role)
+    {
+      if($this->user()->rol == $role)
+      return true;
+      else  return false;
+      
+    }
 
 }

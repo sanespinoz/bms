@@ -34,6 +34,6 @@ class Kernel extends HttpKernel
         'administrador' => \App\Http\Middleware\Administrador::class,
         'area' => \App\Http\Middleware\Area::class,
         'operador' => \App\Http\Middleware\Operador::class,
-        'mantenimiento' => \App\Http\Middleware\Mantenimiento::class
+        'mantenimiento' => \App\Http\Middleware\Mantenimiento::class,
     ];
 }

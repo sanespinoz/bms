@@ -11,6 +11,17 @@ use App\Http\Controllers\Controller;
 
 class ReporteController extends Controller
 {
+    public function __construct()
+    {
+
+       $this->middleware(['auth','mantenimiento','area']);
+       //$this->middleware('mantenimiento');
+     //  $this->middleware('area');
+     
+       
+
+        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -114,4 +125,9 @@ return view('reportes.ener',['etotals'=>$etotals, 'eiluminacions'=>$eiluminacion
     {
         //
     }
+
+  public function tendenciaConsumo()
+  {
+    return view('reportes.tendencia');
+  }
 }

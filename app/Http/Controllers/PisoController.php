@@ -14,6 +14,13 @@ use Redirect;
 
 class PisoController extends Controller
 {
+    public function __construct()
+    {
+
+       $this->middleware('auth');
+       $this->middleware('mantenimiento');
+       
+    }
     /**
      * Display a listing of the resource.
      *

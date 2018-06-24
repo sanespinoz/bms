@@ -24,31 +24,10 @@ class Administrador
     public function handle($request, Closure $next)
 
     {
-        if ($this->auth->check()) {
-            switch ($this->auth->user()->rol_id)
-            {
-
-                case '7':
-                    # Administrador
-                    //return redirect()->to('admin');
-                    break;
-
-                case '8':
-                    # Operador
-                    return redirect()->to('operador');
-                    break;
-
-                case '9':
-                    # Mantenimiento
-                    return redirect()->to('mantenimiento');
-                    break;
-
-                case '10':
-                    # Area
-                    return redirect()->to('area');
-                    break;
-            }
-            return redirect('operador');
+		if($this->auth->user()->rol_id != 1){
+			Session::flash('message-error', 'Sin privilegios');
+			return redirect()->to('gestion');
+       
         }
         return $next($request);
     }

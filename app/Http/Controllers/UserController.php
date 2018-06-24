@@ -14,13 +14,15 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-/*  public function __construct()
-{
+	public function __construct()
+	{
 
-$this->middleware('auth');
-//$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
-}
-*/
+	   $this->middleware('auth');
+	   $this->middleware('administrador');
+
+		//$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
+	}
+
 /*
     /**
      * Display a listing of the resource.
