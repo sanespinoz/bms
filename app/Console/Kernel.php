@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Console;
-
+use DB;
 use Illuminate\Console\Scheduling\Schedule;
+
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -13,7 +14,14 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
+ 
+          
+        \App\Console\Commands\TendenciaPisoCero::class, 
+        \App\Console\Commands\TendenciaPisoUno::class,
+        //\App\Console\Commands\TendenciaPisoDos::class,
+        //\App\Console\Commands\TendenciaPisoTres::class,
+    
+        //\App\Console\Commands\Energy::class,      
     ];
 
     /**
@@ -24,7 +32,23 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-                 ->hourly();
+        /*$filePath = url('/')."cronenergia.txt";
+        $schedule->call(function () {
+          $EnergiasRead =DB::connection('netx')->select(HANDLE)->from(dbo.NETX_DEFINITION)->where('ITEMID', 'like', '%iluminacion%');
+        })->hourly()->sendOutputTo($filePath);
+
+*/
+
+
+       /*$schedule->command('read:energia')
+           ->hourly();*/
+           // $schedule->command('log:demo')->everyMinute();
+            
+         
+            $schedule->command('energia:cero');
+            $schedule->command('energia:uno');
+          //  $schedule->command('energia:dos');
+           // $schedule->command('energia:tres');
+          
     }
 }

@@ -16,7 +16,8 @@ class Mantenimiento
 	
     /**
      * Handle an incoming request.
-     *
+     * A todo usuario distinto de mantenimiento no le permite el acceso
+     * user area id 5
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
@@ -25,7 +26,7 @@ class Mantenimiento
     {
 		$id_rol_user = $this->auth->user()->rol_id;
 		
-		if( $id_rol_user != 5 &&  $id_rol_user != 1)
+		if( $id_rol_user != 5 )
 	{
 			Session::flash('message-error', 'Sin privilegios');
 			return redirect()->to('gestion');

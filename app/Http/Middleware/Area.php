@@ -16,6 +16,8 @@ class Area
     }
 
     /**
+     * A todo usuario distinto de area y mantenimiento no le permite el acceso
+     * user area id 6 y 5
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -27,7 +29,7 @@ class Area
     {
         $id_rol_user = $this->auth->user()->rol_id;
         
-        if( $id_rol_user != 6 &&  $id_rol_user != 1)
+        if( $id_rol_user != 6 )
     {
             Session::flash('message-error', 'Sin privilegios');
             return redirect()->to('gestion');

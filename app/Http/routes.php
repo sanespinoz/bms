@@ -82,7 +82,8 @@ Route::resource('lampara','LamparaController');
 Route::resource('energiapiso', 'EnergiaPisoController');
 Route::resource('reporte', 'ReporteController');
 Route::get('tendencia','ReporteController@tendenciaConsumo');
-
+Route::get('eficiencia','ReporteController@eficienciaEnergetica');
+Route::get('performance','ReporteController@performanceLuminaria');
 
 //ADMINISTRADOR
 /*

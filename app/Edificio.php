@@ -10,8 +10,8 @@ class Edificio extends Model
     protected $table    = 'edificios';
     protected $fillable = ['nombre', 'direccion', 'telefono', 'email', 'ciudad', 'provincia', 'codigo', 'descripcion'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
-    public $timestamps = false;
+    //protected $dateFormat = 'Y-m-d H:i:s';
+    public $timestamps = true;
     
     public function sector()
     {
@@ -35,7 +35,7 @@ class Edificio extends Model
     public function setUpdatedAtAttribute($value)
     {
         $this->attributes['updated_at'] = Carbon::createFromFormat('Y-m-d H:i:s.000', $value)->format('Y-m-d H:i:s.000');
-    }*/
+    }
 
     public function getCreatedAt(){
       return $this->created_at;
@@ -43,5 +43,5 @@ class Edificio extends Model
     public function getUpdatedAt(){
       return $this->updated_at;
     }
-
+*/
 }

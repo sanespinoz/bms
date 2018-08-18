@@ -24,7 +24,7 @@ class Administrador
     public function handle($request, Closure $next)
 
     {
-		if($this->auth->user()->rol_id != 1){
+		if($this->auth->user()->rol_id = 1){
 			Session::flash('message-error', 'Sin privilegios');
 			return redirect()->to('gestion');
        

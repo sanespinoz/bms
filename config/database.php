@@ -54,6 +54,15 @@ return [
             'charset'  => 'utf8',
             'prefix'   => '',
         ],
+       'netx' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('NETX_HOST', 'NOTEBOOK_SANDRA'),
+            'database' => env('NETX_DATABASE', 'NETX_BMS'),
+            'username' => env('NETX_USERNAME', 'sa'),
+            'password' => env('NETX_PASSWORD', 'pass@sa26'),
+            'charset'  => 'utf8',
+            'prefix'   => '',
+        ],
 
         'sqlite' => [
             'driver'   => 'sqlite',

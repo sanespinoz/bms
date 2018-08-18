@@ -10,15 +10,15 @@
 
           function drawChart() {
            
- var anios = google.visualization.arrayToDataTable([
-                    ['Año', 'Energia Iluminacion', 'Energia'],
-                        @foreach($anios as $anioEner)
-                    ['{{$anioEner->anio}}', {{$anioEner->energia_ilu}},{{$anioEner->energia}}],
+ var eficiencias = google.visualization.arrayToDataTable([
+                    ['Mes', 'Energia'],
+                        @foreach($eficiencias as $efic)
+                    ['Mes {{$efic->mes}}',{{($efic->energia)/192}}],
                     @endforeach
                 ]);
 
             var options = {
-              title: 'Tendencia anual',
+              title: 'Índice de Eficiencia Energética 2018',
               curveType: 'function',
               legend: { position: 'bottom' }
             };
@@ -26,7 +26,7 @@
 
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
-        chart.draw(anios, options);
+        chart.draw(eficiencias, options);
       }
     </script>
   </head>

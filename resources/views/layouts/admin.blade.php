@@ -197,6 +197,20 @@
                                             Tendencia de Consumo
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{!!URL::to('/eficiencia')!!}">
+                                            <i class="fa fa-list-ol fa-fw">
+                                            </i>
+                                            índice de Eficiencia Energética
+                                        </a>
+                                    </li>
+                                     <li>
+                                        <a href="{!!URL::to('/performance')!!}">
+                                            <i class="fa fa-list-ol fa-fw">
+                                            </i>
+                                            Eficiencia de Luminarias
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
 

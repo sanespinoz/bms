@@ -9,16 +9,14 @@ use App\Rol;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+//Solo accesible a los usuarios de area y de mantenimiento
 class ReporteController extends Controller
 {
     public function __construct()
     {
-
-       $this->middleware(['auth','mantenimiento','area']);
-       //$this->middleware('mantenimiento');
-     //  $this->middleware('area');
-     
-       
+       //$this->middleware('area');
+      // $this->middleware('mantenimiento');
+      
 
         //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
@@ -48,12 +46,17 @@ class ReporteController extends Controller
 
         $anios = EnergiaPiso::
         select(DB::raw('YEAR(fecha) as anio'))
-            -> distinct()
+            ->distinct()
             ->orderBy('anio', 'desc')
             ->get();
 /*
 var_dump($anios);
 die('s');
+anios=EnergiaPiso::
+        select(DB::raw('YEAR(fecha) as anio'))->distinct()
+            ->orderBy('anio', 'asc')
+ 
+->get();
 
 */
 return view('reportes.ener',['etotals'=>$etotals, 'eiluminacions'=>$eiluminacions, 'anios'=>$anios]);
@@ -128,6 +131,34 @@ return view('reportes.ener',['etotals'=>$etotals, 'eiluminacions'=>$eiluminacion
 
   public function tendenciaConsumo()
   {
-    return view('reportes.tendencia');
+   $anios = EnergiaPiso::
+        select(DB::raw('YEAR(fecha) as anio'),DB::raw('SUM(energia_pisos.energia_iluminacion) as energia_ilu'),DB::raw('SUM(energia_pisos.energia) as energia'))
+        ->orderBy(DB::raw('YEAR(fecha)'))         
+        ->groupBy(DB::raw('YEAR(fecha)'))    
+         ->get();
+
+    return view('reportes.tendencia',['anios'=>$anios]);
+  }
+
+  public function eficienciaEnergetica()
+  {
+   $eficiencias = EnergiaPiso::
+        select(DB::raw('YEAR(fecha) as anio'),DB::raw('MONTH(fecha) as mes'),DB::raw('SUM(energia_pisos.energia) as energia'))->where(DB::raw('YEAR(fecha)'),'=',2018)
+        ->orderBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'),'asc')         
+        ->groupBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'))    
+         ->get();
+
+    return view('reportes.eficiencia',['eficiencias'=>$eficiencias]);
+  }
+
+  public function performanceLuminaria()
+  {
+  /* $performance = EnergiaPiso::
+        select(DB::raw('YEAR(fecha) as anio'),DB::raw('MONTH(fecha) as mes'),DB::raw('SUM(energia_pisos.energia) as energia'))->where(DB::raw('YEAR(fecha)'),'=',2018)
+        ->orderBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'),'asc')         
+        ->groupBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'))    
+         ->get();
+*/
+    return view('reportes.performance');
   }
 }
