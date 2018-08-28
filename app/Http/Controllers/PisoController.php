@@ -18,7 +18,7 @@ class PisoController extends Controller
     {
 
        $this->middleware('auth');
-       $this->middleware('mantenimiento');
+      // $this->middleware('mantenimiento');
        
     }
     /**

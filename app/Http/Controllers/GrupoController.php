@@ -23,7 +23,7 @@ class GrupoController extends Controller
     {
 
        $this->middleware('auth');
-       $this->middleware('mantenimiento');
+       //$this->middleware('mantenimiento');
  
     }
     /**

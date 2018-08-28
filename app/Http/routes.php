@@ -71,7 +71,7 @@ Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', funct
 
 }]);
 */
-
+Route::get('grupo/create/sectores/{id}','GrupoController@getSectores');
 Route::resource('user','UserController');
 Route::resource('edificio','EdificioController');
 Route::resource('pisos','PisoController');
@@ -85,7 +85,6 @@ Route::get('tendencia','ReporteController@tendenciaConsumo');
 Route::get('eficiencia','ReporteController@eficienciaEnergetica');
 Route::get('performance','ReporteController@performanceLuminaria');
 
-//ADMINISTRADOR
 /*
 Route::group(['middleware'=>['auth','administrador'], 'prefix'=>'admin'], function (){
    Route::resource('/','FrontController');

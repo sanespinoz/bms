@@ -6,14 +6,11 @@
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
                     <title>
                     </title>
-                    {!! Html::style('assets/css/bootstrap.css') !!}
-                    {!! Html::style('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css') !!}
-
-
-   <!-- MetisMenu CSS -->
-
-                   {!! Html::style('assets/css/sb-admin-2.min.css') !!}
-                    {!! Html::style('font-awesome/css/font-awesome.min.css') !!}
+                        {!!Html::style('css/bootstrap.min.css')!!}
+                        {!!Html::style('css/metisMenu.min.css')!!}
+                        {!!Html::style('css/sb-admin-2.css')!!}
+                        {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
+    
                     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -26,39 +23,38 @@
                     <a class="navbar-brand" href={!! url('/') !!}>BMS</a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
 
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                           {!!Auth::user()->name!!}<i class="fa fa-user fa-fw">
-                            </i>
-                            <i class="fa fa-caret-down">
-                            </i>
-                        </a>
 
-                    <ul class="dropdown-menu dropdown-user">
-                        <li>
-                                <a href="#">
-                                    <i class="fa fa-gear fa-fw">
-                                    </i>
-                                    Ajustes
-                                </a>
-                        </li>
-                        <li class="divider">
-                        </li>
-                         <li>
-                                <a href="{!!URL::to('logout')!!}">
-                                    <i class="fa fa-sign-out fa-fw">
-                                    </i>
-                                    Salir
-                                </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                               {!!Auth::user()->name!!}<i class="fa fa-user fa-fw">
+                                </i>
+                                <i class="fa fa-caret-down">
+                                </i>
+                            </a>
+
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                    <a href="#">
+                                        <i class="fa fa-gear fa-fw">
+                                        </i>
+                                        Ajustes
+                                    </a>
                             </li>
+                            <li class="divider">
+                            </li>
+                             <li>
+                                    <a href="{!!URL::to('logout')!!}">
+                                        <i class="fa fa-sign-out fa-fw">
+                                        </i>
+                                        Salir
+                                    </a>
+                                </li>
                         </ul>
-                    </li>
-                </ul>
-                </div>
-            </nav>
+                        </li>
+                    </ul>
+          
 
             <div class="container">
                 @if (Session::has('errors'))
@@ -68,181 +64,166 @@
                     </div>
                 @endif
             </div>
-                <div class="navbar-default sidebar" role="navigation">
+            <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
-                        <ul class="nav" id="side-menu">
-                          <li>
-                              <a href="#">
-                                  Usuario
-                              </a>
-                              <ul class="nav nav-second-level">
-                                  <li>
-                                      <a href="{!!URL::to('/user/create')!!}">
-                                          Agregar
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="{!!URL::to('/user')!!}">
-                                          Usuarios
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                         <li>
-                            <li>
-                                <a href="#">
-                                    Edificio
-                                 </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/edificio/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/edificio')!!}">
-                                            Edificios
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Piso
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/pisos/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/pisos')!!}">
-                                            Pisos
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Sector
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/sector/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/sector')!!}">
-                                            Sectores
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Grupo
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/grupo/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/grupo')!!}">
-                                            Grupos
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Luminaria
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/luminaria/create')!!}">
-                                            Agregar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/luminaria')!!}">
-                                            Luminarias
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                           <li>
-                                <a href="#">
-                                    <i class="fa fa-folder-o">
-                                    </i>
-                                    Reportes
-                                    <span class="fa arrow">
-                                    </span>
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="{!!URL::to('/reporte')!!}">
-                                            <i class="fa fa-plus fa-fw">
-                                            </i>
-                                            Energía
-                                        </a>
-                                    </li>
-                                  <li>
-                                        <a href="{!!URL::to('/tendencia')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
-                                            </i>
-                                            Tendencia de Consumo
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{!!URL::to('/eficiencia')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
-                                            </i>
-                                            índice de Eficiencia Energética
-                                        </a>
-                                    </li>
-                                     <li>
-                                        <a href="{!!URL::to('/performance')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
-                                            </i>
-                                            Eficiencia de Luminarias
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
+                        <ul class="nav" id="side-menu"> 
+                              <li>
+                                  <a href="#">
+                                      Usuario
+                                  </a>
+                                  <ul class="nav nav-second-level">
+                                      <li>
+                                          <a href="{!!URL::to('/user/create')!!}">
+                                              Agregar
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a href="{!!URL::to('/user')!!}">
+                                              Usuarios
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </li>
+                              <li>
+                                    <a href="#">
+                                        Edificio
+                                     </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{!!URL::to('/edificio/create')!!}">
+                                                Agregar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{!!URL::to('/edificio')!!}">
+                                                Edificios
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Piso
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{!!URL::to('/pisos/create')!!}">
+                                                Agregar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{!!URL::to('/pisos')!!}">
+                                                Pisos
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Sector
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{!!URL::to('/sector/create')!!}">
+                                                Agregar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{!!URL::to('/sector')!!}">
+                                                Sectores
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Grupo
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{!!URL::to('/grupo/create')!!}">
+                                                Agregar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{!!URL::to('/grupo')!!}">
+                                                Grupos
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Luminaria
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{!!URL::to('/luminaria/create')!!}">
+                                                Agregar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{!!URL::to('/luminaria')!!}">
+                                                Luminarias
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-folder-o">
+                                        </i>
+                                        Reportes
+                                        <span class="fa arrow">
+                                        </span>
+                                    </a>
+                                        <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="{!!URL::to('/reporte')!!}">
+                                                    <i class="fa fa-plus fa-fw">
+                                                    </i>
+                                                    Energía
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{!!URL::to('/tendencia')!!}">
+                                                    <i class="fa fa-list-ol fa-fw">
+                                                    </i>
+                                                    Tendencia de Consumo
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{!!URL::to('/eficiencia')!!}">
+                                                    <i class="fa fa-list-ol fa-fw">
+                                                    </i>
+                                                    índice de Eficiencia Energética
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{!!URL::to('/performance')!!}">
+                                                    <i class="fa fa-list-ol fa-fw">
+                                                    </i>
+                                                    Eficiencia de Luminarias
+                                                </a>
+                                            </li>
+                                        </ul>
+                                </li>
                         </ul>
-                    </div>
-                </div>
-            </nav>
+                   </div>
+              </div>
+          </nav> 
             <div id="page-wrapper">
                 @yield('content')
             </div>
         </div>
 
-        <script
-      src="https://code.jquery.com/jquery-2.2.4.min.js"
-      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-      crossorigin="anonymous"></script>
-
-        {!! Html::script('assets/js/dropdown.js') !!}
-
-        {!! Html::script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js') !!}
-
-
-        {!! Html::script('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js') !!}
-        {!! Html::script('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js') !!}
-        <!-- Metis Menu Plugin JavaScript -->
-
-
-        {!! Html::script('../bower_components/moment/moment.js') !!}
-        {!! Html::script('../bower_components/moment/locale/es.js') !!}
-        {!! Html::script('assets/js/sb-admin-2.js') !!}
-      <!--   {!! Html::script('//raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js') !!} -->
-    </body>
+    {!!Html::script('js/jquery.min.js')!!}
+    {!!Html::script('js/bootstrap.min.js')!!}
+    {!!Html::script('js/metisMenu.min.js')!!}
+    {!!Html::script('js/sb-admin-2.js')!!}
+    {!! Html::script('js/dropdown.js') !!}
+  
+</body>
     <script type="text/javascript">
         $(function() {
         $('#fecha_instalacion').datetimepicker({
@@ -262,5 +243,4 @@
 //limpiar las variables funcion clear a null
             }
     </script>
-    @yield('script')
 </html>

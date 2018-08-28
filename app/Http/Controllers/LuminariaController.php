@@ -19,7 +19,7 @@ class LuminariaController extends Controller
 	{
 
 	   $this->middleware('auth');
-	   $this->middleware('mantenimiento');
+	   //$this->middleware('mantenimiento');
       	   
 
 		//$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
