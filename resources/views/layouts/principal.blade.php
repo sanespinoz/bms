@@ -18,7 +18,7 @@
 	<link href="css/monitoreo.css" rel="stylesheet">
 
 	<!-- MetisMenu CSS -->
-	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<link href="js/metisMenu.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
 	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -26,7 +26,7 @@
 	<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
 
-	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 
 </head>
 
@@ -185,7 +185,7 @@
 	width="1250px" height="700px" frameborder="0"></iframe>
 
 	<!--	</div>-->
-</div>
+
 </section>
 
 <!-- Auth Section
@@ -275,14 +275,14 @@
 </footer>
 
 
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <!--<script src="../bower_components/velocity/velocity.js"></script>-->
 <script src="../bower_components/moment/min/moment-with-locales.js"></script>
 <!--<script src="../bower_components/angular/angular.js"></script> -->
 
 
 
-<script src="../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="js/metisMenu.min.js"></script>
 <!-- Plugin JavaScript
 <script src="js/jquery.easing.min.js"></script>
 

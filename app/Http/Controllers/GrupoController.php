@@ -153,4 +153,9 @@ public function getSectores(Request $request, $id){
    return response()->json($sectores);
     }
   }
+
+
+
+
+
 }

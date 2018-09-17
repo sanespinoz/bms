@@ -13,11 +13,11 @@
 		
 	</div>
 	<div class="form-group">
-		{!! Form::text('ubicacion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Ubicación:']) !!}
+		{!! Form::text('codigo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Código:']) !!}
 		
 	</div>
 	<div class="form-group">
-		{!! Form::text('marca', null, ['class'=>'form-control floating-label', 'placeholder'=>'Marca:']) !!}
+		{!! Form::text('nombre', null, ['class'=>'form-control floating-label', 'placeholder'=>'Nombre:']) !!}
 		
 	</div>
 	<div class="form-group">
@@ -25,31 +25,66 @@
 		
 	</div>
 	<div class="form-group">
-		{!! Form::text('denominacion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Denominación:']) !!}
+		{!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Descripción:']) !!}
 		
 	</div>
 		<div class="form-group">
-		{!! Form::text('cant_lamparas', null, ['class'=>'form-control floating-label', 'placeholder'=>'Cantidad de Lámparas:']) !!}
+		{!! Form::text('dimensiones', null, ['class'=>'form-control floating-label', 'placeholder'=>'Dimensiones:']) !!}
 		
 	</div>
 	<div class="form-group">
-		{!! Form::text('consumo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Consumo:']) !!}
+		{!! Form::text('voltaje_nominal', null, ['class'=>'form-control floating-label', 'placeholder'=>'Voltaje Nominal:']) !!}
 		
 	</div>
 		<div class="form-group">
-		{!! Form::text('tiempo_uso', null, ['class'=>'form-control floating-label', 'placeholder'=>'Tiempo de Uso:']) !!}
+		{!! Form::text('potencia_nominal', null, ['class'=>'form-control floating-label', 'placeholder'=>'Potencia Nominal:']) !!}
 		
 	</div>
-	
-	<select class ="form-control floating-label" name="grupo_id">
-	@foreach($grupos as $grupo)
+	<div class="form-group">
+		{!! Form::text('corriente_nominal', null, ['class'=>'form-control floating-label', 'placeholder'=>'Corriente Nominal:']) !!}		
+	</div>
+	 <div class="form-group">
+		<div class="input-group">
+		      
+		       {!! Form::text('fecha_alta', null, ['class'=>'form-control floating-label datepicker', 'placeholder'=>'Fecha de Alta:']) !!}
 		
-			<option value="{{ $grupo->id }} ">{{ $grupo->nombre }}</option>
+		          <div class="input-group-addon">
+		              <span class="glyphicon glyphicon-th"></span>
+		          </div>                         
+        </div>
+	</div>
+    <div class="form-group">
+		<div class="input-group">
+		      
+		       {!! Form::text('fecha_baja', null, ['class'=>'form-control floating-label datepicker', 'placeholder'=>'Fecha de Baja:']) !!}
 		
-	@endforeach
-	</select>
-	
+		          <div class="input-group-addon">
+		              <span class="glyphicon glyphicon-th"></span>
+		          </div>                         
+        </div>
+	</div>
 
 
+	<div class="form-group">
+		{!! Form::text('vida_util', null, ['class'=>'form-control floating-label', 'id'=>'vida','placeholder'=>'Vida Útil:']) !!}		
+	</div>
+	<div class="form-group">
+		
+	
+        <select class="form-control" name="estado" id="estado">
+        <option value="">Selecciona Estado</option>
+          <option value="a">Activa</option>
+            <option value="i">Inactiva</option>
+            
+           
+        </select>
+  		</div>
+
+	<div class="form-group">
+		{!! Form::select('piso_id',$pisos,null,['id'=>'pisol_id']) !!}
+		{!! Form::select('sector_id',['placeholder'=>'Selecciona'],null,['id'=>'sec']) !!}
+		{!! Form::select('grupo_id',['placeholder'=>'Selecciona'],null,['id'=>'grupol_id']) !!}
+	</div>
+	
 
 </div>

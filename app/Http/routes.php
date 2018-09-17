@@ -72,6 +72,8 @@ Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', funct
 }]);
 */
 Route::get('grupo/create/sectores/{id}','GrupoController@getSectores');
+Route::get('luminaria/create/sectores/{id}','LuminariaController@getSectores');
+Route::get('luminaria/create/grupos/{idp}/{ids}','LuminariaController@getGrupos');
 Route::resource('user','UserController');
 Route::resource('edificio','EdificioController');
 Route::resource('pisos','PisoController');

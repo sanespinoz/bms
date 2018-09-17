@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Luminaria extends Model
 {
     protected $table    = 'luminarias';
-    protected $fillable = ['grupo_id', 'identificacion', 'ubicacion', 'cant_lamparas', 'denominacion', 'marca', 'tipo', 'consumo', 'tiempo_uso'];
+    protected $fillable = ['identificacion','codigo','nombre','tipo','descripcion', 'dimensiones','voltaje_nominal','potencia_nominal','corriente_nominal','fecha_alta','fecha_baja','vida_util','estado','grupo_id'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $dateFormat = 'Y-m-d H:i:s.000';
-    public $timestamps = false;
+    //protected $dateFormat = 'Y-m-d H:i:s.000';
+    public $timestamps = true;
 
     public function grupo()
     {

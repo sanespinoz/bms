@@ -24,7 +24,7 @@ class LuminariaCreateRequest extends Request
     public function rules()
     {
         return [
-           'identificacion'=>'required|min:3'
+           'identificacion'=>'numeric|min:1|max:10'
         ];
     }
 }

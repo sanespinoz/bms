@@ -10,7 +10,11 @@
                         {!!Html::style('css/metisMenu.min.css')!!}
                         {!!Html::style('css/sb-admin-2.css')!!}
                         {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
-    
+                        <!-- Datepicker Files -->
+                        <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}">
+                        {!!Html::style('datePicker/css/bootstrap-datepicker.standalone.css')!!}
+                       
+                      
                     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -221,7 +225,12 @@
     {!!Html::script('js/bootstrap.min.js')!!}
     {!!Html::script('js/metisMenu.min.js')!!}
     {!!Html::script('js/sb-admin-2.js')!!}
-    {!! Html::script('js/dropdown.js') !!}
+    {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!}
+     
+    <!-- Languaje -->
+    {!!Html::script('datePicker/locales/bootstrap-datepicker.es.min.js')!!}             
+    @section('scripts')
+    @show
   
 </body>
     <script type="text/javascript">

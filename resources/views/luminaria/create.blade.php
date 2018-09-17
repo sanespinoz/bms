@@ -15,3 +15,22 @@
 {!! Form::close() !!}
 @endsection
 
+@section('scripts')  
+
+  {!!Html::script('js/lumigroup.js')!!}
+	{!!Html::script('js/lumi.js')!!}
+  
+	{!!Html::script('js/datepick.js')!!}
+
+     <script type="text/javascript">
+       
+         function resta(){
+                var v = document.getElementById("vida");
+                var hsact = document.getElementById("horas_activas");
+                var trestante = v.value - hsact.value;
+                 document.getElementById("tiempo_restante").value = trestante;
+//limpiar las variables funcion clear a null
+            }
+    </script>
+@endsection
+

@@ -1,6 +1,5 @@
 <form method="POST" action="login">
     {!! csrf_field() !!}
-
     <div>
         Email
         <input type="email" name="email" value="{{ old('email') }}">
