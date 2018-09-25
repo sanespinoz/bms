@@ -84,6 +84,7 @@ class GrupoController extends Controller
     {
         $grupo = Grupo::find($id);
         $luminarias = Luminaria::where('grupo_id',$id)->get();
+       // dd($grupo,$luminarias);
 
         return view('grupo.show', compact('grupo', 'luminarias'));
 

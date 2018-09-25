@@ -87,6 +87,7 @@ Route::get('tendencia','ReporteController@tendenciaConsumo');
 Route::get('eficiencia','ReporteController@eficienciaEnergetica');
 Route::get('performance','ReporteController@performanceLuminaria');
 
+
 /*
 Route::group(['middleware'=>['auth','administrador'], 'prefix'=>'admin'], function (){
    Route::resource('/','FrontController');

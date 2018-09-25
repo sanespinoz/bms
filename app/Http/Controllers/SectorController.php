@@ -69,6 +69,7 @@ class SectorController extends Controller
     {
         $sector = Sector::find($id);
         $grupos = Grupo::where('sector_id',$id)->get();
+        dd($sector,$grupos);
 
         return view('sector.show', compact('sector', 'grupos'));
     }

@@ -29,4 +29,11 @@ class Luminaria extends Model
         //creamos una relacion con el modelo estadoLuminaria
         return $this->hasMany('App\EstadoLuminarias');
     }
+
+    public function obtenergrupo($id){
+        $lu= $this->find($id);
+        $g= $lu->grupo()->get();
+        return $g;
+
+    }
 }

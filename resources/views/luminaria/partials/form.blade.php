@@ -55,7 +55,7 @@
 	</div>
     <div class="form-group">
 		<div class="input-group">
-		      
+		      <!--VALIDACION  HACERRR QUE LA FECHA DE BAJA SEA POSTERIOR A LA FECHA DE ALTA-->
 		       {!! Form::text('fecha_baja', null, ['class'=>'form-control floating-label datepicker', 'placeholder'=>'Fecha de Baja:']) !!}
 		
 		          <div class="input-group-addon">

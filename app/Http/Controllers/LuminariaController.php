@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LuminariaCreateRequest;
 use App\Http\Requests\LuminariaUpdateRequest;
+use DB;
 use App\Piso;
 use App\Sector;
 use App\Luminaria;
@@ -74,15 +75,16 @@ class LuminariaController extends Controller
      */
     public function show($id)
     {
-              
-        $p = Luminaria::find($id);
-       // $f=json_encode($p);
-        $grupo = Grupo::where('id',$p->grupo_id)->get();
-       
-        //$piso = Piso::where('id',$grupo->piso_id)->get();
-       // $sector = Sector::where('id',$grupo->sector_id)->get();
-dd($p,$grupo);
-        return view('luminaria.show',compact('p'));
+           //dd($id); //6 id luminaria
+        $l = Luminaria::find($id);
+        $gip= $l->grupo_id;
+        $g = Grupo::find($gip);
+        $pid= $g->piso_id;
+        $p = Piso::find($pid);
+        $sid= $g->sector_id;
+        $s = Sector::find($sid);
+     
+        return view('luminaria.show',compact('p','s','g','l'));
     }
 
     /**
