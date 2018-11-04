@@ -1,5 +1,7 @@
 $("#piso_id").change(function(event){
    event.preventDefault();
+   var e = event.target.value;
+   console.log(e);
    var route = window.location.href+'/sectores/'+event.target.value;
 
 $.get(route,function(response,state){

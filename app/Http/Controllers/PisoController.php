@@ -28,12 +28,10 @@ class PisoController extends Controller
      */
     public function index()
     {
-      $pisos = Piso::orderBy('nombre', 'asc')->paginate();
+      $pisos = Piso::orderBy('nombre', 'asc')->paginate(6);
 
       return view('pisos.index', compact('pisos'));
     }
-
-
 
     /**
      * Show the form for creating a new resource.

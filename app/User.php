@@ -27,7 +27,7 @@ class User extends Model implements AuthenticatableContract,
     protected $dates = ['created_at', 'updated_at'];
     protected $dateFormat = 'Y-m-d H:i:s.000';
     protected $hidden = ['password','remember_token'];
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.

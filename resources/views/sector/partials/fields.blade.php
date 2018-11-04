@@ -17,9 +17,7 @@
 		
 	</div>
 
-	{{--<div class="form-group">
-	{!! Form::text('piso_id', null, ['class'=>'form-control floating-label', 'placeholder'=>'Piso:']) !!}
-	</div>--}}
+
 	 <select class ="form-control floating-label" name="piso_id">
 	@foreach($pisos as $piso)
 		

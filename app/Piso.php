@@ -26,4 +26,5 @@ class Piso extends Model
         //creamos una relacion con el modelo energiaPiso
         return $this->hasMany('App\EnergiaPiso');
     }
+
 }

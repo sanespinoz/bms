@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('content')
-{{--@include('alerts.request')--}}
+
+@include('alerts.request'){{-- --}}
 <h1>Registrar Luminaria</h1>
 
 {!! Form::open(['route'=>'luminaria.store']) !!}
@@ -16,9 +17,10 @@
 @endsection
 
 @section('scripts')  
+   
+    {!!Html::script('js/lumi.js')!!}
+    {!!Html::script('js/lumigroup.js')!!}
 
-  {!!Html::script('js/lumigroup.js')!!}
-	{!!Html::script('js/lumi.js')!!}
   
 	{!!Html::script('js/datepick.js')!!}
 

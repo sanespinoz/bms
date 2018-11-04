@@ -24,7 +24,18 @@ class LuminariaUpdateRequest extends Request
     public function rules()
     {
         return [
-           'identificacion'=>'required|min:2'
+           'codigo'=>'numeric',
+           'nombre'=>'required',
+           'tipo'=>'required',
+           'descripcion'=>'required',
+           'dimensiones'=>'required',
+           'voltaje_nominal'=>'required|numeric',
+           'potencia_nominal'=>'required|numeric',
+           'corriente_nominal'=>'required|numeric',
+           'fecha_alta'=>'required',
+           'vida_util'=>'required|numeric',
+           'estado'=>'required|string|size:1',
+           'grupo_id'=>'required|numeric',
         ];
     }
 }

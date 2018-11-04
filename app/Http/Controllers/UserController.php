@@ -2,39 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\User;
-use App\Rol;
 use App\Http\Controllers\Controller;
-use Session;
-use Redirect;
+use App\Rol;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Redirect;
+use Session;
 
 class UserController extends Controller
 {
-	public function __construct()
-	{
+    public function __construct()
+    {
 
-	   $this->middleware('auth');
-	   $this->middleware('administrador');
+        $this->middleware('auth');
+        $this->middleware('administrador');
 
-		//$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
-	}
+        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
+    }
 
 /*
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Display a listing of the resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function index()
     {
-      $users =User::orderBy('name', 'asc')->paginate(2);
+        $users = User::orderBy('name', 'asc')->paginate(2);
 
-     return view('user.index', compact('users'));
-
+        return view('user.index', compact('users'));
 
     }
 
@@ -46,9 +43,9 @@ class UserController extends Controller
     public function create()
     {
 
-            $rols = Rol::all();
-              //dd($users);
-            return view('user.create', compact('rols'));
+        $rols = Rol::all();
+        //dd($users);
+        return view('user.create', compact('rols'));
     }
 
     /**
@@ -60,23 +57,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-  User::create([
-          'name'=> $request['name'],
-          'email'=> $request['email'],
-          'password'=> bcrypt($request['password']),
-          'rol_id'=>$request['rol_id'],
-          'created_at'=> Carbon::now(),
-          'updated_at'=> Carbon::now(),
+        User::create([
+            'name'       => $request['name'],
+            'email'      => $request['email'],
+            'password'   => bcrypt($request['password']),
+            'rol_id'     => $request['rol_id'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
-        Session::flash('message','Usuario Creado Correctamente');
+        Session::flash('message', 'Usuario Creado Correctamente');
 
         return redirect('user');
-  /*
-        User::create( $request->all());
-             Session::flash('message','Usuario Creado Correctamente');
+        /*
+    User::create( $request->all());
+    Session::flash('message','Usuario Creado Correctamente');
 
-             return redirect('user');
-               */
+    return redirect('user');
+     */
     }
 
     /**
@@ -87,10 +84,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-      $user = User::find($id);
+        $user = User::find($id);
 
-
-      return view('user.show', compact('user'));
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -101,12 +97,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-            // get the user
+        // get the user
         $user = User::find($id);
-        $rols= Rol::all();
+        $rols = Rol::all();
         // show the edit form and pass the user
-        return view('user.edit',compact('user','rols'));
-
+        return view('user.edit', compact('user', 'rols'));
 
     }
 
@@ -119,11 +114,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $user= User::find($id);
-       $user->fill($request->all());
-       $user->save();
+        $user = User::find($id);
+        $user->fill($request->all());
+        $user->save();
 
-        Session::flash('message','Usuario Editado Correctamente');
+        Session::flash('message', 'Usuario Editado Correctamente');
         return redirect('user');
     }
 
@@ -135,8 +130,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-      User::destroy($id);
-      Session::flash('message','Usuario Eliminado Correctamente');
-      return redirect('user');
+        User::destroy($id);
+        Session::flash('message', 'Usuario Eliminado Correctamente');
+        return redirect('user');
     }
 }

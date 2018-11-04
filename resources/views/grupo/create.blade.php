@@ -19,5 +19,6 @@
 
 @section('scripts')
 	{!!Html::script('js/dropdown.js') !!}
+
 @endsection
 

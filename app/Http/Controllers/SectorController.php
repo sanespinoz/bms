@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\SectorCreateRequest;
-use App\Http\Requests\SectorUpdateRequest;
+use Illuminate\Routing\Controller;
 use App\Sector;
 use Session;
 use Redirect;
 use App\Piso;
 use App\Grupo;
-use App\Http\Requests;
-use Illuminate\Routing\Route;
-use App\Http\Controllers\Controller;
+
+
+
 
 class SectorController extends Controller
 {
@@ -22,11 +21,11 @@ class SectorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $sectores =Sector::orderBy('nombre', 'asc')->paginate(2);
-
+       // $sectores =Sector::search($request->nombre)->orderBy('nombre', 'asc')->paginate(6);
+        $sectores=Sector::searchpiso($request->piso)->orderBy('nombre','asc')->paginate(6);
        return view('sector.index', compact('sectores'));
     }
 
@@ -51,12 +50,11 @@ class SectorController extends Controller
      */
     public function store(SectorCreateRequest $request)
     {
-      dd($request->all());
-      die();
+     // dd($request->all());
+     // die();
        Sector::create( $request->all());
-            Session::flash('message','Sector Creado Correctamente');
-
-            return redirect('sector');
+       Session::flash('message','Sector Creado Correctamente');
+       return redirect('sector');
     }
 
     /*
@@ -69,7 +67,7 @@ class SectorController extends Controller
     {
         $sector = Sector::find($id);
         $grupos = Grupo::where('sector_id',$id)->get();
-        dd($sector,$grupos);
+        //dd($sector,$grupos);
 
         return view('sector.show', compact('sector', 'grupos'));
     }
@@ -123,7 +121,7 @@ class SectorController extends Controller
          return redirect('sector');
    }
 
-   public function sectores( $piso){
+   public function sectores($piso){
 
        $sectores = Sector::where('piso_id',$piso)->get();
         return $sectores;

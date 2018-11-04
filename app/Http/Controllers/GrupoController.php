@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Http\Requests;
+use App\Grupo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GrupoCreateRequest;
 use App\Http\Requests\GrupoUpdateRequest;
-use App\Grupo;
-use Session;
-use Redirect;
-use App\Sector;
-use App\Piso;
 use App\Luminaria;
-
-
+use App\Piso;
+use App\Sector;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Redirect;
+use Session;
 
 class GrupoController extends Controller
 {
     public function __construct()
     {
 
-       $this->middleware('auth');
-       //$this->middleware('mantenimiento');
- 
+        $this->middleware('auth');
+        //$this->middleware('mantenimiento');
+
     }
     /**
      * Display a listing of the resource.
@@ -33,10 +30,12 @@ class GrupoController extends Controller
      */
     public function index()
     {
-      $grupos = Grupo::orderBy('nombre', 'asc')->paginate(2);
+        $pisos = Piso::all();
 
+        $grupos = Grupo::orderBy('nombre', 'asc')->paginate(6);
+        return view('grupo.listado', ['pisos' => $pisos, 'grupos' => $grupos]);
 
-       return view('grupo.index', compact('grupos'));
+        // return view('grupo.index', ['pisos' => $pisos, 'grupos' => $grupos]);
     }
 
     /**
@@ -46,19 +45,14 @@ class GrupoController extends Controller
      */
     public function create()
     {
-       //$pisos = Piso::all();
+        //$pisos = Piso::all();
 
-
-      $pisos = Piso::lists('nombre','id');
-      //dd($pisos);
+        $pisos = Piso::lists('nombre', 'id');
+        //dd($pisos);
         //dd($users);
-
 
         return view('grupo.create', compact('pisos'));
     }
-
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -68,10 +62,10 @@ class GrupoController extends Controller
      */
     public function store(GrupoCreateRequest $request)
     {
-            $grupo = Grupo::create( $request->all());
-            Session::flash('message','Grupo Creado Correctamente');
+        $grupo = Grupo::create($request->all());
+        Session::flash('message', 'Grupo Creado Correctamente');
         //return redirect('/usuario')->with('message','store');
-            return redirect('grupo');
+        return redirect('grupo');
     }
 
     /**
@@ -82,9 +76,9 @@ class GrupoController extends Controller
      */
     public function show($id)
     {
-        $grupo = Grupo::find($id);
-        $luminarias = Luminaria::where('grupo_id',$id)->get();
-       // dd($grupo,$luminarias);
+        $grupo      = Grupo::find($id);
+        $luminarias = Luminaria::where('grupo_id', $id)->get();
+        // dd($grupo,$luminarias);
 
         return view('grupo.show', compact('grupo', 'luminarias'));
 
@@ -99,10 +93,8 @@ class GrupoController extends Controller
     public function edit($id)
     {
         $sectores = Sector::all();
-        $grupo = Grupo::findOrFail($id);
-        return view('grupo.edit',compact('grupo','sectores'));
-
-
+        $grupo    = Grupo::findOrFail($id);
+        return view('grupo.edit', compact('grupo', 'sectores'));
 
     }
 
@@ -113,14 +105,14 @@ class GrupoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id,GrupoUpdateRequest $request)
+    public function update($id, GrupoUpdateRequest $request)
     {
-       $grupo= Grupo::find($id);
+        $grupo = Grupo::find($id);
         $grupo->fill($request->all());
         $grupo->save();
 
-         Session::flash('message','Grupo Editado Correctamente');
-         return redirect('grupo');
+        Session::flash('message', 'Grupo Editado Correctamente');
+        return redirect('grupo');
     }
 
     /**
@@ -132,9 +124,9 @@ class GrupoController extends Controller
     public function destroy($id)
     {
 
-         Grupo::destroy($id);
-         Session::flash('message','Grupo Eliminado Correctamente');
-         return redirect('grupo');
+        Grupo::destroy($id);
+        Session::flash('message', 'Grupo Eliminado Correctamente');
+        return redirect('grupo');
 
     }
     /**
@@ -145,18 +137,33 @@ class GrupoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function getSectores(Request $request, $id)
+    {
 
-public function getSectores(Request $request, $id){
-   if($request->ajax()){
-
-   $sectores = Sector::sectores($id)->get();
-
-   return response()->json($sectores);
+        if ($request->ajax()) {
+            $sectores = Sector::where('piso_id', '=', $id)->get();
+            return response()->json($sectores);
+        }
     }
-  }
 
+    public function listado()
+    {
+        // return view('grupo.listado');
+    }
 
+    public function buscar_grupos($piso, $sector = "")
+    {
 
+        $pisos = Piso::all();
+        if ($piso == 0) {
+            $pisosel = 0;
+        } else {
+            $pisosel = $pisos->find($piso);
+        }
 
+        $grupos = Grupo::Busqueda($pisosel, $sector)->paginate(3);
+        // var_dump($grupos);
+        return view('grupo.index', ['pisos' => $pisos, 'pisosel' => $pisosel, 'grupos' => $grupos]);
+    }
 
 }

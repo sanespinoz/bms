@@ -21,7 +21,7 @@
 					<th>Descripción</th>
 					<th>Ciudad</th>
 					<th>Provincia</th>
-					<th>Creacion</th>
+					
 				</tr>
 			</head>
 			<tbody>
@@ -33,7 +33,7 @@
 						<td>{{ $edificio->descripcion}}</td>
 						<td>{{ $edificio->ciudad}}</td>
 						<td>{{ $edificio->provincia}}</td>
-						<td>{{ $edificio->created_at}}</td>
+						
 						<td>
 					{!!link_to_route('edificio.edit', $title = 'Editar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-primary'])!!}
 					{!!link_to_route('edificio.show', $title = 'Ver', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-success'])!!}

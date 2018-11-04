@@ -1,7 +1,9 @@
 <?php
 
 namespace App;
+use DB;
 use Carbon\Carbon;
+use App\Piso;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +14,7 @@ class Sector extends Model
     protected $fillable = ['nombre', 'descripcion','piso_id'];
     protected $dates = ['created_at', 'updated_at'];
     protected $dateFormat = 'Y-m-d H:i:s.000';
+    
     public $timestamps = false;
 
     public function piso()
@@ -32,10 +35,20 @@ class Sector extends Model
     }
 
     //orm scope
-    public function scopeSectores($query,$id)
+    public function scopeSearchpiso($query,$piso)
     {
-      return $query->where('piso_id', $id);
-        // return Sector::where('piso_id',$id)
-      //   ->get();
-       }
+   
+        switch( $piso ) {
+        case 'piso 0': return $query->where('piso_id', '=',61); break;
+        case 'piso 1': return $query->where('piso_id', '=',62); break;
+        case 'piso 2': return $query->where('piso_id', '=',63); break;
+        case 'piso 3': return $query->where('piso_id', '=',66); break;
+    }
+    }
+
+  /*  public function scopeSearch($query,$nombre)  // buscador por nombre de sector
+    {
+      return $query->where('nombre', '=','$nombre');
+    }
+       */
 }
