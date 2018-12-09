@@ -8,6 +8,7 @@
         </title>
         {!!Html::style('css/bootstrap.min.css')!!}
                         {!!Html::style('css/metisMenu.min.css')!!}
+                        {!!Html::style('css/buscador.css')!!}
                         {!!Html::style('css/sb-admin-2.css')!!}
                         {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
                         {!!Html::style('fontawesome-free/css/all.css')!!}
@@ -199,7 +200,7 @@
                                         <a href="{!!URL::to('/performance')!!}">
                                             <i class="fa fa-list-ol fa-fw">
                                             </i>
-                                            Eficiencia de Luminarias
+                                            Performance de Luminarias
                                         </a>
                                     </li>
                                 </ul>

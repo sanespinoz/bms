@@ -1,7 +1,7 @@
 function buscargrupo() {
     console.log('estoy en buscargrupo');
-    var piso = $("#select_filtro_piso").val();
-    var sector = $("#sector_buscado").val();
+    var piso = document.getElementById("select_filtro_piso").value;
+    var sector = document.getElementById("sector_buscado").value;
     console.log(piso, sector);
     if (sector == "") {
         var url = window.location.href + "/buscar_grupos/" + piso + "";

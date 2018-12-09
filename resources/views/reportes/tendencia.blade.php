@@ -1,16 +1,17 @@
 @extends('layouts.admin')
 
 @section('content')
-      <html>
-      <head>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<html>
+    <head>
+        <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript">
+        </script>
         <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});
+            google.charts.load('current', {'packages':['corechart']});
           google.charts.setOnLoadCallback(drawChart);
 
           function drawChart() {
            
- var anios = google.visualization.arrayToDataTable([
+          var anios = google.visualization.arrayToDataTable([
                     ['Año', 'Energia Iluminacion', 'Energia'],
                         @foreach($anios as $anioEner)
                     ['{{$anioEner->anio}}', {{$anioEner->energia_ilu}},{{$anioEner->energia}}],
@@ -28,10 +29,11 @@
 
         chart.draw(anios, options);
       }
-    </script>
-  </head>
-  <body>
-    <div id="curve_chart" style="width: 900px; height: 700px"></div>
-  </body>
+        </script>
+    </head>
+    <body>
+        <div id="curve_chart" style="width: 900px; height: 700px">
+        </div>
+    </body>
 </html>
 @endsection

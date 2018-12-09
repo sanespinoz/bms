@@ -17,17 +17,7 @@
 </h1>
 <br>
     <!--Buscador de sectores -->
-    {{--  {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-right']) !!}
-    <div class="input-group">
-        {!! Form::text('nombre',null, ['class'=>'form-control','placeholder'=>'Buscar por sector','aria-describedby'=>'search']) !!}
-        <span class="input-group-addon" id="search">
-            <search class="glyphicon glyphicon-search">
-            </search>
-        </span>
-    </div>
-    {!! Form::close() !!}
---}}
-		{!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center']) !!}
+    {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center','role'=>'search']) !!}
     <div class="input-group">
         {!! Form::text('piso',null, ['class'=>'form-control','placeholder'=>'Buscar por Piso','aria-describedby'=>'search']) !!}
         <span class="input-group-addon" id="search">
@@ -69,13 +59,13 @@
                     </td>
                     <td>
                         {!!link_to_route('sector.edit', $title = 'Editar', $parameters = $sector->id, $attributes = ['class'=>'btn btn-primary'])!!}
-					{!!link_to_route('sector.show', $title = 'Ver', $parameters = $sector->id, $attributes = ['class'=>'btn btn-success'])!!}
+                    {!!link_to_route('sector.show', $title = 'Ver', $parameters = $sector->id, $attributes = ['class'=>'btn btn-success'])!!}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        {!! $sectores->render() !!}		
+        {!! $sectores->render() !!}     
 
 @endsection
     </hr>

@@ -1,6 +1,5 @@
 $('.datepicker').datepicker({
-		
-        format: "yyyy-mm-dd",
-        language: "es",
-        autoclose: true
-    });
+    format: "yyyy-mm-dd",
+    language: "es",
+    autoclose: true
+});

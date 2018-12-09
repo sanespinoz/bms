@@ -71,7 +71,11 @@ return view('admin.index');
  */
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
 Route::get('luminaria/create/sectores/{id}', 'LuminariaController@getSectores');
+Route::get('luminaria/sectores/{id}', 'LuminariaController@getSectores');
 Route::get('luminaria/create/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
+Route::get('luminaria/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
+
+Route::get('luminaria/{idp}/{ids}/{idg}', 'LuminariaController@getLuminarias');
 Route::resource('user', 'UserController');
 Route::resource('edificio', 'EdificioController');
 Route::resource('pisos', 'PisoController');
@@ -85,9 +89,11 @@ Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');
 Route::get('performance', 'ReporteController@performanceLuminaria');
+
 Route::get('/listado', 'GrupoController@listado');
 
 Route::get('grupo/buscar_grupos/{piso}/{sector}', 'GrupoController@buscar_grupos');
+Route::get('luminaria/buscar_luminarias/{piso}/{sector}/{grupo}', 'LuminariaController@buscar_luminarias');
 
 /*
 Route::group(['middleware'=>['auth','administrador'], 'prefix'=>'admin'], function (){

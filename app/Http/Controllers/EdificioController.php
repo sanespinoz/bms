@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Edificio;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EdificioCreateRequest;
 use App\Http\Requests\EdificioUpdateRequest;
-use App\Edificio;
-use App\EnergiaPiso;
 use App\Piso;
-use Carbon\Carbon;
-use Session;
-use Redirect;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Redirect;
+use Session;
 
 class EdificioController extends Controller
 {
-    
+
     public function __construct()
     {
 
-       $this->middleware('auth');
-      // $this->middleware('mantenimiento');
+        $this->middleware('auth');
+        // $this->middleware('mantenimiento');
 
         //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
@@ -34,10 +30,11 @@ class EdificioController extends Controller
      */
     public function index()
     {
-           
-      $edificios= Edificio::orderBy('nombre', 'asc')->paginate();
 
-      return view('edificio.index', compact('edificios'));
+        $edificios = Edificio::orderBy('nombre', 'asc')->paginate();
+        //dd($edificios);
+
+        return view('edificio.index', compact('edificios'));
     }
 
     /**
@@ -59,21 +56,20 @@ class EdificioController extends Controller
      */
     public function store(EdificioCreateRequest $request)
     {
-      Edificio::create($request->all());
-      Session::flash('message','Edificio Creado Correctamente');
+        Edificio::create($request->all());
+        Session::flash('message', 'Edificio Creado Correctamente');
 
-         return redirect('edificio');
+        return redirect('edificio');
 //  var_dump($request);
-//    die();
-/*$updat = Carbon::now()->format('Y-m-d H:i:s.000');
+        //    die();
+        /*$updat = Carbon::now()->format('Y-m-d H:i:s.000');
 
-$request['created_at'] = $creat;
-$request['updated_at'] = $updat;
-$edificio = Edificio::create($request->all());*/
+        $request['created_at'] = $creat;
+        $request['updated_at'] = $updat;
+        $edificio = Edificio::create($request->all());*/
 //$event = new Edificio($requestData);
-//$event->save();
-      //  $edificio = Edificio::create($request->all());
-
+        //$event->save();
+        //  $edificio = Edificio::create($request->all());
 
     }
 
@@ -92,12 +88,11 @@ $edificio = Edificio::create($request->all());*/
         print_r($pisos);
         echo '</pre>';
          */
-      /*   $cre = $edificio->created_at;
+        /*   $cre = $edificio->created_at;
 
-
-         dd($cre);
-         die();
-*/
+        dd($cre);
+        die();
+         */
         return view('edificio.show', compact('edificio', 'pisos'));
 
     }
@@ -146,7 +141,7 @@ $edificio = Edificio::create($request->all());*/
 }
 
 /*public function show(Request request, $eventId) {
-    $event = Event::findOrFail($eventId);
-    $startTime = $event->start_time->format('Y-m-d H:i');
-    $endTime = $event->end_time->format('Y-m-d H:i');
+$event = Event::findOrFail($eventId);
+$startTime = $event->start_time->format('Y-m-d H:i');
+$endTime = $event->end_time->format('Y-m-d H:i');
 }*/

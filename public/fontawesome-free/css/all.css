@@ -3477,6 +3477,8 @@ readers do not read off random characters that represent icons */
 }
 .fa-times-circle:before {
     content: "\f057";
+    color: #f4645f;
+}
 }
 .fa-tint:before {
     content: "\f043";

@@ -1,20 +1,23 @@
-<form method="POST" action="login">
+<form action="login" method="POST">
     {!! csrf_field() !!}
     <div>
         Email
-        <input type="email" name="email" value="{{ old('email') }}">
+        <input name="email" type="email" value="{{ old('email') }}">
+        </input>
     </div>
-
     <div>
         Password
-        <input type="password" name="password" id="password">
+        <input id="password" name="password" type="password">
+        </input>
     </div>
-
     <div>
-        <input type="checkbox" name="remember"> Remember Me
+        <input name="remember" type="checkbox">
+            Remember Me
+        </input>
     </div>
-
     <div>
-        <button type="submit">Login</button>
+        <button type="submit">
+            Login
+        </button>
     </div>
 </form>

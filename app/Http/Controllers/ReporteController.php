@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\EnergiaPiso;
 use App\Http\Controllers\Controller;
+use App\Luminaria;
 use DB;
+use Illuminate\Http\Request;
 
 //Solo accesible a los usuarios de area y de mantenimiento
 class ReporteController extends Controller
@@ -81,14 +83,102 @@ select(DB::raw('YEAR(fecha) as anio'))->distinct()
         return view('reportes.eficiencia', ['eficiencias' => $eficiencias]);
     }
 
-    public function performanceLuminaria()
+    public function performanceLuminaria(Request $request)
     {
-        /* $performance = EnergiaPiso::
-        select(DB::raw('YEAR(fecha) as anio'),DB::raw('MONTH(fecha) as mes'),DB::raw('SUM(energia_pisos.energia) as energia'))->where(DB::raw('YEAR(fecha)'),'=',2018)
-        ->orderBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'),'asc')
-        ->groupBy(DB::raw('YEAR(fecha)'),DB::raw('MONTH(fecha)'))
-        ->get();
-         */
-        return view('reportes.performance');
+        //dd($request->get('mes'), $request->get('anio'));
+        if ($request->get('anio') != "") {
+            if ($request->get('mes') == "00") {
+                $anio  = $request->get('anio');
+                $datos = array();
+
+                $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                    ->groupBy(DB::raw('tipo'))
+                    ->get();
+                foreach ($tiposLumi as $tipol) {
+                    $t = $tipol->tipo;
+
+                    $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                        ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $b = $bajasAt->first()->bajas;
+
+                    $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                        ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
+                        ->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $bpf = $bajasPreviasxFallas->first()->fallas;
+
+                    $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
+                        ->where(DB::raw('fecha_baja'), '=', null)
+                        ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                        ->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $a               = $activasAt->first()->activas;
+                    $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
+
+                    $datos = array_prepend($datos, $cantidadesPtipo);
+
+                }
+
+                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
+                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                    ->get();
+                //dd($anios);
+
+                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios]);
+
+            } else {
+
+                $mes       = $request->get('mes');
+                $anio      = $request->get('anio');
+                $datos     = array();
+                $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                    ->groupBy(DB::raw('tipo'))
+                    ->get();
+                foreach ($tiposLumi as $tipol) {
+                    $t = $tipol->tipo;
+
+                    $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                        ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                        ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
+                        ->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $b = $bajasAt->first()->bajas;
+
+                    $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                        ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
+                        ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
+                        ->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $bpf = $bajasPreviasxFallas->first()->fallas;
+
+                    $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
+                        ->where(DB::raw('fecha_baja'), '=', null)
+                        ->where(DB::raw('MONTH(fecha_alta)'), '=', $mes)
+                        ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                        ->where(DB::raw('tipo'), '=', $t)
+                        ->get();
+                    $a               = $activasAt->first()->activas;
+                    $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
+
+                    $datos = array_prepend($datos, $cantidadesPtipo);
+
+                }
+                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
+                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                    ->get();
+                //dd($anios);
+
+                return view('reportes.performance', compact('datos', 'anios'));
+            }
+        } else {
+            $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
+                ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                ->get();
+            //dd($anios);
+
+            return view('reportes.performance', compact('anios'));
+        }
+
     }
 }

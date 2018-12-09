@@ -28,14 +28,33 @@ class GrupoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pisos = Piso::all();
+        //dd($request->get('piso'), $request->get('sector')); 61 A4
 
-        $grupos = Grupo::orderBy('nombre', 'asc')->paginate(6);
-        return view('grupo.listado', ['pisos' => $pisos, 'grupos' => $grupos]);
+        if ($request->get('sector') != "") {
 
-        // return view('grupo.index', ['pisos' => $pisos, 'grupos' => $grupos]);
+            $sector = Sector::where('nombre', $request->get('sector'))
+                ->where('piso_id', $request->get('piso'))->get();
+            $json     = $sector->toJson();
+            $array    = json_decode($json);
+            $idSector = $array[0]->id;
+            //dd($idSector);
+            //dd($request->get('piso'));
+
+            $idPiso = $request->get('piso');
+            $grupos = Grupo::searchgrupos($idPiso, $idSector)->orderBy('nombre', 'asc')->paginate(10);
+            $pisos  = Piso::all();
+            return view('grupo.index', compact('pisos', 'grupos'));
+        } else {
+            $pisos = Piso::all();
+            $piso  = $request->get('piso');
+
+            $grupos = Grupo::searchgrupos($piso, '')->orderBy('nombre', 'asc')->paginate(10);
+
+            return view('grupo.index', compact('pisos', 'grupos'));
+        }
+
     }
 
     /**

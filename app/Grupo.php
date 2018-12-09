@@ -34,17 +34,19 @@ class Grupo extends Model
         return $this->belongsTo('App\Piso');
     }
 
-    public function scopeBusqueda($query, $pisosel, $sector = "")
+    public function scopeSearchgrupos($query, $idPiso, $idSector = "")
     {
-        if ($pisosel == 0) {
-            $resultado = $query->where('nombre', 'like', '%' . $sector . '%');
+        if ($idSector == "") {
+            $grupos = $query->where('piso_id', '=', $idPiso);
+
         } else {
-            $resultado = $query->where('piso_id', '=', $pisosel)
-                ->where(function ($q) use ($pisosel, $sector) {
-                    $q->where('nombre', 'like', '%' . $sector . '%');
+            $grupos = $query->where('piso_id', '=', $idPiso)
+                ->where(function ($q) use ($idPiso, $idSector) {
+                    $q->where('sector_id', '=', $idSector);
                 });
+
         }
-        return $resultado;
+        return $grupos;
     }
 
 }

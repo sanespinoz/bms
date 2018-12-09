@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
-
+        <title>
+            Be right back.
+        </title>
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-        <style>
-            html, body {
+            <style>
+                html, body {
                 height: 100%;
             }
 
@@ -35,12 +35,15 @@
                 font-size: 72px;
                 margin-bottom: 40px;
             }
-        </style>
+            </style>
+        </link>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Be right back.</div>
+                <div class="title">
+                    Be right back.
+                </div>
             </div>
         </div>
     </body>

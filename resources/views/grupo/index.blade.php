@@ -15,76 +15,57 @@
 <h1>
     Grupos Registrados
 </h1>
-{!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center']) !!}
-<div class="box-header">
-    <h4 class="box-title">
-        Buscar Grupos
-    </h4>
-    <div class="input-group input-group-sm">
-        <input class="form-control" id="sector_buscado" type="text">
-            <span class="input-group-btn">
-                <button class="btn btn-info btn-flat" onclick="buscargrupo();" type="button">
-                    Buscar
-                </button>
-            </span>
-        </input>
+{{--https://bootsnipp.com/snippets/featured/advanced-dropdown-search--}}
+{{--AGREGUE EN EL ADMIN UN BUSCADOR.CSS --}}
+{{--EN EL ESCRITORIO ESTA EL CODIGO INICIAL SIN HTML --}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group" id="adv-search">
+                <input class="form-control" placeholder="Search for snippets" type="text"/>
+                <div class="input-group-btn">
+                    <div class="btn-group" role="group">
+                        <div class="dropdown dropdown-lg">
+                            <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+                                <span class="caret">
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+                                <div class="form-group">
+                                    <label for="filter">
+                                        Filtrar por
+                                    </label>
+                                    <select name="piso">
+                                        @foreach($pisos as $piso){
+                                        <option value="{{ $piso->id }}">
+                                            {{ $piso->nombre }}
+                                        </option>
+                                        } 
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
+                                </div>
+                                <button class="btn btn-primary" type="submit">
+                                    <span aria-hidden="true" class="glyphicon glyphicon-search">
+                                    </span>
+                                </button>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="button">
+                            <span aria-hidden="true" class="glyphicon glyphicon-search">
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <select id="select_filtro_piso" onchange="buscargrupo();">
-            @php
-            @if(isset($pisosel))
-            { 
-             $listadopiso=$pisosel->nombre; 
-             $optsel= @endphp
-            <option value="{{ $pisosel->id}}">
-                {{$pisosel->nombre  }}
-            </option>
-            @php;
-        }
-        @else
-        {  
-            $listadopiso="General";
-            $optsel="";
-         }
-         @endif
-            <option value="0">
-                General
-            </option>
-            @php 
-        @foreach($pisos as $piso){   
-        @endphp
-            <option value="{{ $piso->id }}">
-                {{ $piso->nombre }}
-            </option>
-            @php } 
-        @endforeach
-         @endphp
-        </select>
-    </div>
 </div>
-{{--
-<div class="input-group">
-    {!! Form::text('dato', null, ['class'=>'form-control floating-label','placeholder'=>'Nombre:','required']) !!}
-    <span class="input-group-addon" id="search">
-        <search class="glyphicon glyphicon-search">
-        </search>
-    </span>
-</div>
-<div class="form-group">
-    <select class="form-control floating-label" name="piso">
-        @foreach($pisos as $piso)
-        <option value="{{ $piso->id }}">
-            {{ $piso->nombre }}
-        </option>
-        @endforeach
-    </select>
-</div>
---}}
-
-
-
-            {!! Form::close() !!}
-<hr>
+<br>
     <!-- contenido principal -->
     <section class="resultados" id="resultados">
         <table class="table table-bordered table-striped">
@@ -138,7 +119,7 @@
                         {{ $grupo->piso->nombre}}
                     </td>
                     <td>
-                        {{ $grupo->sector_id}}
+                        {{ $grupo->sector->nombre}}
                     </td>
                     <td>
                         {{ $grupo->cant_hs_activo}}
@@ -157,4 +138,4 @@
         {!! $grupos->render() !!}
     </section>
     @endsection
-</hr>
+</br>

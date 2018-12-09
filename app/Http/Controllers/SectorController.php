@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Grupo;
+use App\Piso;
+use App\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Sector;
-use Session;
 use Redirect;
-use App\Piso;
-use App\Grupo;
-
-
-
+use Session;
 
 class SectorController extends Controller
 {
@@ -23,10 +20,22 @@ class SectorController extends Controller
 
     public function index(Request $request)
     {
+        if ($request->get('piso') != "") {
+            $piso   = Piso::where('nombre', $request->get('piso'))->get();
+            $json   = $piso->toJson();
+            $array  = json_decode($json);
+            $idPiso = $array[0]->id;
+            //dd($piso);
+            //dd($request->get('piso'));
+            // $sectores =Sector::search($request->nombre)->orderBy('nombre', 'asc')->paginate(6);
+            $sectores = Sector::searchpiso($idPiso)->orderBy('nombre', 'asc')->paginate(6);
+            return view('sector.index', compact('sectores'));
+        } else {
+            $sectores = Sector::paginate(10);
 
-       // $sectores =Sector::search($request->nombre)->orderBy('nombre', 'asc')->paginate(6);
-        $sectores=Sector::searchpiso($request->piso)->orderBy('nombre','asc')->paginate(6);
-       return view('sector.index', compact('sectores'));
+            return view('sector.index', compact('sectores'));
+        }
+
     }
 
     /**
@@ -50,11 +59,11 @@ class SectorController extends Controller
      */
     public function store(SectorCreateRequest $request)
     {
-     // dd($request->all());
-     // die();
-       Sector::create( $request->all());
-       Session::flash('message','Sector Creado Correctamente');
-       return redirect('sector');
+        // dd($request->all());
+        // die();
+        Sector::create($request->all());
+        Session::flash('message', 'Sector Creado Correctamente');
+        return redirect('sector');
     }
 
     /*
@@ -66,7 +75,7 @@ class SectorController extends Controller
     public function show($id)
     {
         $sector = Sector::find($id);
-        $grupos = Grupo::where('sector_id',$id)->get();
+        $grupos = Grupo::where('sector_id', $id)->get();
         //dd($sector,$grupos);
 
         return view('sector.show', compact('sector', 'grupos'));
@@ -84,10 +93,8 @@ class SectorController extends Controller
         $pisos = Piso::all();
 
         $sector = Sector::findOrFail($id);
-        return view('sector.edit',compact('sector','pisos'));
+        return view('sector.edit', compact('sector', 'pisos'));
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -96,17 +103,17 @@ class SectorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id,SectorUpdateRequest $request)
+    public function update($id, SectorUpdateRequest $request)
     {
 
-        $sector= Sector::find($id);
+        $sector = Sector::find($id);
         $sector->fill($request->all());
         $sector->save();
 
-         Session::flash('message','Sector Editado Correctamente');
-         return redirect('sector');
+        Session::flash('message', 'Sector Editado Correctamente');
+        return redirect('sector');
 
-      }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -116,19 +123,20 @@ class SectorController extends Controller
      */
     public function destroy($id)
     {
-         Sector::destroy($id);
-         Session::flash('message','Sector Eliminado Correctamente');
-         return redirect('sector');
-   }
+        Sector::destroy($id);
+        Session::flash('message', 'Sector Eliminado Correctamente');
+        return redirect('sector');
+    }
 
-   public function sectores($piso){
+    public function sectores($piso)
+    {
 
-       $sectores = Sector::where('piso_id',$piso)->get();
+        $sectores = Sector::where('piso_id', $piso)->get();
         return $sectores;
         //return \Response::json(['success' => $sectores]);
-       /* return response()->json([
-   "mensaje" => $request->all()
-   ]);*/
- }
+        /* return response()->json([
+    "mensaje" => $request->all()
+    ]);*/
+    }
 
 }

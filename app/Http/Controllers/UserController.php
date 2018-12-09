@@ -16,7 +16,7 @@ class UserController extends Controller
     {
 
         $this->middleware('auth');
-        $this->middleware('administrador');
+        // $this->middleware('administrador');
 
         //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }

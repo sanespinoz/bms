@@ -10,6 +10,7 @@ use App\Http\Requests\LuminariaUpdateRequest;
 use App\Luminaria;
 use App\Piso;
 use App\Sector;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
@@ -25,23 +26,125 @@ class LuminariaController extends Controller
 
         //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    /*  public function index()
     {
 
-        $luminarias = Luminaria::orderBy('nombre', 'asc')->paginate(6);
-        return view('luminaria.index', compact('luminarias'));
+    $pisos = Piso::lists('nombre', 'id');
+
+    /* $anios = Luminaria::
+    select(DB::raw('YEAR(fecha_alta) as anio'))
+    ->distinct('luminarias.fecha_alta')
+    ->groupBy('luminarias.fecha_alta')
+    ->get();
+     */
+    /*       $luminarias = Luminaria::orderBy('nombre', 'asc')->paginate(10);
+    return view('luminaria.index', compact('pisos', 'luminarias'));
+    }
+     */
+    public function index(Request $request)
+    {
+
+        if ($request->get('piso') != "") {
+//viene piso
+
+            if ($request->get('sector') && $request->get('grupo')) {
+                $s      = $request->get('sector');
+                $g      = $request->get('grupo');
+                $sector = Sector::where('nombre', $request->get('sector'))
+                    ->where('piso_id', $request->get('piso'))->get();
+                $idSector = $sector->first()->id;
+                // dd($idSector);
+                $grupo = Grupo::where('nombre', $request->get('grupo'))
+                    ->where('piso_id', $request->get('piso'))
+                    ->where('sector_id', $idSector)->get();
+                $idGrupo = $grupo->first()->id;
+                //dd($idGrupo);
+                // dd($idGrupo); 44
+                $idPiso = $request->get('piso');
+
+                $luminarias = Luminaria::where('grupo_id', $idGrupo)->orderBy('nombre', 'desc')->paginate(3);
+                $pisos      = Piso::all();
+
+                return view('luminaria.index', compact('pisos', 'luminarias'));
+
+            } else {
+// hay grupo o sector
+
+                if ($request->get('sector') != "") {
+                    //hay sector y no grupo
+
+                    $sector = Sector::where('nombre', $request->get('sector'))
+                        ->where('piso_id', $request->get('piso'))->get();
+                    //dd($sector);
+                    $idSector = $sector->first()->id;
+
+                    $idPiso     = $request->get('piso');
+                    $luminarias = Luminaria::searchluminarias($idPiso, $idSector, "");
+
+                    $pisos = Piso::all();
+                    return view('luminaria.index', compact('pisos', 'luminarias'));
+
+                } else {
+                    //hay grupo o nada
+
+                    if ($request->get('grupo') != "") {
+
+                        $g = $request->get('grupo');
+                        //Hay grupo
+
+                        $grupo = Grupo::where('nombre', $g)
+                            ->where('piso_id', $request->get('piso'))->get();
+                        //dd($grupo);
+                        $idGrupo = $grupo->first()->id;
+
+                        $luminarias = Luminaria::where('grupo_id', $idGrupo)->orderBy('nombre', 'desc')->paginate(3);
+
+                        $pisos = Piso::all();
+                        return view('luminaria.index', compact('pisos', 'luminarias'));
+                    } else {
+                        //solo piso
+                        $pisos  = Piso::all();
+                        $piso   = $request->get('piso');
+                        $grupos = Grupo::where('piso_id', $piso)->orderBy('nombre', 'desc')->paginate(3);
+                        //dd($grupos);
+                        $luminarias = new Collection;
+                        foreach ($grupos as $g) {
+                            $idg   = $g->id;
+                            $lumis = Luminaria::where('grupo_id', $idg)->get();
+
+                            $luminarias = $luminarias->merge($lumis);
+
+                        }
+
+                        //$luminarias = Luminaria::searchluminarias($piso, "", "");
+                        //dd($luminarias);
+                        return view('luminaria.index', compact('pisos', 'luminarias'));
+                    }
+
+                }
+            }
+
+        } else {
+//listado inicial sin filtro
+            $pisos = Piso::all();
+
+            $luminarias = Luminaria::paginate(10);
+
+            return view('luminaria.index', compact('pisos', 'luminarias'));
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Show the form for creating a new resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function create()
     {
 
@@ -50,12 +153,12 @@ class LuminariaController extends Controller
         return view('luminaria.create', compact('pisos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Store a newly created resource in storage.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return \Illuminate\Http\Response
+ */
     public function store(LuminariaCreateRequest $request)
     {
 
@@ -159,4 +262,27 @@ class LuminariaController extends Controller
             return response()->json($sectores);
         }
     }
+
+    public function getLuminarias(Request $request, $piso, $sector, $grupo)
+    {
+        if ($request->ajax()) {
+            $luminarias = Luminaria::where('grupo_id', '=', $grupo)->get();
+            $pisos      = Piso::lists('nombre', 'id');
+            return view('luminaria.index', compact('pisos', 'luminarias'));
+        }
+        /*} else {
+    $pisos = Piso::lists('nombre', 'id');
+
+    $anios = Luminaria::
+    select(DB::raw('YEAR(fecha_alta) as anio'))
+    ->distinct('luminarias.fecha_alta')
+    ->groupBy('luminarias.fecha_alta')
+    ->get();
+
+    $luminarias = Luminaria::orderBy('nombre', 'asc')->paginate(10);
+    return view('luminaria.index', compact('pisos', 'luminarias'));
+    }
+     */
+    }
+
 }

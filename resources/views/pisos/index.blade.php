@@ -40,12 +40,12 @@
             </td>
             <td>
                 {!!link_to_route('pisos.edit', $title = 'Editar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-primary'])!!}
-					{!!link_to_route('pisos.show', $title = 'Ver', $parameters = $piso->id, $attributes = ['class'=>'btn btn-success'])!!}
+                {!!link_to_route('pisos.show', $title = 'Ver', $parameters = $piso->id, $attributes = ['class'=>'btn btn-success'])!!}
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-{!! $pisos->render() !!}		
+{!! $pisos->render() !!}        
 
 @endsection

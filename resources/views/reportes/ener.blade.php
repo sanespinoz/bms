@@ -1,9 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
-    <html>
+<html>
     <head>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript">
+        </script>
         <script type="text/javascript">
             google.charts.load("current", {packages:["corechart"]});
             google.charts.setOnLoadCallback(drawChart);
@@ -40,12 +41,13 @@
                 var chart1 = new google.visualization.PieChart(document.getElementById('piechart1_3d'));
                 chart1.draw(eiluminacion, options1);
             }
-     
         </script>
     </head>
     <body>
-    <div id="piechart_3d" style="width: 800px; height: 500px;"></div>
-<div id="piechart1_3d" style="width: 800px; height: 500px;"></div>
-</body>
+        <div id="piechart_3d" style="width: 800px; height: 500px;">
+        </div>
+        <div id="piechart1_3d" style="width: 800px; height: 500px;">
+        </div>
+    </body>
 </html>
 @endsection
