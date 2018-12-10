@@ -169,15 +169,46 @@ select(DB::raw('YEAR(fecha) as anio'))->distinct()
                     ->get();
                 //dd($anios);
 
-                return view('reportes.performance', compact('datos', 'anios'));
+                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios]);
             }
         } else {
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2010
             $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                 ->groupBy(DB::raw('YEAR(fecha_alta)'))
                 ->get();
-            //dd($anios);
+            $anio  = 2018;
+            $datos = array();
 
-            return view('reportes.performance', compact('anios'));
+            $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                ->groupBy(DB::raw('tipo'))
+                ->get();
+            foreach ($tiposLumi as $tipol) {
+                $t = $tipol->tipo;
+
+                $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                    ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->where(DB::raw('tipo'), '=', $t)
+                    ->get();
+                $b = $bajasAt->first()->bajas;
+
+                $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                    ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
+                    ->where(DB::raw('tipo'), '=', $t)
+                    ->get();
+                $bpf = $bajasPreviasxFallas->first()->fallas;
+
+                $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
+                    ->where(DB::raw('fecha_baja'), '=', null)
+                    ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                    ->where(DB::raw('tipo'), '=', $t)
+                    ->get();
+                $a               = $activasAt->first()->activas;
+                $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
+
+                $datos = array_prepend($datos, $cantidadesPtipo);
+
+            } //dd($anios);
+
+            return view('reportes.performance', ['datos' => $datos, 'anios' => $anios]);
         }
 
     }
