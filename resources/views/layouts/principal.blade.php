@@ -112,15 +112,15 @@
                         </a>
                         <!--tenia un ancla al pie de la pagina #Auth-->
                     </li>
-                    <li>
+                    <!--  <li>
                         <a class="page-scroll" href="#register">
                             Registrarse
                         </a>
-                    </li>
+                    </li> -->
                     @else
                     <!--<li class="hidden">
-						<a href="#page-top"></a>
-					</li>-->
+                        <a href="#page-top"></a>
+                    </li>-->
                     <li>
                         <a class="page-scroll" href="#dreams">
                             Luminarias
@@ -185,11 +185,11 @@
     </section>
     <section id="monitoreo">
         <!--<div class="col-md-6 col-md-offset-3"> -->
-        <!--	<div class="embed-container"> -->
+        <!--    <div class="embed-container"> -->
         <!--  <iframe width="640" height="360" src="http://192.168.0.111/BMS/login.html" frameborder="0" allowfullscreen></iframe> -->
         <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://192.168.0.111/BMS/login.html" webkitallowfullscreen="true" width="1250px">
         </iframe>
-        <!--	</div>-->
+        <!--    </div>-->
     </section>
     <!-- Auth Section
 -->
@@ -201,7 +201,7 @@
             <div class="panel-body">
                 <form action="login" method="POST">
                     {!! csrf_field() !!}
-				@if (count($errors) > 0)
+                @if (count($errors) > 0)
                     <ul>
                         @foreach ($errors->all() as $error)
                         <lu>
@@ -249,6 +249,7 @@
                 </div>
                 <div class="panel-body">
                     {!! Form::open(['route' => 'register', 'class' => 'form']) !!}
+                    {!! csrf_field() !!}
                     <div class="form-group">
                         <label>
                             Nombre

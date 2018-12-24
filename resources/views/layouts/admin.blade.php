@@ -28,7 +28,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            {!!Auth::user()->name!!}
+                            {!!Auth::user()->name !!}
                             <i class="fa fa-user fa-fw">
                             </i>
                             <i class="fa fa-caret-down">
@@ -46,7 +46,7 @@
                             </li>
                             <li>
                                 <a href="{!!URL::to('logout')!!}">
-                                    <i class="fa fa-sign-out fa-fw">
+                                    <i aria-hidden="true" class="fa fa-arrow-left">
                                     </i>
                                     Salir
                                 </a>
@@ -168,8 +168,6 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-folder-o">
-                                    </i>
                                     Reportes
                                     <span class="fa arrow">
                                     </span>
@@ -177,28 +175,28 @@
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="{!!URL::to('/reporte')!!}">
-                                            <i class="fa fa-plus fa-fw">
+                                            <i aria-hidden="true" class="fa fa-pie-chart">
                                             </i>
                                             Energía
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{!!URL::to('/tendencia')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
+                                            <i aria-hidden="true" class="fa fa-line-chart">
                                             </i>
                                             Tendencia de Consumo
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{!!URL::to('/eficiencia')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
+                                            <i aria-hidden="true" class="fa fa-line-chart">
                                             </i>
                                             índice de Eficiencia Energética
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{!!URL::to('/performance')!!}">
-                                            <i class="fa fa-list-ol fa-fw">
+                                            <i aria-hidden="true" class="fa fa-bar-chart">
                                             </i>
                                             Performance de Luminarias
                                         </a>
