@@ -1,13 +1,6 @@
 <div class="col-sm-6">
     <div class="form-group">
-        {!! Form::text('codigo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Código:','required']) !!}
-        <!--VALIDACION -->
-        @if($errors->has('codigo'))
-        <p class="text-danger">
-            {{ $errors->first('codigo') }}
-        </p>
-        @endif
-        <!--VALIDACION -->
+        {!! Form::text('codigo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Código:']) !!}
     </div>
     <div class="form-group">
         <select class="form-control" id="nombre" name="nombre">
@@ -103,18 +96,6 @@
             </div>
         </div>
     </div>
-    {{--  --
-    <div class="form-group">
-        <div class="input-group">
-            <!--VALIDACION  HACERRR QUE LA FECHA DE BAJA SEA POSTERIOR A LA FECHA DE ALTA y menor a la fecha actual-->
-            {!! Form::text('fecha_baja', 000-00-00, ['class'=>'form-control floating-label datepicker', 'placeholder'=>'Fecha de Baja:']) !!}
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th">
-                </span>
-            </div>
-        </div>
-    </div>
-    --}}
     <div class="form-group">
         <select class="form-control" id="vida_util" name="vida_util">
             <option value="">
@@ -134,14 +115,6 @@
             </option>
         </select>
     </div>
-    <!--<div class="form-group">
-        <select class="form-control" name="estado" id="estado">
-          <option value="">Selecciona Estado</option>
-            <option value="a">Activa </option>
-            <option value="i">Inactiva</option>
-            <option value="f">Falla</option>
-        </select>
-    </div>-->
     <div class="form-group">
         <select class="form-control" id="temperatura" name="temperatura">
             <option value="">

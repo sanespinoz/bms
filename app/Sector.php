@@ -21,10 +21,15 @@ class Sector extends Model
 
     public function grupos()
     {
-        //creamos una relacion con el nodelo equipo
+        //creamos una relacion con el nodelo grupo
         return $this->hasMany('App\Grupo');
     }
 
+    public function dispositivos()
+    {
+        //creamos una relacion con el nodelo dispositivo
+        return $this->hasMany('App\Dispositivo');
+    }
     public function energiaSectores()
     {
         //creamos una relacion con el modelo energiaSector

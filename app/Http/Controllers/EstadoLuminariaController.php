@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\EstadoLuminaria;
 use App\Http\Controllers\Controller;
+use App\Luminaria;
 use Illuminate\Http\Request;
+use Redirect;
+use Session;
 
 class EstadoLuminariaController extends Controller
 {
@@ -30,13 +34,14 @@ class EstadoLuminariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        $estadoluminaria = EstadoLuminaria::lists('estado', 'id');
-        //dd($pisos);
-        // return view('estadoluminaria.create', compact('luminarias'));
-    }
+        //dd($id me falta guardar el id de la luminiaria del estado);
+        // $estadoluminaria = EstadoLuminaria::where('luminaria_id', $id)->first();
 
+        return view('estadoluminaria.edit');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -46,9 +51,8 @@ class EstadoLuminariaController extends Controller
     public function store(Request $request)
     {
         EstadoLuminaria::create($request->all());
-        Session::flash('message', 'Estado Creada Correctamente');
-
-        // return redirect('');
+        Session::flash('message', 'Estado Creado Correctamente');
+        return redirect('luminaria');
     }
 
     /**
@@ -59,7 +63,12 @@ class EstadoLuminariaController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $estados = EstadoLuminaria::where('luminaria_id', $id)->paginate(10);
+        // dd($estado); trae los estados de la luminaria con fechas como un log
+        $luminaria = Luminaria::findOrFail($id);
+
+        return view('estadoluminaria.show', compact('estados', 'luminaria'));
     }
 
     /**
@@ -70,7 +79,9 @@ class EstadoLuminariaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $estadoLuminaria = EstadoLuminaria::where('luminaria_id', $id)->get();
+
+        return view('estadoluminaria.edit', compact('estadoLuminaria'));
     }
 
     /**
@@ -82,7 +93,12 @@ class EstadoLuminariaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $luminaria = Luminaria::find($id);
+        $luminaria->fill($request->all());
+        $luminaria->save();
+
+        Session::flash('message', 'Estado de Luminaria Editado Correctamente');
+        return redirect('luminaria');
     }
 
     /**

@@ -18,7 +18,7 @@
                 ]);
 
                 var options = {
-                    title: 'Energia Total por Piso',
+                    title: 'Consumo Energético por Piso',
                     is3D: true,
                 };
 
@@ -31,7 +31,7 @@
                 ]);
 
                 var options1 = {
-                    title: 'Energia de Iluminación por Piso',
+                    title: 'Consumo Energético de Iluminación por Piso',
                     is3D: true,
                 };
 
@@ -44,9 +44,119 @@
         </script>
     </head>
     <body>
-        <div id="piechart_3d" style="width: 800px; height: 500px;">
+        <div class="panel-body">
+            <form class="navbar-form navbar-left pull-right" role="form">
+                {!! Form::open(['action' => 'ReporteController@index','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
+                <div class="form-group">
+                    <select class="form-control floating-label" name="anio">
+                        @foreach($anios as $anio)
+                        <option selected="selected" value="{{ $anio->anio }}">
+                            {{ $anio->anio }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <br>
+                        <select class="form-control floating-label" name="mes">
+                            <option selected="selected" value="00">
+                            </option>
+                            <option value="01">
+                                Enero
+                            </option>
+                            <option value="02">
+                                Febrero
+                            </option>
+                            <option value="03">
+                                Marzo
+                            </option>
+                            <option value="04">
+                                Abril
+                            </option>
+                            <option value="05">
+                                Mayo
+                            </option>
+                            <option value="06">
+                                Junio
+                            </option>
+                            <option value="07">
+                                Julio
+                            </option>
+                            <option value="08">
+                                Agosto
+                            </option>
+                            <option value="09">
+                                Septiembre
+                            </option>
+                            <option value="10">
+                                Octubre
+                            </option>
+                            <option value="11">
+                                Noviembre
+                            </option>
+                            <option value="12">
+                                Diciembre
+                            </option>
+                        </select>
+                        <button class="btn btn-primary" type="submit">
+                            <span aria-hidden="true" class="glyphicon glyphicon-search">
+                            </span>
+                        </button>
+                        {!! Form::close() !!}
+                    </br>
+                </div>
+            </form>
         </div>
-        <div id="piechart1_3d" style="width: 800px; height: 500px;">
+        <div id="piechart_3d" style="width: 400px; height: 200px;">
+        </div>
+        <div id="piechart1_3d" style="width: 400px; height: 200px;">
+        </div>
+        <div class="form-group">
+            <h3>
+                Detalle
+            </h3>
+            <h5 class="">
+                Cálculo de los consumos de energía,representados en valores absolutos.
+            </h5>
+            <br/>
+            @if (!$demanda->isEmpty())
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Piso
+                        </th>
+                        <th>
+                            Consumo Energía
+                        </th>
+                        <th>
+                            Consumo E. Iluminación
+                        </th>
+                        <th>
+                            Demanda Máxima
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($demanda as $e)
+                    <tr>
+                        <td>
+                            {{ $e->nombre }}
+                        </td>
+                        <td>
+                            {{ $e->energia }}
+                        </td>
+                        <td>
+                            {{ $e->energiailu }}
+                        </td>
+                        <td>
+                            {{ $e->max_demanda }}
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else "No se registran datos para su búsqueda"
+            @endif
+            <br/>
         </div>
     </body>
 </html>

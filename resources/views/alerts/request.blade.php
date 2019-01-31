@@ -1,14 +1,9 @@
-@if(count($errors) > 0)
-<div class="alert alert-danger alert-dismissible" role="alert">
-    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-        <span aria-hidden="true">
-            ×
-        </span>
-    </button>
+@if ($errors->any())
+<div class="alert alert-danger">
     <ul>
-        @foreach($errors->all() as $error)
+        @foreach ($errors->all() as $error)
         <li>
-            {!!$error!!}
+            {{ $error }}
         </li>
         @endforeach
     </ul>

@@ -1,17 +1,20 @@
 @extends('layouts.admin')
-	@section('content')
-		{{-- @include('alerts.request') --}}
+    @section('content')
+       @include('alerts.request')
+<div class="form-group col-xs-12">
+    <h2>
+        Datos del usuario {{$user->name}}
+    </h2>
+    {!!Form::model($user,['route'=> ['user.update',$user->id],'method'=>'PUT',$rols,$rolse])!!}
+            @include('user.partials.fields')
+    <div class="form-group col-xs-12">
+        {!!Form::submit('Actualizar',['class'=>'btn btn-primary'])!!}
+      {!! Form::close()!!}
 
-		{!!Form::model($user,['route'=> ['user.update',$user->id],'method'=>'PUT'])!!}
-			@include('user.partials.fields')
-
-		<div class="form-group col-xs-12">
-		{!!Form::submit('Guardar',['class'=>'btn btn-primary'])!!}
-		{!!Form::close()!!}
-		</div>
-		<div class="form-group col-xs-12">
-		{!!Form::open(['route'=> ['user.destroy',$user->id],'method'=>'DELETE'])!!}
-			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
-		{!!Form::close()!!}
-		</div>
-	@endsection
+{!! Form::open(['route'=>['user.destroy',$user->id],'method'=>'DELETE']) !!}
+{!! Form::submit('Eliminar',['class'=>'btn btn-danger']) !!}
+   {!! Form::close() !!}
+{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
+    </div>
+</div>
+@endsection

@@ -23,11 +23,11 @@ class GrupoUpdateRequest extends Request
      */
     public function rules()
     {
-       return [
-            'nombre'=>'required|min:2',
-            'cant_luminarias'=>'numeric|min:1|max:15',
-            'energia_consumida'=>'numeric|min:1',
-            'sector_id'=>'required'
+        return [
+            'nombre'            => 'required|string|min:2',
+            'cant_luminarias'   => 'numeric|min:1|max:15',
+            'energia_consumida' => 'numeric|min:1',
+            'sector_id'         => 'required',
         ];
     }
 }

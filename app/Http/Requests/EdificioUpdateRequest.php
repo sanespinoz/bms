@@ -24,7 +24,14 @@ class EdificioUpdateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'=>'required|min:2'
+            'nombre'      => 'required|min:6',
+            'telefono'    => 'required',
+            'direccion'   => 'required|max:30',
+            'email'       => 'required|email',
+            'provincia'   => 'required|string|max:25',
+            'ciudad'      => 'required|string|max:25',
+            'codigo'      => 'required|numeric|digits:4',
+            'descripcion' => 'required',
         ];
     }
 }

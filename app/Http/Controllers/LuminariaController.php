@@ -12,6 +12,7 @@ use App\Piso;
 use App\Sector;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Redirect;
 use Session;
 
@@ -22,9 +23,7 @@ class LuminariaController extends Controller
     {
 
         $this->middleware('auth');
-        //$this->middleware('mantenimiento');
 
-        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
 
     /**
@@ -32,21 +31,7 @@ class LuminariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /*  public function index()
-    {
 
-    $pisos = Piso::lists('nombre', 'id');
-
-    /* $anios = Luminaria::
-    select(DB::raw('YEAR(fecha_alta) as anio'))
-    ->distinct('luminarias.fecha_alta')
-    ->groupBy('luminarias.fecha_alta')
-    ->get();
-     */
-    /*       $luminarias = Luminaria::orderBy('nombre', 'asc')->paginate(10);
-    return view('luminaria.index', compact('pisos', 'luminarias'));
-    }
-     */
     public function index(Request $request)
     {
 
@@ -68,7 +53,7 @@ class LuminariaController extends Controller
                 // dd($idGrupo); 44
                 $idPiso = $request->get('piso');
 
-                $luminarias = Luminaria::where('grupo_id', $idGrupo)->orderBy('nombre', 'desc')->paginate(3);
+                $luminarias = Luminaria::where('grupo_id', $idGrupo)->orderBy('nombre', 'desc')->paginate(10);
                 $pisos      = Piso::all();
 
                 return view('luminaria.index', compact('pisos', 'luminarias'));
@@ -201,9 +186,18 @@ class LuminariaController extends Controller
     public function edit($id)
     {
 
-        $luminaria = Luminaria::findOrFail($id);
-        // var_dump($luminaria);die();
-        return view('luminaria.edit', compact('luminaria', 'grupos'));
+        $luminaria  = Luminaria::findOrFail($id);
+        $pisos      = Piso::lists('nombre', 'id');
+        $g          = $luminaria->grupo_id;
+        $gr         = Grupo::findOrFail($g);
+        $p          = $gr->piso_id;
+        $gruposdelp = Grupo::where('piso_id', $p)->lists('nombre', 'id');
+        $s          = $gr->sector_id;
+        $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
+
+        //dd($gruposdelp);die();
+        return view('luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's'));
+
     }
 
 /**
@@ -259,6 +253,7 @@ class LuminariaController extends Controller
     {
         if ($request->ajax()) {
             $sectores = Sector::where('piso_id', '=', $id)->get();
+
             return response()->json($sectores);
         }
     }
@@ -268,6 +263,7 @@ class LuminariaController extends Controller
         if ($request->ajax()) {
             $luminarias = Luminaria::where('grupo_id', '=', $grupo)->get();
             $pisos      = Piso::lists('nombre', 'id');
+
             return view('luminaria.index', compact('pisos', 'luminarias'));
         }
         /*} else {

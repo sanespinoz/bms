@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class LamparaCreateRequest extends Request
+class UserCreateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,11 @@ class LamparaCreateRequest extends Request
      */
     public function rules()
     {
-        return [
-           'marca'=>'required|min:2',
-           'tipo'=>'max:20',
-           'fecha_instalacion'=>'date',
-           'vida'=>'size:3'
 
+        return [
+            'name'     => 'required|max:15|min:3',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|min:6',
         ];
     }
 }

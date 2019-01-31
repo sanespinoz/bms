@@ -22,7 +22,7 @@ CanResetPasswordContract
      * @var string
      */
     protected $table    = 'users';
-    protected $fillable = ['name', 'email', 'password', 'rol_id'];
+    protected $fillable = ['name', 'email', 'password', 'rol_id', 'last_login_at'];
     protected $dates    = ['created_at', 'updated_at'];
 
     protected $hidden = ['password', 'remember_token'];
@@ -55,6 +55,12 @@ CanResetPasswordContract
             return false;
         }
 
+    }
+    public function setPasswordAttribute($valor)
+    {
+        if (!empty($valor)) {
+            $this->attributes['password'] = \Hash::make($valor);
+        }
     }
 
 }

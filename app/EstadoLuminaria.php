@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Luminaria;
 use Illuminate\Database\Eloquent\Model;
 
 class EstadoLuminaria extends Model

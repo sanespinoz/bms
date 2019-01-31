@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Piso;
+use App\Sector;
 use Illuminate\Database\Eloquent\Model;
 
 class Grupo extends Model

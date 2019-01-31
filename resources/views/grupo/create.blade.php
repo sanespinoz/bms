@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-{{--@include('alerts.request')--}}
+@include('alerts.request')
 <h1>
     Registrar Grupo
 </h1>

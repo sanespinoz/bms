@@ -156,11 +156,32 @@
                     {{ $luminaria->vida_util }}
                 </td>
                 <td>
+                    @if ($luminaria->estado($luminaria->id))
+
+                    @if ($luminaria->estado($luminaria->id)->estado  == 1)
+                    <a href="{{ route('estadoluminaria.show', $luminaria->id) }}">
+                        <div class="text-center">
+                            <i class="fas fa-check-circle ">
+                            </i>
+                        </div>
+                    </a>
+                    @elseif ($luminaria->estado($luminaria->id)->estado  == 2 )
+                    <a href="{{ route('estadoluminaria.show', $luminaria->id) }}">
+                        <div class="text-center">
+                            <i class="fas fa-exclamation-circle" style="color:#FF8C00">
+                            </i>
+                        </div>
+                    </a>
+                    @else
+                    <a href="{{ route('estadoluminaria.show', $luminaria->id) }}">
+                        <div class="text-center">
+                            <i class="fas fa-times-circle" style="color:#FF0000">
+                            </i>
+                        </div>
+                    </a>
+                    @endif
+                    @endif
                     {{-- luminaria  llama a la funcion estado en luminaria.php y si esta activa muestra check sino x solo que me lo tiene que traer como una  collect para accederlo o un array hacer un dd dentro de la funcioon estado para ver como lo devuelve --}}
-                    <div class="text-center">
-                        <i class="fas fa-check-circle ">
-                        </i>
-                    </div>
                 </td>
                 <td>
                     {{ $luminaria->temperatura }}

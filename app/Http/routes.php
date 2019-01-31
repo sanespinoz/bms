@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
+Route::get('contacto', 'FrontController@contacto');
 
 // Authentication routes...
 
@@ -58,19 +59,14 @@ Route::get('gestion', function () {
     }
 
 });
-/*Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', function(){
-return view('admin.index');
-}]);
- */
-/* CORREGIR XQ PASA OLIMPICAMENTE
-Route::get('gestion',['middleware'=>'auth','admin','mantenimiento','area', function(){
 
-return view('admin.index');
-
-}]);
- */
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
+Route::get('dispositivo/create/sectores/{id}', 'DispositivoController@getSectores');
 Route::get('luminaria/create/sectores/{id}', 'LuminariaController@getSectores');
+//Route::get('luminaria/editar/{i}', 'LuminariaController@getSectores');
+Route::get('luminaria/{lum}/edit/sectores/{id}', 'LuminariaController@getSectores');
+Route::get('luminaria/{lum}/edit/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
+
 Route::get('luminaria/sectores/{id}', 'LuminariaController@getSectores');
 Route::get('luminaria/create/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
 Route::get('luminaria/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
@@ -82,9 +78,10 @@ Route::resource('pisos', 'PisoController');
 Route::resource('sector', 'SectorController');
 Route::resource('grupo', 'GrupoController');
 Route::resource('luminaria', 'LuminariaController');
-Route::resource('lampara', 'LamparaController');
+Route::resource('dispositivo', 'DispositivoController');
 Route::resource('energiapiso', 'EnergiaPisoController');
 Route::resource('reporte', 'ReporteController');
+Route::resource('mail', 'MailController');
 Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');
@@ -94,37 +91,16 @@ Route::get('/listado', 'GrupoController@listado');
 
 Route::get('grupo/buscar_grupos/{piso}/{sector}', 'GrupoController@buscar_grupos');
 Route::get('luminaria/buscar_luminarias/{piso}/{sector}/{grupo}', 'LuminariaController@buscar_luminarias');
+Route::get('estadoluminaria/create/{idp}', 'estadoLuminariaController@createid');
 
-/*
-Route::group(['middleware'=>['auth','administrador'], 'prefix'=>'admin'], function (){
-Route::resource('/','FrontController');
-// Route::get('admin',function(){
-//   return view('admin.index');
-// });
-});
-/*
-// Route::get('admin','FrontController@admin');
-Route::get('/','FrontController@admin'); //REVISAR QUE NO ANDA ME MANDA AL LOGIN DE NUEVO
- */
+Route::get('sendemail', function () {
+    $data = array(
+        'name' => "curso laravel",
+    );
+    Mail::send('emails.welcome', $data, function ($message) {
+        $message->from('san.espinoz@gmail.com', 'Cursolaravel');
+        $message->to('san.espinoz@gmail.com')->subject('test email curso laravel');
 
-//OPERADOR
-/*
-Route::group(['middleware'=>['auth','operador'], 'prefix'=>'operador'], function (){
-Route::get('/', function(){
-return view('operador.index');
+    });
+    return "tu email a sido enviado";
 });
-});
-//AREA MANTENIMIENTO
-Route::group(['middleware'=>['auth','mantenimiento'], 'prefix'=>'mantenimiento'], function (){
-Route::get('/', function(){
-return view('mantenimiento.index');
-});
-});*/
-/*
-//AREA
-Route::group(['middleware'=>['auth','area'], 'prefix'=>'area'], function (){
-Route::get('/', function(){
-return view('area.index');
-});
-});
- */

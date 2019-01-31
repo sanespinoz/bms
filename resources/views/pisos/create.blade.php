@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('alerts.request')
 <h1>
     Registrar Piso
 </h1>

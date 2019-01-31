@@ -22,7 +22,7 @@
                 </input>
             </div>
             <div class="form-group col-lg-6 text-center">
-                <input class="btn btn-default" type="submit" value="Send dsada">
+                <input class="btn btn-default" type="submit" value="Enviar link">
                 </input>
             </div>
         </div>

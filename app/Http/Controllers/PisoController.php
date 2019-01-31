@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use App\Edificio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PisoCreateRequest;
-use App\Edificio;
 use App\Piso;
 use App\Sector;
-use Session;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Redirect;
+use Session;
 
 class PisoController extends Controller
 {
     public function __construct()
     {
 
-       $this->middleware('auth');
-      // $this->middleware('mantenimiento');
-       
+        $this->middleware('auth');
+        // $this->middleware('mantenimiento');
+
     }
     /**
      * Display a listing of the resource.
@@ -28,9 +28,9 @@ class PisoController extends Controller
      */
     public function index()
     {
-      $pisos = Piso::orderBy('nombre', 'asc')->paginate(6);
+        $pisos = Piso::orderBy('nombre', 'asc')->paginate(2);
 
-      return view('pisos.index', compact('pisos'));
+        return view('pisos.index', compact('pisos'));
     }
 
     /**
@@ -54,9 +54,8 @@ class PisoController extends Controller
     {
 
         $piso = Piso::create($request->all());
-        Session::flash('message','Grupo Creado Correctamente');
+        Session::flash('message', 'Grupo Creado Correctamente');
         return redirect('pisos');
-
 
     }
 
@@ -68,17 +67,15 @@ class PisoController extends Controller
      */
     public function show($id)
     {
-        $piso =Piso::find($id);
+        $piso = Piso::find($id);
 
         $sectores = Sector::where('piso_id', $id)->get();
         /*echo '<pre>';
         print_r($sectores);
         echo '</pre>';
-    */
+         */
 
-
-        return view('pisos.show',compact('piso','sectores'));
-
+        return view('pisos.show', compact('piso', 'sectores'));
 
     }
 
@@ -90,9 +87,9 @@ class PisoController extends Controller
      */
     public function edit($id)
     {
-        $piso =Piso::find($id);
-        $edificios= Edificio::all();
-        return view('pisos.edit',compact('piso','edificios'));
+        $piso      = Piso::find($id);
+        $edificios = Edificio::all();
+        return view('pisos.edit', compact('piso', 'edificios'));
     }
 
     /**
@@ -102,13 +99,13 @@ class PisoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id,Request $request)
+    public function update($id, Request $request)
     {
-       $piso = Piso::find($id);
-       $piso->fill($request->all());
-       $piso->save();
-         Session::flash('message','Piso Editado Correctamente');
-         return redirect('pisos');
+        $piso = Piso::find($id);
+        $piso->fill($request->all());
+        $piso->save();
+        Session::flash('message', 'Piso Editado Correctamente');
+        return redirect('pisos');
     }
 
     /**
@@ -120,8 +117,8 @@ class PisoController extends Controller
     public function destroy($id)
     {
         Piso::destroy($id);
-         Session::flash('message','Piso Eliminado Correctamente');
-         return redirect('pisos');
+        Session::flash('message', 'Piso Eliminado Correctamente');
+        return redirect('pisos');
 
     }
 }

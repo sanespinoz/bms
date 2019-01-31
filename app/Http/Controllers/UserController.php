@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Rol;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Redirect;
 use Session;
 
@@ -29,7 +31,7 @@ class UserController extends Controller
  */
     public function index()
     {
-        $users = User::orderBy('name', 'asc')->paginate(2);
+        $users = User::orderBy('name', 'asc')->paginate(5);
 
         return view('user.index', compact('users'));
 
@@ -54,26 +56,20 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
 
-        User::create([
-            'name'       => $request['name'],
-            'email'      => $request['email'],
-            'password'   => bcrypt($request['password']),
-            'rol_id'     => $request['rol_id'],
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+        \App\User::create([
+            'name'     => $request['name'],
+            'email'    => $request['email'],
+            'password' => $request['password'],
+            'rol_id'   => $request['rol_id'],
+
         ]);
         Session::flash('message', 'Usuario Creado Correctamente');
 
         return redirect('user');
-        /*
-    User::create( $request->all());
-    Session::flash('message','Usuario Creado Correctamente');
 
-    return redirect('user');
-     */
     }
 
     /**
@@ -98,10 +94,13 @@ class UserController extends Controller
     public function edit($id)
     {
         // get the user
-        $user = User::find($id);
-        $rols = Rol::all();
+
+        $user   = User::findOrFail($id);
+        $userid = $user->rol_id;
+        $rolse  = Rol::where('id', $userid)->lists('rol', 'id');
+        $rols   = Rol::lists('rol', 'id');
         // show the edit form and pass the user
-        return view('user.edit', compact('user', 'rols'));
+        return view('user.edit', compact('user', 'rols', 'rolse'));
 
     }
 
@@ -112,9 +111,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id, UserUpdateRequest $request)
     {
         $user = User::find($id);
+
         $user->fill($request->all());
         $user->save();
 

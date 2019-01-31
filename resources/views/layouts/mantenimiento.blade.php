@@ -83,6 +83,23 @@
                         </li>
                         <li>
                             <a href="#">
+                                Dispositivo
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{!!URL::to('/dispositivo/create')!!}">
+                                        Agregar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{!!URL::to('/dispositivo')!!}">
+                                        Dispositivos
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
                                 <i class="fa fa-folder-o">
                                 </i>
                                 Reportes

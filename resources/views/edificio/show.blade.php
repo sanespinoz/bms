@@ -2,29 +2,40 @@
 @section('content')
 <div class="form-group col-xs-12">
     <h2>
-        Datos del piso {{$edificio->nombre}}
+        Datos del Edificio {{$edificio->nombre}}
     </h2>
-    Descripción:
+    <div class="form-group">
+        Descripción:
         {{$edificio->descripcion}}
+    </div>
+    <div class="form-group">
         Dirección:
         {{$edificio->direccion}}
+    </div>
+    <div class="form-group">
         Email:
         {{$edificio->email}}
-        Ciudad:
-        {{$edificio->ciudad}}
-        Código Postal:
-        {{$edificio->codigo}}
+    </div>
+    <div class="form-group">
         Provincia:
         {{$edificio->provincia}}
+    </div>
+    <div class="form-group">
+        Ciudad:
+        {{$edificio->ciudad}}
+    </div>
+    <div class="form-group">
+        Código Postal:
+        {{$edificio->codigo}}
+    </div>
     <h3>
-        Pisos en el edificio
+        Consta de los siguientes pisos:
     </h3>
     <?php foreach($pisos as $piso){ ?>
     <ul>
-        Nombre: {{$piso->nombre}}
-            Descripción: {{$piso->descripcion}}
+        {{$piso->nombre}}: {{$piso->descripcion}}
     </ul>
     <?php  }
         ?>
+    @endsection
 </div>
-@endsection

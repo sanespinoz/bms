@@ -110,22 +110,22 @@
                         {{ $grupo->descripcion }}
                     </td>
                     <td>
-                        {{ $grupo->cant_luminarias}}
+                        {{ $grupo->cant_luminarias }}
                     </td>
                     <td>
-                        {{ $grupo->energia_consumida}}
+                        {{ $grupo->energia_consumida }}
                     </td>
                     <td>
-                        {{ $grupo->piso->nombre}}
+                        {{ $grupo->piso->nombre }}
                     </td>
                     <td>
-                        {{ $grupo->sector->nombre}}
+                        {{ $grupo->sector->nombre }}
                     </td>
                     <td>
-                        {{ $grupo->cant_hs_activo}}
+                        {{ $grupo->cant_hs_activo }}
                     </td>
                     <td>
-                        {{ $grupo->cant_activaciones}}
+                        {{ $grupo->cant_activaciones }}
                     </td>
                     <td>
                         {!!link_to_route('grupo.edit', $title = 'Editar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-primary'])!!}

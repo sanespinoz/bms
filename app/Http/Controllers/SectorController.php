@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Grupo;
+use App\Http\Requests\SectorCreateRequest;
+use App\Http\Requests\SectorUpdateRequest;
 use App\Piso;
 use App\Sector;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Redirect;
 use Session;
 

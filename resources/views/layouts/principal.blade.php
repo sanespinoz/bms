@@ -112,6 +112,12 @@
                         </a>
                         <!--tenia un ancla al pie de la pagina #Auth-->
                     </li>
+                    <li>
+                        <a class="page-scroll" href="#contacto">
+                            Contactanos
+                        </a>
+                        <!--tenia un ancla al pie de la pagina #Auth-->
+                    </li>
                     <!--  <li>
                         <a class="page-scroll" href="#register">
                             Registrarse
@@ -126,12 +132,14 @@
                             Luminarias
                         </a>
                     </li>
+                    @if (Auth::user()->rol_id != 5)
                     <li>
                         <a class="page-scroll" href="#monitoreo">
                             Monitoreo
                         </a>
                     </li>
-                    @if (Auth::user()->rol_id !== '3')
+                    @endif
+                    @if (Auth::user()->rol_id != 3)
                     <li>
                         <a class="page-scroll" href="gestion">
                             Gestión
@@ -190,6 +198,31 @@
         <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://192.168.0.111/BMS/login.html" webkitallowfullscreen="true" width="1250px">
         </iframe>
         <!--    </div>-->
+    </section>
+    <section class="container content-section text-center" id="contacto" style="background-color:#022B59">
+        <div class="row">
+            <div class="main-contact">
+                <h3 class="head">
+                    Contáctanos
+                </h3>
+                <p>
+                    Estamos para ayudarte
+                </p>
+                <div class="contact-form">
+                    {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
+                    {!! csrf_field() !!}
+                    <div class="col-md-6 contact-left">
+                        {!!Form::text('name',null,['class'=> 'form-control','placeholder' => 'Nombre'])!!}
+                            {!!Form::text('email',null,['class'=> 'form-control','placeholder' => 'Email'])!!}
+                    </div>
+                    <div class="col-md-6 contact-right">
+                        {!!Form::textarea('mensaje',null,['class'=> 'form-control','placeholder' => 'Mensaje'])!!}
+                    </div>
+                    {!!Form::submit('ENVIAR')!!}
+                     {!!Form::close()!!}
+                </div>
+            </div>
+        </div>
     </section>
     <!-- Auth Section
 -->

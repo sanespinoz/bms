@@ -22,6 +22,11 @@ class Piso extends Model
         //creamos una relacion con el modelo grupo
         return $this->hasMany('App\Grupo');
     }
+    public function dispositivos()
+    {
+        //creamos una relacion con el modelo grupo
+        return $this->hasMany('App\Dispositivo');
+    }
     public function edificio()
     {
         return $this->belongsTo('App\Edificio');

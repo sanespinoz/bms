@@ -56,6 +56,7 @@ class EdificioController extends Controller
      */
     public function store(EdificioCreateRequest $request)
     {
+
         Edificio::create($request->all());
         Session::flash('message', 'Edificio Creado Correctamente');
 
@@ -84,15 +85,7 @@ class EdificioController extends Controller
         $edificio = Edificio::find($id);
 
         $pisos = Piso::where('edificio_id', $id)->get();
-        /*echo '<pre>';
-        print_r($pisos);
-        echo '</pre>';
-         */
-        /*   $cre = $edificio->created_at;
 
-        dd($cre);
-        die();
-         */
         return view('edificio.show', compact('edificio', 'pisos'));
 
     }

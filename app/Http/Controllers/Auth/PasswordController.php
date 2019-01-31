@@ -16,7 +16,7 @@ class PasswordController extends Controller
     | and uses a simple trait to include this behavior. You're free to
     | explore this trait and override any methods you wish to tweak.
     |
-    */
+     */
 
     use ResetsPasswords;
     protected $redirectTo = '/';
@@ -30,4 +30,13 @@ class PasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected function ResetsPassword($user, $password)
+    {
+        $user->password = $password;
+        $user->save();
+        Auth::login($user);
+
+    }
+
 }

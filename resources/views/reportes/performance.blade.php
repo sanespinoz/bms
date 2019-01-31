@@ -19,7 +19,7 @@
 
         var options = {
           chart: {
-            title: 'Eficacia de las Luminarias de acuerdo a su Clase',
+            title: 'Eficiencia de uso de las luminarias',
             subtitle: 'Luminarias dadas de bajas, con fallas y activas en el período solicitado'}  
         };
 
@@ -30,6 +30,7 @@
         </script>
     </head>
     <body>
+        {{-- buscador  --}}
         <div class="panel-body">
             <form class="navbar-form navbar-left pull-right" role="form">
                 {!! Form::open(['action' => 'ReporteController@performanceLuminaria','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
@@ -91,7 +92,33 @@
                 </div>
             </form>
         </div>
-        <div id="columnchart_material" style="width: 900px; height: 700px;">
+        {{-- Fin buscador  --}}
+        <div id="columnchart_material" style="width: 900px; height: 500px;">
+        </div>
+        <div class="form-group">
+            <h3>
+                Detalle
+            </h3>
+            <br/>
+            Total de cambios {{ $totales }}
+            <br/>
+            Porcentaje de luminarias que cumplen con su vida útil: %{{ $porcentaje }}
+            <br/>
+            Promedio de Horas Activas:
+            @foreach($promha as $p)
+            <li class="">
+                {{ $p->tipo }}:{{ $p->hs_activas }} hs.
+            </li>
+            @endforeach
+            <br/>
+            Promedio de Vida Útil:
+            @foreach($promvu as $p)
+            @if ($p->hs_activas <> '')
+            <li class="">
+                {{ $p->tipo }}:{{ $p->hs_activas }} hs.
+            </li>
+            @endif
+            @endforeach
         </div>
     </body>
 </html>

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\EstadoLuminaria;
+use App\Grupo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,43 +20,15 @@ class Luminaria extends Model
         return $this->belongsTo('App\Grupo');
     }
 
-    public function lamparas()
-    {
-
-        return $this->hasMany('App\Lampara');
-    }
-
-    public function estados()
+    public function estado_luminaria()
     {
         //creamos una relacion con el modelo estadoLuminaria
-        return $this->hasMany('App\EstadoLuminarias');
+        return $this->hasMany('App\EstadoLuminaria');
     }
 
-    public function bajas($periodo, $año)
-    {
-
-    }
-
-    public function tiempoUso($tipo_lumi)
-    {
-        //fecha de baja menos fecha de insta (en horas)< vida util
-    }
-    /*public function rcollect($array)
-    {
-    foreach ($array as $key => $value) {
-    if (is_array($value)) {
-    $value       = rcollect($value);
-    $array[$key] = $value;
-    }
-    }
-
-    return collect($array);
-    }
-     */
-    public function estado($id, $fecha)
+    public function estado($id)
     {
         $estado = EstadoLuminaria::where('luminaria_id', $id)
-            ->where('fecha', $fecha)
             ->get()->first();
 
         return $estado;

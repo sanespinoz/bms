@@ -28,7 +28,8 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            {!!Auth::user()->name !!}
+                            {!! Auth::user()->name !!}
+                            {!! Auth::user()->last_login_at !!}
                             <i class="fa fa-user fa-fw">
                             </i>
                             <i class="fa fa-caret-down">
@@ -54,16 +55,10 @@
                         </ul>
                     </li>
                 </ul>
-                <div class="container">
-                    @if (Session::has('errors'))
-                    <div class="alert alert-warning text-center" role="alert">
-                        Las credenciales que ingresaste no coinciden con nuestros registros.
-                    </div>
-                    @endif
-                </div>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
+                            @if(Auth::user()->rol_id == 1)
                             <li>
                                 <a href="#">
                                     Usuario
@@ -149,6 +144,8 @@
                                     </li>
                                 </ul>
                             </li>
+                            @endif
+                            @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 5)
                             <li>
                                 <a href="#">
                                     Luminaria
@@ -166,6 +163,25 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="#">
+                                    Dispositivo
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{!!URL::to('/dispositivo/create')!!}">
+                                            Agregar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{!!URL::to('/dispositivo')!!}">
+                                            Dispositivos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @endif
+                            @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 5 || Auth::user()->rol_id == 6)
                             <li>
                                 <a href="#">
                                     Reportes
@@ -203,6 +219,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

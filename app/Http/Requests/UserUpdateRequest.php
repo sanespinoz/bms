@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class LamparaUpdateRequest extends Request
+class UserUpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class LamparaUpdateRequest extends Request
     public function rules()
     {
         return [
-             'marca'=>'required|min:2'
+            'name'  => 'required|max:15|min:3',
+            'email' => 'required|email',
+
         ];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -13,11 +12,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
+        'App\Events\SomeEvent'         => [
             'App\Listeners\EventListener',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
     ];
-
     /**
      * Register any other events for your application.
      *
@@ -28,6 +29,5 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
-        //
     }
 }

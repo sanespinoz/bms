@@ -2,46 +2,57 @@
 
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  {{Session::get('message')}}
-
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+    {{Session::get('message')}}
 </div>
 @endif
 
 @section('content')
-
-		<h1>Grupos Registrados</h1>
-
-		<table class="table table-bordered table-striped">
+<h1>
+    Usuarios Registrados
+</h1>
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Rol</td>
-            <td>Actions</td>
+            <td>
+                Nombre
+            </td>
+            <td>
+                Correo Electrónico
+            </td>
+            <td>
+                Rol
+            </td>
+            <td>
+                Acciones
+            </td>
         </tr>
     </thead>
     <tbody>
-    @foreach($users as $user)
+        @foreach($users as $user)
         <tr>
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->rol->rol}}</td>
-
+            <td>
+                {{ $user->name }}
+            </td>
+            <td>
+                {{ $user->email }}
+            </td>
+            <td>
+                {{ $user->rol->rol}}
+            </td>
             <!-- we will also add show, edit, and delete buttons -->
             <td>
-
-              {!!link_to_route('user.edit', $title = 'Editar', $parameters = $user->id, $attributes = ['class'=>'btn btn-primary'])!!}
-    					{!!link_to_route('user.show', $title = 'Ver', $parameters = $user->id, $attributes = ['class'=>'btn btn-success'])!!}
-
+                {!!link_to_route('user.edit', $title = 'Editar', $parameters = $user->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                        {!!link_to_route('user.show', $title = 'Ver', $parameters = $user->id, $attributes = ['class'=>'btn btn-success'])!!}
             </td>
         </tr>
-    @endforeach
+        @endforeach
     </tbody>
 </table>
-
-		{!! $users->render() !!}
+{!! $users->render() !!}
 
 @endsection

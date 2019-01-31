@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 	@section('content')
-		{{-- @include('alerts.request') --}}
+		@include('alerts.request') 
 
 		{!!Form::model($edificio,['route'=> ['edificio.update',$edificio->id],'method'=>'PUT'])!!}
 			@include('edificio.partials.fields')
