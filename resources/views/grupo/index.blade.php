@@ -17,12 +17,11 @@
 </h1>
 {{--https://bootsnipp.com/snippets/featured/advanced-dropdown-search--}}
 {{--AGREGUE EN EL ADMIN UN BUSCADOR.CSS --}}
-{{--EN EL ESCRITORIO ESTA EL CODIGO INICIAL SIN HTML --}}
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <div class="input-group" id="adv-search">
-                <input class="form-control" placeholder="Search for snippets" type="text"/>
+                <input class="form-control" placeholder="Buscar por fragmentos" type="text"/>
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
                         <div class="dropdown dropdown-lg">
@@ -96,7 +95,7 @@
                         Activaciones
                     </th>
                     <th>
-                        Operaciones
+                        Acciones
                     </th>
                 </tr>
             </thead>

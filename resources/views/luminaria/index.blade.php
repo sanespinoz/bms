@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="input-group" id="adv-search">
-                <input class="form-control" placeholder="Search for snippets" type="text"/>
+                <input class="form-control" placeholder="Buscar " type="text"/>
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
                         <div class="dropdown dropdown-lg">
@@ -113,7 +113,7 @@
                     Grupo
                 </th>
                 <th>
-                    Operaciones
+                    Acciones
                 </th>
             </tr>
         </head>
@@ -150,7 +150,8 @@
                     {{ $luminaria->fecha_alta }}
                 </td>
                 <td>
-                    {{-- --}}
+                    @if ($luminaria->fecha_baja) {{ $luminaria->fecha_baja }}
+                    @endif
                 </td>
                 <td>
                     {{ $luminaria->vida_util }}

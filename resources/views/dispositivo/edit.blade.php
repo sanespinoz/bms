@@ -12,5 +12,7 @@
     {!!Form::open(['route'=> ['dispositivo.destroy',$dispositivo->id],'method'=>'DELETE'])!!}
 			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
 		{!!Form::close()!!}
-</div>
+
+		{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
 @endsection
+</div>

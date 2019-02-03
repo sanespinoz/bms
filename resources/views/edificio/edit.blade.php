@@ -12,5 +12,7 @@
     {!!Form::open(['route'=> ['edificio.destroy',$edificio->id],'method'=>'DELETE'])!!}
 			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
 		{!!Form::close()!!}
+
+		{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
 </div>
 @endsection

@@ -94,7 +94,7 @@
                     Sector
                 </th>
                 <th>
-                    Operaciones
+                    Acciones
                 </th>
             </tr>
         </head>
@@ -145,6 +145,7 @@
                 </td>
                 <td>
                     {!!link_to_route('dispositivo.edit', $title = 'Editar', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                    {!!link_to_route('dispositivo.show', $title = 'Ver', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-success'])!!}
                 </td>
             </tr>
             @endforeach

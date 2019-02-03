@@ -36,7 +36,7 @@ class GrupoController extends Controller
 //viene piso
             if ($request->get('sector')) {
                 $s      = $request->get('sector');
-                $sector = Sector::where('nombre', $request->get('sector'))
+                $sector = Sector::where('nombre', $s)
                     ->where('piso_id', $request->get('piso'))->get();
                 $idSector = $sector->first()->id;
                 // dd($idSector);
@@ -47,14 +47,16 @@ class GrupoController extends Controller
                 $pisos = Piso::all();
                 return view('grupo.index', compact('pisos', 'grupos'));
             } else {
+
                 $pisos  = Piso::all();
                 $idPiso = $request->get('piso');
 
                 $grupos = Grupo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->paginate(10);
-                $pisos  = Piso::all();
+
                 return view('grupo.index', compact('pisos', 'grupos'));
             }
         } else {
+
             $pisos = Piso::all();
 
             $grupos = Grupo::paginate(10);

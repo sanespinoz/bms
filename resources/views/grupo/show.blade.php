@@ -4,40 +4,40 @@
     <h2>
         Datos del grupo {{$grupo->nombre}}
     </h2>
-    Descripción:
-            {{$grupo->descripcion}}
+    <div class="form-group">
+        Descripción:{{$grupo->descripcion}}
+    </div>
     <h3>
         Luminarias en el sector
     </h3>
-    <?php foreach($luminarias as $luminaria){
+    <?php foreach($luminarias as $l){
              ?>
-    <ul>
-        <li>
-            Identificación: {{$luminaria->identificacion}}
-        </li>
-        <li>
-            Ubicación: {{$luminaria->ubicacion}}
-        </li>
-        <li>
-            Marca: {{$luminaria->marca}}
-        </li>
-        <li>
-            Tipo: {{$luminaria->tipo}}
-        </li>
-        <li>
-            Denominación: {{$luminaria->denominacion}}
-        </li>
-        <li>
-            Cantidad de lámparas: {{$luminaria->cant_lamparas}}
-        </li>
-        <li>
-            Consumo: {{$luminaria->consumo}}
-        </li>
-        <li>
-            Tiempo de uso: {{$luminaria->tiempo_uso}}
-        </li>
-    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Código {{ $l->codigo }}
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Nombre: {{ $l->nombre }}
+                        </p>
+                        <p>
+                            Tipo: {{ $l->tipo }}
+                        </p>
+                        <p>
+                            Descripción: {{ $l->descripcion }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php  }
           ?>
+    <div class="form-group col-xs-12">
+        {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+    </div>
 </div>
 @endsection

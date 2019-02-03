@@ -18,9 +18,7 @@ class UserController extends Controller
     {
 
         $this->middleware('auth');
-        // $this->middleware('administrador');
 
-        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
 
 /*
@@ -29,11 +27,36 @@ class UserController extends Controller
  *
  * @return \Illuminate\Http\Response
  */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('name', 'asc')->paginate(5);
+        if ($request->get('rol') != "") {
 
-        return view('user.index', compact('users'));
+            if ($request->get('name')) {
+                $n     = $request->get('name');
+                $r     = $request->get('rol');
+                $users = User::where('name', 'LIKE', "%$n%")->
+                    where('rol_id', '=', $r)->paginate(6);
+
+                $roles = Rol::all();
+                return view('user.index', compact('roles', 'users'));
+            } else {
+
+                $roles = Rol::all();
+                $idRol = $request->get('rol');
+
+                $users = User::where('rol_id', $idRol)->orderBy('name', 'desc')->paginate(6);
+
+                return view('user.index', compact('roles', 'users'));
+            }
+        } else {
+
+            $roles = Rol::all();
+
+            $users = User::paginate(6);
+
+            return view('user.index', compact('roles', 'users'));
+
+        }
 
     }
 

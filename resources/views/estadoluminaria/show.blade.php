@@ -48,5 +48,8 @@
     </table>
     {!!link_to_route('estadoluminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!}
 </div>
-{!! $estados->render() !!}       
+{!! $estados->render() !!}
+<div class="form-group col-xs-12">
+    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+</div>
 @endsection

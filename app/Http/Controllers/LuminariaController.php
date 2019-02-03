@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\EstadoLuminaria;
 use App\Grupo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LuminariaCreateRequest;
@@ -163,18 +162,20 @@ class LuminariaController extends Controller
  */
     public function show($id)
     {
-        //dd($id); //6 id luminaria
-        $l          = Luminaria::find($id);
+
+        $l = Luminaria::find($id);
+        $f = $l->fecha_alta;
+
         $gip        = $l->grupo_id;
         $g          = Grupo::find($gip);
         $pid        = $g->piso_id;
         $p          = Piso::find($pid);
         $sid        = $g->sector_id;
         $s          = Sector::find($sid);
-        $est        = EstadoLuminaria::estado($id, $l->fecha_alta);
-        $estado_lum = $est->estado;
-
+        $estado     = $l->estado($id);
+        $estado_lum = $estado->estado;
         return view('luminaria.show', compact('p', 's', 'g', 'l', 'estado_lum'));
+        //return view('luminaria.show', compact('p', 's', 'g', 'l'));
     }
 
 /**
@@ -266,19 +267,7 @@ class LuminariaController extends Controller
 
             return view('luminaria.index', compact('pisos', 'luminarias'));
         }
-        /*} else {
-    $pisos = Piso::lists('nombre', 'id');
 
-    $anios = Luminaria::
-    select(DB::raw('YEAR(fecha_alta) as anio'))
-    ->distinct('luminarias.fecha_alta')
-    ->groupBy('luminarias.fecha_alta')
-    ->get();
-
-    $luminarias = Luminaria::orderBy('nombre', 'asc')->paginate(10);
-    return view('luminaria.index', compact('pisos', 'luminarias'));
-    }
-     */
     }
 
 }

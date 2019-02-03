@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Grupo;
 use App\Http\Requests\SectorCreateRequest;
 use App\Http\Requests\SectorUpdateRequest;
 use App\Piso;
 use App\Sector;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Redirect;
 use Session;
 
 class SectorController extends Controller
 {
+
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,17 +29,20 @@ class SectorController extends Controller
     public function index(Request $request)
     {
         if ($request->get('piso') != "") {
-            $piso   = Piso::where('nombre', $request->get('piso'))->get();
-            $json   = $piso->toJson();
-            $array  = json_decode($json);
-            $idPiso = $array[0]->id;
+            $p = $request->get('piso');
+
+            $piso = Piso::where('nombre', $p)->get();
+
+            $idPiso = $piso->first()->id;
+
+            $sectores = Sector::where('piso_id', $idPiso)->orderBy('nombre', 'asc')->paginate(6);
+
+            return view('sector.index', compact('sectores'));
             //dd($piso);
             //dd($request->get('piso'));
-            // $sectores =Sector::search($request->nombre)->orderBy('nombre', 'asc')->paginate(6);
-            $sectores = Sector::searchpiso($idPiso)->orderBy('nombre', 'asc')->paginate(6);
-            return view('sector.index', compact('sectores'));
+
         } else {
-            $sectores = Sector::paginate(10);
+            $sectores = Sector::paginate(6);
 
             return view('sector.index', compact('sectores'));
         }
@@ -75,7 +86,7 @@ class SectorController extends Controller
     public function show($id)
     {
         $sector = Sector::find($id);
-        $grupos = Grupo::where('sector_id', $id)->get();
+        $grupos = $sector->grupos;
         //dd($sector,$grupos);
 
         return view('sector.show', compact('sector', 'grupos'));

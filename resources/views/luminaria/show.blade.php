@@ -5,7 +5,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Luminaria: {{ $l->identificacion }}
+                    Luminaria: {{ $l->codigo }}
                 </div>
                 <div class="panel-body">
                     <p>
@@ -51,12 +51,14 @@
                         Vida Útil: {{ $l->vida_util }}
                     </p>
                     <p>
-                        Estado Actual: {{ $l->estado }}
+                        Estado Actual: {{ $estado_lum }}
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{!! $luminarias->render() !!}    
+<div class="form-group col-xs-12">
+    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+</div>
 @endsection

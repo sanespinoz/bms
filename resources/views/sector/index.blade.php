@@ -17,13 +17,13 @@
 </h1>
 <br>
     <!--Buscador de sectores -->
-    {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center','role'=>'search']) !!}
-    <div class="input-group">
-        {!! Form::text('piso',null, ['class'=>'form-control','placeholder'=>'Buscar por Piso','aria-describedby'=>'search']) !!}
-        <span class="input-group-addon" id="search">
-            <search class="glyphicon glyphicon-search">
-            </search>
-        </span>
+    {!! Form::open(['route'=>'sector.index', 'method'=>'GET','role'=>'search']) !!}
+    <div class="form-inline">
+        {!! Form::text('piso',null, ['class'=>'form-control','placeholder'=>'Buscar por Piso']) !!}
+        <button class="btn btn-primary" type="submit">
+            <span aria-hidden="true" class="glyphicon glyphicon-search">
+            </span>
+        </button>
     </div>
     {!! Form::close() !!}
     <hr>
@@ -41,7 +41,7 @@
                         Piso
                     </th>
                     <th>
-                        Operaciones
+                        Acciones
                     </th>
                 </tr>
             </head>

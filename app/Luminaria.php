@@ -28,10 +28,10 @@ class Luminaria extends Model
 
     public function estado($id)
     {
-        $estado = EstadoLuminaria::where('luminaria_id', $id)
-            ->get()->first();
+        $estado = EstadoLuminaria::where('luminaria_id', $id)->first();
 
         return $estado;
+
     }
 
     public function scopeSearchluminarias($query, $idPiso, $idSector = "", $idGrupo = "")

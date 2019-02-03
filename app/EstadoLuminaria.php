@@ -17,4 +17,11 @@ class EstadoLuminaria extends Model
     {
         return $this->belongsTo('App\Luminaria');
     }
+
+    public function estado($id, $fecha)
+    {
+        $el = EstadoLuminaria::where('luminaria_id', $id)->where('fecha', $fecha)->get();
+        return $el;
+
+    }
 }

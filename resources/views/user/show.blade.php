@@ -1,20 +1,30 @@
 @extends('layouts.admin')
     @section('content')
 <div class="form-group col-xs-12">
-    <h2>
-        Datos del usuario {{$user->name}}
-    </h2>
-    <div class="form-group">
-        Correo electrónico: {{$user->email}}
-    </div>
-    <div class="form-group">
-        Rol: {{$user->rol->rol}}
-    </div>
-    <div class="form-group">
-        Fecha y hora del último acceso: {{$user->last_login_at}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Datos del usuario {{$user->name}}
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Correo electrónico: {{$user->email}}
+                        </p>
+                        <p>
+                            Rol: {{$user->rol->rol}}
+                        </p>
+                        <p>
+                            Fecha y hora del último acceso: {{$user->last_login_at}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="form-group col-xs-12">
         {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
     </div>
-    @endsection
 </div>
+@endsection

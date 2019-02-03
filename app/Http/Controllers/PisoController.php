@@ -18,7 +18,6 @@ class PisoController extends Controller
     {
 
         $this->middleware('auth');
-        // $this->middleware('mantenimiento');
 
     }
     /**
@@ -26,11 +25,22 @@ class PisoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pisos = Piso::orderBy('nombre', 'asc')->paginate(2);
+        if ($request->get('piso') != "") {
+            $n = $request->get('piso');
 
-        return view('pisos.index', compact('pisos'));
+            $pisos = Piso::where('nombre', $n)->paginate(2);
+
+            return view('pisos.index', compact('pisos'));
+            //dd($piso);
+            //dd($request->get('piso'));
+
+        } else {
+            $pisos = Piso::orderBy('nombre', 'asc')->paginate(2);
+
+            return view('pisos.index', compact('pisos'));
+        }
     }
 
     /**

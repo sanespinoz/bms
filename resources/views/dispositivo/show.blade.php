@@ -37,4 +37,7 @@
         </div>
     </div>
 </div>
+<div class="form-group col-xs-12">
+    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+</div>
 @endsection
