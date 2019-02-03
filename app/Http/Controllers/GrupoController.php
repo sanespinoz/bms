@@ -121,9 +121,10 @@ class GrupoController extends Controller
      */
     public function edit($id)
     {
-        $sectores = Sector::all();
+        $sectores = Sector::lists('nombre', 'id');
+        $pisos    = Piso::lists('nombre', 'id');
         $grupo    = Grupo::findOrFail($id);
-        return view('grupo.edit', compact('grupo', 'sectores'));
+        return view('grupo.edit', compact('grupo', 'pisos', 'sectores'));
 
     }
 

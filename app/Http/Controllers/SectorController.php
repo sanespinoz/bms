@@ -101,7 +101,7 @@ class SectorController extends Controller
     public function edit($id)
     {
 
-        $pisos = Piso::all();
+        $pisos = Piso::lists('nombre', 'id');
 
         $sector = Sector::findOrFail($id);
         return view('sector.edit', compact('sector', 'pisos'));
