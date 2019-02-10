@@ -21,7 +21,7 @@
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="">
+                    <a class="navbar-brand" href="gestion">
                         BMS
                     </a>
                 </div>
@@ -36,15 +36,6 @@
                             </i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-gear fa-fw">
-                                    </i>
-                                    Ajustes
-                                </a>
-                            </li>
-                            <li class="divider">
-                            </li>
                             <li>
                                 <a href="{!!URL::to('logout')!!}">
                                     <i aria-hidden="true" class="fa fa-arrow-left">

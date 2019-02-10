@@ -31,6 +31,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+                                {!! csrf_field() !!}
                                 <div class="form-group">
                                     <label for="filter">
                                         Filtrar por
@@ -118,7 +119,7 @@
                         {{ $grupo->piso->nombre }}
                     </td>
                     <td>
-                        {{ $grupo->sector->nombre }}
+                        {{ $grupo->sector }}
                     </td>
                     <td>
                         {{ $grupo->cant_hs_activo }}

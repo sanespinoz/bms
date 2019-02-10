@@ -6,7 +6,7 @@
     Registrar Piso
 </h1>
 {!! Form::open(['route'=>'pisos.store']) !!}
-
+{!! csrf_field() !!}
 	@include('pisos.partials.form')
 <div class="form-group col-xs-12">
     {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}

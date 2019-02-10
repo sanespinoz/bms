@@ -16,6 +16,7 @@
     Grupos Registrados
 </h1>
 {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center']) !!}
+{!! csrf_field() !!}
 <div class="box-header">
     <h4 class="box-title">
         Buscar Grupos

@@ -141,7 +141,7 @@
                     {{ $dispositivo->piso->nombre}}
                 </td>
                 <td>
-                    {{ $dispositivo->sector->nombre}}
+                    {{ $dispositivo->sector}}
                 </td>
                 <td>
                     {!!link_to_route('dispositivo.edit', $title = 'Editar', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-primary'])!!}

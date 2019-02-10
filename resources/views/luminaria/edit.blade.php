@@ -10,6 +10,7 @@
 </div>
 <div class="form-group col-xs-12">
     {!!Form::open(['route'=> ['luminaria.destroy',$luminaria->id],'method'=>'DELETE'])!!}
+    {!! csrf_field() !!}
 			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
 		{!!Form::close()!!}
 

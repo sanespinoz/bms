@@ -63,7 +63,7 @@
             </td>
             <td>
                 {!!link_to_route('edificio.edit', $title = 'Editar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                    {!!link_to_route('edificio.show', $title = 'Ver', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-success'])!!}
+                {!!link_to_route('edificio.show', $title = 'Ver', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-success'])!!}
             </td>
         </tr>
         @endforeach

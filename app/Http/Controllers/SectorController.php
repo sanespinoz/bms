@@ -31,20 +31,21 @@ class SectorController extends Controller
         if ($request->get('piso') != "") {
             $p = $request->get('piso');
 
-            $piso = Piso::where('nombre', $p)->get();
-
-            $idPiso = $piso->first()->id;
-
-            $sectores = Sector::where('piso_id', $idPiso)->orderBy('nombre', 'asc')->paginate(6);
-
-            return view('sector.index', compact('sectores'));
+            // $piso = Piso::where('nombre', $p)->get();
+            // dd($piso);
+            //$idPiso = $piso->first()->id;
+            $pisos    = Piso::all();
+            $sectores = Sector::where('piso_id', $p)->orderBy('nombre', 'asc')->paginate(10);
+            return view('sector.index', compact('pisos', 'sectores'));
             //dd($piso);
             //dd($request->get('piso'));
 
         } else {
-            $sectores = Sector::paginate(6);
 
-            return view('sector.index', compact('sectores'));
+            $sectores = Sector::paginate(10);
+            $pisos    = Piso::all();
+
+            return view('sector.index', compact('pisos', 'sectores'));
         }
 
     }

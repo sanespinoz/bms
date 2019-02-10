@@ -30,6 +30,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 {!! Form::open(['route'=>'user.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+                                {!! csrf_field() !!}
                                 <div class="form-group">
                                     <label for="filter">
                                         Filtrar por

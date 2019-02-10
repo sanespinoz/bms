@@ -50,5 +50,13 @@ class Grupo extends Model
         }
         return $grupos;
     }
+    public function nombreSector($s)
+    {
+
+        $nombsector = $s->nombre;
+        //dd($nombsector); first()->nombre;
+        return $nombsector;
+
+    }
 
 }

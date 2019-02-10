@@ -6,7 +6,7 @@
     Registrar Luminaria
 </h1>
 {!! Form::open(['route'=>'luminaria.store']) !!}
-
+{!! csrf_field() !!}
     @include('luminaria.partials.form')
 <div class="form-group col-xs-12">
     {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}

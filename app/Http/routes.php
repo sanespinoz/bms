@@ -63,7 +63,7 @@ Route::get('gestion', function () {
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
 Route::get('dispositivo/create/sectores/{id}', 'DispositivoController@getSectores');
 Route::get('luminaria/create/sectores/{id}', 'LuminariaController@getSectores');
-//Route::get('luminaria/editar/{i}', 'LuminariaController@getSectores');
+
 Route::get('luminaria/{lum}/edit/sectores/{id}', 'LuminariaController@getSectores');
 Route::get('luminaria/{lum}/edit/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
 
@@ -72,6 +72,7 @@ Route::get('luminaria/create/grupos/{idp}/{ids}', 'LuminariaController@getGrupos
 Route::get('luminaria/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
 
 Route::get('luminaria/{idp}/{ids}/{idg}', 'LuminariaController@getLuminarias');
+
 Route::resource('user', 'UserController');
 Route::resource('edificio', 'EdificioController');
 Route::resource('pisos', 'PisoController');

@@ -30,7 +30,7 @@ class PisoController extends Controller
         if ($request->get('piso') != "") {
             $n = $request->get('piso');
 
-            $pisos = Piso::where('nombre', $n)->paginate(2);
+            $pisos = Piso::where('nombre', 'like', "%$n%")->paginate(2);
 
             return view('pisos.index', compact('pisos'));
             //dd($piso);

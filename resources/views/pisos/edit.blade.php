@@ -11,6 +11,7 @@
 <div class="form-group col-xs-12">
     {!!Form::open(['route'=> ['pisos.destroy',$piso->id],'method'=>'DELETE'])!!}
 			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
+			{!! csrf_field() !!}
 		{!!Form::close()!!}
 
 		{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}

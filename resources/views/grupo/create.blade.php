@@ -6,7 +6,7 @@
     Registrar Grupo
 </h1>
 {!! Form::open(['route'=>'grupo.store']) !!}
-
+{!! csrf_field() !!}
 	@include('grupo.partials.form')
 <div class="form-group col-xs-12">
     {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}

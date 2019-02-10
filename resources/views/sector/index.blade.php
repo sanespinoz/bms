@@ -18,8 +18,15 @@
 <br>
     <!--Buscador de sectores -->
     {!! Form::open(['route'=>'sector.index', 'method'=>'GET','role'=>'search']) !!}
+    {!! csrf_field() !!}
     <div class="form-inline">
-        {!! Form::text('piso',null, ['class'=>'form-control','placeholder'=>'Buscar por Piso']) !!}
+        <select class="form-control floating-label" name="piso">
+            @foreach($pisos as $piso)
+            <option value="{{ $piso->id }}">
+                {{ $piso->nombre }}
+            </option>
+            @endforeach
+        </select>
         <button class="btn btn-primary" type="submit">
             <span aria-hidden="true" class="glyphicon glyphicon-search">
             </span>

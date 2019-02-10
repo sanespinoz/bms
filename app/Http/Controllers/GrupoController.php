@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Grupo;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\GrupoCreateRequest;
 use App\Http\Requests\GrupoUpdateRequest;
 use App\Luminaria;
@@ -30,16 +29,16 @@ class GrupoController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->get('piso'), $request->get('sector')); 61 A4
+        // dd($request->get('piso'), $request->get('sector'));
 
         if ($request->get('piso') != "") {
-//viene piso
+//viene piso '%' . $s . '%'
             if ($request->get('sector')) {
                 $s      = $request->get('sector');
-                $sector = Sector::where('nombre', $s)
+                $sector = Sector::where('nombre', 'like', "%$s%")
                     ->where('piso_id', $request->get('piso'))->get();
                 $idSector = $sector->first()->id;
-                // dd($idSector);
+                //dd($sector);
                 $idPiso = $request->get('piso');
 
                 $grupos = Grupo::where('piso_id', $idPiso)
@@ -56,13 +55,11 @@ class GrupoController extends Controller
                 return view('grupo.index', compact('pisos', 'grupos'));
             }
         } else {
-
             $pisos = Piso::all();
 
             $grupos = Grupo::paginate(10);
-
+            //dd($grupos);
             return view('grupo.index', compact('pisos', 'grupos'));
-
         }
 
     }

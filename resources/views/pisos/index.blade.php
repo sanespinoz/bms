@@ -18,6 +18,7 @@
 <br>
     <!--Buscador de sectores -->
     {!! Form::open(['route'=>'pisos.index', 'method'=>'GET','role'=>'search']) !!}
+    {!! csrf_field() !!}
     <div class="form-inline">
         {!! Form::text('piso',null, ['class'=>'form-control','placeholder'=>'Buscar por Nombre']) !!}
         <button class="btn btn-primary" type="submit">

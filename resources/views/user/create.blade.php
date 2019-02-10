@@ -7,6 +7,7 @@
     Registrar Usuario
 </h1>
 {!!Form::open(['route'=>'user.store', 'method'=>'POST'])!!}
+{!! csrf_field() !!}
 <input id="token" name="_token" type="hidden" value="{{ csrf_token() }}">
     @include('user.partials.form')
     <div class="form-group col-xs-12">

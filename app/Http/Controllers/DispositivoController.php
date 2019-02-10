@@ -52,6 +52,7 @@ class DispositivoController extends Controller
                 return view('dispositivo.index', compact('pisos', 'dispositivos'));
             }
         } else {
+
             $pisos = Piso::all();
 
             $dispositivos = Dispositivo::paginate(10);

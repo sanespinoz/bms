@@ -12,6 +12,7 @@
       {!! Form::close()!!}
 
 {!! Form::open(['route'=>['user.destroy',$user->id],'method'=>'DELETE']) !!}
+{!! csrf_field() !!}
 {!! Form::submit('Eliminar',['class'=>'btn btn-danger']) !!}
    {!! Form::close() !!}
 {!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
