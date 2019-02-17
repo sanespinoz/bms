@@ -29,7 +29,7 @@ return [
     |
      */
 
-    'lifetime'        => 5,
+    'lifetime'        => 120,
 
     'expire_on_close' => false,
 
@@ -106,7 +106,7 @@ return [
     | Here you may change the name of the cookie used to identify a session
     | instance by ID. The name specified here will get used every time a
     | new session cookie is created by the framework for every driver.
-    |
+    |laravel_session
      */
 
     'cookie'          => 'laravel_session',

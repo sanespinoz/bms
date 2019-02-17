@@ -9,36 +9,42 @@
             google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawCurveTypes);
 
-
 function drawCurveTypes() {
       var data = new google.visualization.DataTable();
-      data.addColumn('number', 'fecha');
+      data.addColumn('number', 'Día');
       data.addColumn('number', 'Energia');
       data.addColumn('number', 'Energia de Iluminacion');
       data.addRows([
          @foreach($tendencia as $t)
-                [{{$t->fecha}}, {{$t->energia}},{{$t->energia_iluminacion}}],
+                    [{{$t->fecha}}, {{$t->energia}},{{$t->energia_iluminacion}}],
                      @endforeach
+
+   
       ]);
      
 
       var options = {
+
           title: 'Tendencia historica de Consumo energético',
+          subtitle: 'para todo el Edificio',
           width:900,
           height:500, 
-          hAxis: {
-          title: 'Meses'
-          },
-          vAxis: {
+
+        hAxis: {
+          title: 'Días'
+        },
+        vAxis: {
           title: 'Consumo'
-          },
-          series: {
+       },
+        series: {
           1: {curveType: 'function'}
-          }
+        }
       };
-          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-        var datapei = new google.visualization.DataTable();
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+
+       var datapei = new google.visualization.DataTable();
         datapei.addColumn('number', 'fecha');
         datapei.addColumn('number', 'PEI');
         datapei.addRows([
@@ -51,16 +57,15 @@ function drawCurveTypes() {
         width:900,
         height:500, 
         hAxis: {
-          title: 'Meses'
+          title: 'Días'
         },
         vAxis: {
-          title: 'Consumo(%)'
+          title: 'Consumo'
        },
         series: {
           1: {curveType: 'function'}
         }
       };
-
 
     var chartpei = new google.visualization.LineChart(document.getElementById('chart_div_pei'));
     chartpei.draw(datapei, optionspei);
@@ -140,16 +145,16 @@ function drawCurveTypes() {
             <h3>
                 Detalle
             </h3>
-            <h5 class="">
+            <h4 class="">
                 Proporción de Energía ahorrada con el sistema de control automatizado.
-            </h5>
+            </h4>
             <br/>
             @if (!$pei->isEmpty())
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            Mes
+                            Día
                         </th>
                         <th>
                             PEI
@@ -185,9 +190,9 @@ function drawCurveTypes() {
             @endif
             <div class="form-group">
                 <h4>
-                    Pico Máximo de Consumo en el Año:
+                    Pico Máximo de Consumo en el Mes:
                 </h4>
-                {{ $maximo }} el día {{ $fechpic->fecha }}
+                {{ $maximo }}
             </div>
         </div>
         <br/>

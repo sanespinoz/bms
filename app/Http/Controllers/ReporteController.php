@@ -120,6 +120,7 @@ class ReporteController extends Controller
 
     public function tendenciaConsumo(Request $request)
     {
+
         $meses = EnergiaPiso::
             select(DB::raw('MONTH(fecha) as mes'))
             ->distinct()
@@ -128,62 +129,84 @@ class ReporteController extends Controller
 
         if ($request->get('anio') != "") {
             if ($request->get('mes') == "00") {
-                $anio      = $request->get('anio');
+
+                $anio = $request->get('anio');
+
                 $tendencia = EnergiaPiso::
                     select(
-                    DB::raw('MONTH(fecha) as m'),
-                    DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                    DB::raw('SUM(energia) as energia'))
-                    ->distinct(DB::raw('MONTH(fecha)'))
+                    DB::raw('MAX(pico) as max_pic'),
+                    DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                    DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                    DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
-                    ->groupBy(DB::raw('MONTH(fecha)'))
-                    ->orderBy(DB::raw('MONTH(fecha)'), 'asc')
+                    ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
+
+                $plu         = $tendencia->pluck('max_pic')->all();
+                $maximo_pico = max($plu);
+
+                $fpmax = EnergiaPiso::
+                    select(
+                    DB::raw('fecha'))
+                    ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->where(DB::raw('pico'), '=', $maximo_pico)
+                    ->get();
+                $fechmax = $fpmax->first();
+                $pei     = EnergiaPiso::
+                    select(
+                    DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                    DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                    DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'),
+                    DB::raw('ROUND((Sum(energia_iluminacion)/Sum(energia)),2,0) as division'))
+                    ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
+                    ->get();
+
                 $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                     ->groupBy(DB::raw('YEAR(fecha_alta)'))
                     ->get();
-
-                $indicador = EnergiaPiso::
-                    select(DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                    DB::raw('SUM(energia) as energia'),
-                    DB::raw('pisos.nombre'))
-                    ->join('pisos', 'pisos.id', '=', 'energia_pisos.piso_id')
-                    ->where(DB::raw('YEAR(fecha)'), '=', $anio)
-                    ->groupBy(DB::raw('pisos.nombre'))
-                    ->orderBy(DB::raw('pisos.nombre'), 'asc')
-                    ->get();
-
-                return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'indicador' => $indicador]);
+                //dd($pei);
+                return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
             } else {
-
                 $mes       = $request->get('mes');
                 $anio      = $request->get('anio');
                 $tendencia = EnergiaPiso::
                     select(
-                    DB::raw('DAY(fecha) as m'),
-                    DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                    DB::raw('SUM(energia) as energia'))
-                    ->distinct(DB::raw('DAY(fecha)'))
+                    DB::raw('MAX(pico) as max_pic'),
+                    DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                    DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                    DB::raw('fecha = DAY(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
                     ->where(DB::raw('MONTH(fecha)'), '=', $mes)
-                    ->groupBy(DB::raw('DAY(fecha)'))
-                    ->orderBy(DB::raw('DAY(fecha)'), 'asc')
+                    ->groupBy(DB::raw('DAY(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
+                $plu         = $tendencia->pluck('max_pic')->all();
+                $maximo_pico = max($plu);
+
+                $fpmax = EnergiaPiso::
+                    select(
+                    DB::raw('fecha'))
+                    ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->where(DB::raw('pico'), '=', $maximo_pico)
+                    ->get();
+                $fechmax = $fpmax->first();
+                // dd($tendencia);
                 $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                     ->groupBy(DB::raw('YEAR(fecha_alta)'))
                     ->get();
 
-                $indicador = EnergiaPiso::
-                    select(DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                    DB::raw('SUM(energia) as energia'),
-                    DB::raw('pisos.nombre'))
-                    ->join('pisos', 'pisos.id', '=', 'energia_pisos.piso_id')
+                $pei = EnergiaPiso::
+                    select(
+                    DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                    DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                    DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'),
+                    DB::raw('ROUND((Sum(energia_iluminacion)/Sum(energia)),2,0) as division'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
                     ->where(DB::raw('MONTH(fecha)'), '=', $mes)
-                    ->groupBy(DB::raw('pisos.nombre'))
-                    ->orderBy(DB::raw('pisos.nombre'), 'asc')
+                    ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
-                return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'indicador' => $indicador]);
+
+                return view('reportes.tendenciam', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
             }
         } else {
 //cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018
@@ -193,26 +216,35 @@ class ReporteController extends Controller
             $a         = $anios->first()->anio;
             $tendencia = EnergiaPiso::
                 select(
-                DB::raw('MONTH(fecha) as m'),
-                DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                DB::raw('SUM(energia) as energia'))
-                ->distinct(DB::raw('MONTH(fecha)'))
+                DB::raw('MAX(pico) as max_pic'),
+                DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                 ->where(DB::raw('YEAR(fecha)'), '=', $a)
-                ->groupBy(DB::raw('MONTH(fecha)'))
-                ->orderBy(DB::raw('MONTH(fecha)'), 'asc')
+                ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                 ->get();
 
-            $indicador = EnergiaPiso::
-                select(DB::raw('SUM(energia_iluminacion) as energia_ilu'),
-                DB::raw('SUM(energia) as energia'),
-                DB::raw('pisos.nombre'))
-                ->join('pisos', 'pisos.id', '=', 'energia_pisos.piso_id')
+            $pei = EnergiaPiso::
+                select(
+                DB::raw('ROUND(Sum(energia),2,0) as energia'),
+                DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
+                DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'),
+                DB::raw('ROUND((Sum(energia_iluminacion)/Sum(energia)),2,0) as division'))
                 ->where(DB::raw('YEAR(fecha)'), '=', $a)
-                ->groupBy(DB::raw('pisos.nombre'))
-                ->orderBy(DB::raw('pisos.nombre'), 'asc')
+                ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                 ->get();
+            $plu         = $tendencia->pluck('max_pic')->all();
+            $maximo_pico = max($plu);
 
-            return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'indicador' => $indicador]);
+            $fpmax = EnergiaPiso::
+                select(
+                DB::raw('fecha'))
+                ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                ->where(DB::raw('pico'), '=', $maximo_pico)
+                ->get();
+            $fechmax = $fpmax->first();
+
+            return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
         }
     }
 
@@ -291,7 +323,7 @@ class ReporteController extends Controller
                     ->get();
                 //dd($anios);
 
-                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
+                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
 
             } else {
 
