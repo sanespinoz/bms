@@ -52,12 +52,13 @@ Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::get('gestion', function () {
-    if (Auth::user()->rol_id !== '3') {
-        return view('admin.index');
-    } else {
+    if (Auth::user()->rol_id == '3') {
         return view('index');
+    } elseif (Auth::user()->rol_id == '5') {
+        return view('admin.mant');
+    } else {
+        return view('admin.index');
     }
-
 });
 
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
@@ -87,6 +88,7 @@ Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');
 Route::get('performance', 'ReporteController@performanceLuminaria');
+Route::resource('alarma', 'AlarmaController');
 
 Route::get('/listado', 'GrupoController@listado');
 
@@ -105,3 +107,6 @@ Route::get('sendemail', function () {
     });
     return "tu email a sido enviado";
 });
+
+Route::get('reporte/crear_reporte_ener/{graf}', 'PdfController@crear_reporte_ener');
+Route::get('gestion/alarmas', 'AlarmaController@ver_alarmas')->name('alarmas');

@@ -17,10 +17,10 @@
         @endforeach
           ]);
 
-        var options = {
-          chart: {
-            title: 'Eficiencia de uso de las luminarias',
-            subtitle: 'Luminarias dadas de bajas, con fallas y activas en el período solicitado'}  
+        var options = {   
+            title: '{{ $titulo }} {{ $a }}',
+            subtitle: 'Luminarias dadas de Bajas, con Fallas y Activas ',      
+            vAxis:{minValue: 0.0}
         };
 
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
@@ -35,6 +35,13 @@
             <form class="navbar-form navbar-left pull-right" role="form">
                 {!! Form::open(['action' => 'ReporteController@performanceLuminaria','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
                 <div class="form-group">
+                    <select class="form-control floating-label" name="piso">
+                        @foreach($pisos as $piso)
+                        <option value="{{ $piso->id }}">
+                            {{ $piso->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
                     <select class="form-control floating-label" name="anio">
                         @foreach($anios as $anio)
                         <option selected="selected" value="{{ $anio->anio }}">

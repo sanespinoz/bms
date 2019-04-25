@@ -31,7 +31,7 @@
                 ]);
 
                 var options1 = {
-                    title: 'Consumo Energético de Iluminación por Piso',
+                    title: 'Consumo Energético de Iluminación por Piso ' ,
                     is3D: true,
                 };
 
@@ -40,6 +40,8 @@
                 chart.draw(etotal, options);
                 var chart1 = new google.visualization.PieChart(document.getElementById('piechart1_3d'));
                 chart1.draw(eiluminacion, options1);
+
+              
             }
         </script>
     </head>
@@ -105,10 +107,30 @@
                 </div>
             </form>
         </div>
-        <div id="piechart_3d" style="width: 400px; height: 200px;">
+        <br/>
+        <br/>
+        <div class="container" id="testing">
+            <h3 align="center">
+                Export Google Chart to PDF using PHP with DomPDF
+            </h3>
+            <br/>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Export Google Chart to PDF using PHP with DomPDF
+                    </h3>
+                </div>
+                <div align="center" class="panel-body">
+                    <div id="piechart_3d" style="width: 400px; height: 200px;">
+                    </div>
+                    <div id="piechart1_3d" style="width: 400px; height: 200px;">
+                    </div>
+                    <div id="my_div">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="piechart1_3d" style="width: 400px; height: 200px;">
-        </div>
+        <br/>
         <div class="form-group">
             <h3>
                 Detalle
@@ -152,12 +174,47 @@
                         </td>
                     </tr>
                     @endforeach
+                    <td>
+                        <a href="{{ url('crear_reporte_ener',  ['etotals' => $etotals, 'eiluminacions' => $eiluminacions, 'anios' => $anios, 'demanda' => $demanda,'tipo'=> 1]) }}">
+                            <button class="btn btn-block btn-primary btn-xs">
+                                Ver
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <a href="crear_reporte_ener/2" target="_blank">
+                            <button class="btn btn-block btn-success btn-xs">
+                                Descargar
+                            </button>
+                        </a>
+                    </td>
                 </tbody>
             </table>
             @else "No se registran datos para su búsqueda"
             @endif
             <br/>
         </div>
+        <br/>
+        <div align="center">
+            <form action="" id="make_pdf" method="post">
+                <input id="etotals" name="etotals" type="hidden"/>
+                <input id="eiluminacions" name="eiluminacions" type="hidden"/>
+                <input id="anios" name="anios" type="hidden"/>
+                <input id="demanda" name="demanda" type="hidden"/>
+                <button class="btn btn-danger btn-xs" id="create_pdf" name="create_pdf" type="button">
+                    Make PDF
+                </button>
+            </form>
+        </div>
     </body>
 </html>
+@endsection
+@section('scripts')  
+   
+    {!! Html::script('js/ener.js') !!}
+
 @endsection

@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\EnergiaPiso;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
 
@@ -40,23 +38,22 @@ class TendenciaPisoCero extends Command
      */
     public function handle()
     {
-        //ENERGIA
-        $knxEnergias = DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE', 'itemid')->where('ITEMID', 'like', '%Energia\Piso 0\Energia%')->get();
-        //$energias =DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE')->get();
-        //$array = array();
-        foreach ($knxEnergias as $e) {
-            $i            = $e->HANDLE;
-            $valorEnergia = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE', 'LOCAL_DATE')->where('HANDLE', '=', $i)->get();
-            foreach ($valorEnergia as $ener) {
-                //dd($r->NUM_VALUE,$r->LOCAL_DATE);
-                //dd($ener->NUM_VALUE);
-                $energia = $ener->NUM_VALUE;
-                $fecha   = $ener->LOCAL_DATE;
-                //dd($fecha);
-            }
-        }
+//ENERGIA ACUMULADA DURANTE LA ULTIMA HORA
+        $energias = DB::connection('netx')
+            ->table('dbo.NETX_DEFINITION')
+            ->select(DB::raw('MAX(NUM_VALUE) as ener'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
+            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+            ->where('ITEMID', 'like', '%NETx\VIRTUAL\BMS\Energia\Piso 0\Energia%')
+            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
+            ->get();
+        foreach ($energias as $e) {
+            $energia = $e->ener;
+            $h       = $e->hora;
+        };
+        // dd($energias);
 
-        $piso = DB::table('pisos')->select('id')->where('nombre', '=', 'Piso 0')->get();
+        $piso = DB::table('pisos')->select('id')->where('nombre', ' = ', 'Piso 0')->get();
 
         foreach ($piso as $p) {
             $piso_id = $p->id;
@@ -65,71 +62,86 @@ class TendenciaPisoCero extends Command
         }
         //PICO
 
-        $knxPico = DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE', 'itemid')->where('ITEMID', 'like', '%Energia\Piso 0\Iluminacion\Potencia Max%')->get();
-        foreach ($knxPico as $p) {
-            $i = $p->HANDLE;
-            //dd($i);
-            $valorPico = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE', 'LOCAL_DATE')->where('HANDLE', '=', $i)->get();
-            foreach ($valorPico as $pic) {
-                //dd($pic->NUM_VALUE,$pic->LOCAL_DATE);
-                //dd($pic->NUM_VALUE);
-                $pico = $pic->NUM_VALUE;
-            }
-
-        }
+        $potencias = DB::connection('netx')
+            ->table('dbo.NETX_DEFINITION')
+            ->select(DB::raw('MAX(NUM_VALUE) as pot'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
+            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+            ->where('ITEMID', 'like', '%NETx\VIRTUAL\BMS\Energia\Piso 0\iluminacion\Potencia Max%')
+            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
+            ->get();
+        foreach ($potencias as $e) {
+            $potencia = $e->pot;
+        };
+        //dd($potencia);
         //PROM TENSION Piso 0
-        $knxPromTension = DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE', 'itemid')->where('ITEMID', 'like', '%Modbus\PM 3200\Holding Registers\3027%')->get();
-        foreach ($knxPromTension as $pt) {
-            $hpt = $pt->HANDLE;
-            //dd($hpt);
 
-        }
-        $promtension0 = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE')->where('HANDLE', '=', $hpt)->avg('NUM_VALUE');
-        //dd($pic->NUM_VALUE,$pic->LOCAL_DATE);
-        //dd($tension0);
-        $maxtension0 = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE')->where('HANDLE', '=', $hpt)->max('NUM_VALUE');
-        $mintension0 = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE')->where('HANDLE', '=', $hpt)->min('NUM_VALUE');
+        $tensiones = DB::connection('netx')
+            ->table('dbo.NETX_DEFINITION')
+            ->select(DB::raw('avg(NUM_VALUE) as promtension'), DB::raw('MAX(NUM_VALUE) as maxtension'), DB::raw('MIN(NUM_VALUE) as mintension'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
+            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+            ->where('ITEMID', 'like', '%NETx\XIO\Modbus\PM 3200 0\Holding Registers\3027%')
+            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
+            ->get();
+        foreach ($tensiones as $e) {
+            $promt = $e->promtension;
+            $maxt  = $e->maxtension;
 
-        //PROM CORRIENTE Piso 0
-        $knxPromCorriente = DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE', 'itemid')->where('ITEMID', 'like', '%Modbus\PM 3200\Holding Registers\2999%')->get();
-        foreach ($knxPromCorriente as $pc) {
-            $hpc = $pc->HANDLE;
-            // dd($hpc);
+            $mint = $e->mintension;
 
-        }
-        $promcorriente0 = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE')->where('HANDLE', '=', $hpc)->avg('NUM_VALUE');
+        };
+        //dd($promt, $maxt, $mint);
 
-        //dd($promcorriente0);
         //ENERGIA ILUMINACION PISO 0
 
-        $knxEnergiaIluminacion = DB::connection('netx')->table('dbo.NETX_DEFINITION')->select('HANDLE', 'itemid')->where('ITEMID', 'like', '%Piso 0\Iluminacion\Energia%')->get();
+        $energiailu = DB::connection('netx')
+            ->table('dbo.NETX_DEFINITION')
+            ->select(DB::raw('MAX(NUM_VALUE) as eilu'), DB::raw('DATEPART(HOUR, [LOCAL_DATE]) as hora'))
+            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', ' = ', 'NETX_HISTORICAL_VALUE.handle')
+            ->where('ITEMID', 'like', '%NETx\VIRTUAL\BMS\Energia\Piso 0\iluminacion\Energia%')
+            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+            ->groupBy(DB::raw('DATEPART(HOUR, [LOCAL_DATE])'))
+            ->get();
+        foreach ($energiailu as $e) {
+            $energiailum = $e->eilu;
+        };
+        //dd($energiailum);
 
-        foreach ($knxEnergiaIluminacion as $ei) {
-            $enerilu                 = $ei->HANDLE;
-            $valorEnergiaIluminacion = DB::connection('netx')->table('dbo.NETX_HISTORICAL_VALUE')->select('NUM_VALUE', 'LOCAL_DATE')->where('HANDLE', '=', $enerilu)->get();
-            foreach ($valorEnergiaIluminacion as $enerilu) {
-                //dd($r->NUM_VALUE,$r->LOCAL_DATE);
+        //PROM CORRIENTE Piso 0
+        $promcorriente = DB::connection('netx')
+            ->table('dbo.NETX_DEFINITION')
+            ->select(DB::raw('AVG (NUM_VALUE) as F1'), DB::raw('AVG (NUM_VALUE) as F2'), DB::raw('AVG (NUM_VALUE) as F3'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
+            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+            ->where('ITEMID', 'like', '%NETx\XIO\Modbus\PM 3200 0\Holding Registers\2999%')
+            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
+            ->get();
+        foreach ($promcorriente as $e) {
+            $f1      = $e->F1;
+            $f2      = $e->F2;
+            $f3      = $e->F3;
+            $promcor = $f1 + $f2 + $f3;
+        };
 
-                $energiaIluminacion = $enerilu->NUM_VALUE;
-                //dd($energiaIluminacion);
-            }
-        }
+        //dd($promcorriente);
 
         //INSERT EN LA TABLA ENERGIA_PISO
 
         $energy = new energiaPiso(array(
             'energia'             => $energia,
-            'pico'                => $pico,
-            'prom_tension'        => $promtension0,
-            'max_tension'         => $maxtension0,
-            'min_tension'         => $mintension0,
-            'prom_corriente'      => $promcorriente0,
-            'energia_iluminacion' => $energiaIluminacion,
+            'pico'                => $potencia,
+            'prom_tension'        => $promt,
+            'max_tension'         => $maxt,
+            'min_tension'         => $mint,
+            'prom_corriente'      => $promcor,
+            'energia_iluminacion' => $energiailum,
             'fecha'               => $fecha,
+            'eficiencia'          => 'null',
             'piso_id'             => $piso_id,
         ));
         $energy->save();
 
-        \Log::info('Probando energia Piso 0' . \Carbon\Carbon::now());
+        \Log::info('ProbandoenergiaPiso0' . \Carbon\Carbon::now());
     }
 }

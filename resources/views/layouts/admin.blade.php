@@ -22,7 +22,11 @@
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="gestion">
+                        @if(Auth::user()->rol_id == 5)
+                        BMS Alarmas
+                        @else
                         BMS
+                        @endif
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
@@ -229,23 +233,4 @@
     @section('scripts')
     @show
     </body>
-    <script type="text/javascript">
-        $(function() {
-        $('#fecha_instalacion').datetimepicker({
-          format: 'YYYY/MM/DD',
-        });
-        });
-        $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-         function resta(){
-                var v = document.getElementById("vida");
-                var hsact = document.getElementById("horas_activas");
-                var trestante = v.value - hsact.value;
-                 document.getElementById("tiempo_restante").value = trestante;
-//limpiar las variables funcion clear a null
-            }
-    </script>
 </html>

@@ -22,10 +22,15 @@ class Grupo extends Model
 
     public function luminarias()
     {
-        //creamos una relacion con el nodelo luminaria
+        //creamos una relacion con el modelo luminaria
         return $this->hasMany('App\Luminaria');
     }
 
+    public function alarmas()
+    {
+        //creamos una relacion con el modelo alarma
+        return $this->hasMany('App\Alarma');
+    }
     public function energiaGrupos()
     {
         //creamos una relacion con el modelo energiaGrupo

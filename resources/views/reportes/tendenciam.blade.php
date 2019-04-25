@@ -18,20 +18,16 @@ function drawCurveTypes() {
          @foreach($tendencia as $t)
                     [{{$t->fecha}}, {{$t->energia}},{{$t->energia_iluminacion}}],
                      @endforeach
-
-   
       ]);
      
 
       var options = {
-
-          title: 'Tendencia historica de Consumo energético',
-          subtitle: 'para todo el Edificio',
+          title: 'Tendencia historica de Consumo energético Para el Edificio',
           width:900,
           height:500, 
-
         hAxis: {
-          title: 'Días'
+          title: 'Días',
+           format: '0'
         },
         vAxis: {
           title: 'Consumo'
@@ -57,9 +53,11 @@ function drawCurveTypes() {
         width:900,
         height:500, 
         hAxis: {
-          title: 'Días'
+          title: 'Días',
+           format: '0'
         },
         vAxis: {
+               minValue: 0,
           title: 'Consumo'
        },
         series: {
@@ -78,6 +76,13 @@ function drawCurveTypes() {
             <form class="navbar-form navbar-left pull-right" role="form">
                 {!! Form::open(['action' => 'ReporteController@tendenciaConsumo','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
                 <div class="form-group">
+                    <select class="form-control floating-label" name="piso">
+                        @foreach($pisos as $piso)
+                        <option value="{{ $piso->id }}">
+                            {{ $piso->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
                     <select class="form-control floating-label" name="anio">
                         @foreach($anios as $anio)
                         <option selected="selected" value="{{ $anio->anio }}">
@@ -187,12 +192,12 @@ function drawCurveTypes() {
                 </tbody>
             </table>
             @else "No se registran datos para su búsqueda"
-            @endif
+           @endif
             <div class="form-group">
                 <h4>
-                    Pico Máximo de Consumo en el Mes:
+                    Pico Máximo de Consumo en el Año:
                 </h4>
-                {{ $maximo }}
+                {{ $maximo }} el día {{ $fechpic->fecha }}
             </div>
         </div>
         <br/>

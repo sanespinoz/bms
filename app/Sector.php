@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sector extends Model
 {
     protected $table      = 'sectores';
-    protected $fillable   = ['nombre', 'descripcion', 'piso_id'];
+    protected $fillable   = ['nombre', 'descripcion', 'piso_id', 'cant_personas'];
     protected $dates      = ['created_at', 'updated_at'];
     protected $dateFormat = 'Y-m-d H:i:s.000';
 

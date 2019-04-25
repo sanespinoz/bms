@@ -2,23 +2,24 @@
 
 namespace App\Console\Commands;
 
+use DB;
 use Illuminate\Console\Command;
 
-class LogDemo extends Command
+class VaciarTabla extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'log:demo';
+    protected $signature = 'vaciar:tabla';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This command will add one line to the log file.';
+    protected $description = 'Este comando trunca la tabla NETX_HISTORICAL_VALUE de la bd netx una vez por semana.';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,10 @@ class LogDemo extends Command
      */
     public function handle()
     {
-        \Log::info('I was here @' . \Carbon\Carbon::now());
+        DB::connection('netx')
+            ->table('dbo.NETX_HISTORICAL_VALUE')
+            ->truncate();
+
+        \Log::info('truncar tabla NETX_HISTORICAL_VALUE' . \Carbon\Carbon::now());
     }
 }

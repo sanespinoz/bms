@@ -27,7 +27,8 @@ function drawCurveTypes() {
           width:900,
           height:500, 
           hAxis: {
-          title: 'Meses'
+          title: 'Meses',
+           format: '0'
           },
           vAxis: {
           title: 'Consumo'
@@ -37,9 +38,14 @@ function drawCurveTypes() {
           }
       };
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+
+    chart.draw(data, options);       // Wait for the chart to finish drawing before calling the 
+
+
+
+
         var datapei = new google.visualization.DataTable();
-        datapei.addColumn('number', 'fecha');
+        datapei.addColumn('number', 'Fecha');
         datapei.addColumn('number', 'PEI');
         datapei.addRows([
         @foreach($pei as $p)
@@ -50,10 +56,12 @@ function drawCurveTypes() {
         title: 'Proporción de Energía consumida por el sistema con respecto al consumo total (PEI)',
         width:900,
         height:500, 
-        hAxis: {
-          title: 'Meses'
-        },
+         hAxis: {
+          title: 'Meses',
+          format: '0'
+        },   
         vAxis: {
+            minValue: 0,
           title: 'Consumo(%)'
        },
         series: {
@@ -63,134 +71,152 @@ function drawCurveTypes() {
 
 
     var chartpei = new google.visualization.LineChart(document.getElementById('chart_div_pei'));
+
+
+
+
+
     chartpei.draw(datapei, optionspei);
     }
         </script>
     </head>
     <body>
-        {{-- buscador  --}}
-        <div class="panel-body">
-            <form class="navbar-form navbar-left pull-right" role="form">
-                {!! Form::open(['action' => 'ReporteController@tendenciaConsumo','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
-                <div class="form-group">
-                    <select class="form-control floating-label" name="anio">
-                        @foreach($anios as $anio)
-                        <option selected="selected" value="{{ $anio->anio }}">
-                            {{ $anio->anio }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <br>
-                        <select class="form-control floating-label" name="mes">
-                            <option selected="selected" value="00">
+        {{-- buscador
+        <div class="form-inline">
+            --}}
+            <div class="panel-body">
+                <form class="navbar-form navbar-left pull-right" role="form">
+                    {!! Form::open(['action' => 'ReporteController@tendenciaConsumo','method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'form']) !!}
+                    <div class="form-group">
+                        <select class="form-control floating-label" name="piso">
+                            @foreach($pisos as $piso)
+                            <option value="{{ $piso->id }}">
+                                {{ $piso->nombre }}
                             </option>
-                            <option value="01">
-                                Enero
-                            </option>
-                            <option value="02">
-                                Febrero
-                            </option>
-                            <option value="03">
-                                Marzo
-                            </option>
-                            <option value="04">
-                                Abril
-                            </option>
-                            <option value="05">
-                                Mayo
-                            </option>
-                            <option value="06">
-                                Junio
-                            </option>
-                            <option value="07">
-                                Julio
-                            </option>
-                            <option value="08">
-                                Agosto
-                            </option>
-                            <option value="09">
-                                Septiembre
-                            </option>
-                            <option value="10">
-                                Octubre
-                            </option>
-                            <option value="11">
-                                Noviembre
-                            </option>
-                            <option value="12">
-                                Diciembre
-                            </option>
+                            @endforeach
                         </select>
-                        <button class="btn btn-primary" type="submit">
-                            <span aria-hidden="true" class="glyphicon glyphicon-search">
-                            </span>
-                        </button>
-                        {!! Form::close() !!}
-                    </br>
-                </div>
-            </form>
-        </div>
-        {{-- Fin buscador  --}}
-        <div id="chart_div">
-        </div>
-        <div id="chart_div_pei">
-        </div>
-        {{-- TABLA DE DETALLE --}}
-        <div class="form-group">
-            <h3>
-                Detalle
-            </h3>
-            <h5 class="">
-                Proporción de Energía ahorrada con el sistema de control automatizado.
-            </h5>
-            <br/>
-            @if (!$pei->isEmpty())
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Mes
-                        </th>
-                        <th>
-                            PEI
-                        </th>
-                        <th>
-                            Valoración
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pei as $e)
-                    <tr>
-                        <td>
-                            {{ $e->fecha }}
-                        </td>
-                        <td>
-                            <p id="coc">
-                                {{ $e->division}}
-                            </p>
-                        </td>
-                        <td>
-                            @if (($e->division) >= 0 && ($e->division) <= 4) Excelente
+                        <select class="form-control floating-label" name="anio">
+                            @foreach($anios as $anio)
+                            <option selected="selected" value="{{ $anio->anio }}">
+                                {{ $anio->anio }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <br>
+                            <select class="form-control floating-label" name="mes">
+                                <option selected="selected" value="00">
+                                </option>
+                                <option value="01">
+                                    Enero
+                                </option>
+                                <option value="02">
+                                    Febrero
+                                </option>
+                                <option value="03">
+                                    Marzo
+                                </option>
+                                <option value="04">
+                                    Abril
+                                </option>
+                                <option value="05">
+                                    Mayo
+                                </option>
+                                <option value="06">
+                                    Junio
+                                </option>
+                                <option value="07">
+                                    Julio
+                                </option>
+                                <option value="08">
+                                    Agosto
+                                </option>
+                                <option value="09">
+                                    Septiembre
+                                </option>
+                                <option value="10">
+                                    Octubre
+                                </option>
+                                <option value="11">
+                                    Noviembre
+                                </option>
+                                <option value="12">
+                                    Diciembre
+                                </option>
+                            </select>
+                            <button class="btn btn-primary" type="submit">
+                                <span aria-hidden="true" class="glyphicon glyphicon-search">
+                                </span>
+                            </button>
+                            {!! Form::close() !!}
+                            <br/>
+                        </br>
+                    </div>
+                </form>
+            </div>
+            {{-- Fin buscador  --}}
+            <div id="chart_div">
+            </div>
+            <div id="chart_div_pei">
+            </div>
+            <div id="png">
+            </div>
+            {{-- TABLA DE DETALLE --}}
+            <div class="form-group">
+                <h3>
+                    Detalle
+                </h3>
+                <h5 class="">
+                    Proporción de Energía ahorrada con el sistema de control automatizado.
+                </h5>
+                <br/>
+                @if (!$pei->isEmpty())
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mes
+                            </th>
+                            <th>
+                                PEI
+                            </th>
+                            <th>
+                                Valoración
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pei as $e)
+                        <tr>
+                            <td>
+                                {{ $e->fecha }}
+                            </td>
+                            <td>
+                                <p id="coc">
+                                    {{ $e->division}}
+                                </p>
+                            </td>
+                            <td>
+                                @if (($e->division) >= 0 && ($e->division) <= 4) Excelente
                             @elseif (($e->division) > 4 && ($e->division) <= 10) Bueno
                             @elseif (($e->division) > 10 && ($e->division) <= 19) Normal
                             @else Malo
                             @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @else "No se registran datos para su búsqueda"
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else "No se registran datos para su búsqueda"
             @endif
-            <div class="form-group">
-                <h4>
-                    Pico Máximo de Consumo en el Año:
-                </h4>
-                {{ $maximo }} el día {{ $fechpic->fecha }}
+                <div class="form-group">
+                    <h4>
+                        Pico Máximo de Consumo en el Año:
+                    </h4>
+                    {{ $maximo }} el día {{ $fechpic->fecha }}
+                </div>
             </div>
+            <br/>
         </div>
-        <br/>
     </body>
 </html>
 @endsection

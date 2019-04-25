@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\EnergiaPiso;
 use App\Http\Controllers\Controller;
 use App\Luminaria;
+use App\Piso;
 use DB;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class ReporteController extends Controller
         $anios = EnergiaPiso::
             select(DB::raw('YEAR(fecha) as anio'))
             ->distinct()
-            ->orderBy('anio', 'desc')
+            ->orderBy('anio', 'asc')
             ->get();
 
         if ($request->get('anio') != "") {
@@ -126,11 +127,13 @@ class ReporteController extends Controller
             ->distinct()
             ->orderBy('mes', 'asc')
             ->get();
+        $pisos = Piso::all();
 
         if ($request->get('anio') != "") {
             if ($request->get('mes') == "00") {
 
                 $anio = $request->get('anio');
+                $piso = $request->get('piso');
 
                 $tendencia = EnergiaPiso::
                     select(
@@ -139,6 +142,7 @@ class ReporteController extends Controller
                     DB::raw('Sum(energia_iluminacion) as energia_iluminacion'),
                     DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->where('piso_id', '=', $piso)
                     ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
 
@@ -159,17 +163,19 @@ class ReporteController extends Controller
                     DB::raw('fecha = MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'),
                     DB::raw('ROUND((Sum(energia_iluminacion)/Sum(energia)),2,0) as division'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->where('piso_id', '=', $piso)
                     ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
 
-                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
-                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                    ->groupBy(DB::raw('YEAR(fecha)'))
                     ->get();
                 //dd($pei);
-                return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
+                return view('reportes.tendencia', ['pisos' => $pisos, 'anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
             } else {
                 $mes       = $request->get('mes');
                 $anio      = $request->get('anio');
+                $piso      = $request->get('piso');
                 $tendencia = EnergiaPiso::
                     select(
                     DB::raw('MAX(pico) as max_pic'),
@@ -178,6 +184,7 @@ class ReporteController extends Controller
                     DB::raw('fecha = DAY(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
                     ->where(DB::raw('MONTH(fecha)'), '=', $mes)
+                    ->where('piso_id', '=', $piso)
                     ->groupBy(DB::raw('DAY(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
                 $plu         = $tendencia->pluck('max_pic')->all();
@@ -191,8 +198,8 @@ class ReporteController extends Controller
                     ->get();
                 $fechmax = $fpmax->first();
                 // dd($tendencia);
-                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
-                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                    ->groupBy(DB::raw('YEAR(fecha)'))
                     ->get();
 
                 $pei = EnergiaPiso::
@@ -203,17 +210,19 @@ class ReporteController extends Controller
                     DB::raw('ROUND((Sum(energia_iluminacion)/Sum(energia)),2,0) as division'))
                     ->where(DB::raw('YEAR(fecha)'), '=', $anio)
                     ->where(DB::raw('MONTH(fecha)'), '=', $mes)
+                    ->where('piso_id', '=', $piso)
                     ->groupBy(DB::raw('MONTH(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
 
-                return view('reportes.tendenciam', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
+                return view('reportes.tendenciam', ['pisos' => $pisos, 'anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
             }
         } else {
 //cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018
-            $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
-                ->groupBy(DB::raw('YEAR(fecha_alta)'))
+            $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                ->groupBy(DB::raw('YEAR(fecha)'))
                 ->get();
-            $a         = $anios->first()->anio;
+            $a = $anios->first()->anio;
+            // dd($a);
             $tendencia = EnergiaPiso::
                 select(
                 DB::raw('MAX(pico) as max_pic'),
@@ -239,172 +248,191 @@ class ReporteController extends Controller
             $fpmax = EnergiaPiso::
                 select(
                 DB::raw('fecha'))
-                ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                ->where(DB::raw('YEAR(fecha)'), '=', $a)
                 ->where(DB::raw('pico'), '=', $maximo_pico)
                 ->get();
             $fechmax = $fpmax->first();
 
-            return view('reportes.tendencia', ['anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
+            return view('reportes.tendencia', ['pisos' => $pisos, 'anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
         }
     }
 
     public function performanceLuminaria(Request $request)
     {
-        //Detalle  % vida util
-
+        //Detalle  %  de luminarias q cumplen su vida util
         $c = Luminaria::select(DB::raw('count(*) as total'))
             ->whereNotNull(DB::raw('fecha_baja'))
             ->where(DB::raw('cant_hs_uso'), '>', DB::raw('vida_util'))
             ->get();
         $baj_cv = $c->first()->total;
-
-        $c = Luminaria::select(DB::raw('count(*) as total'))
+        $c      = Luminaria::select(DB::raw('count(*) as total'))
             ->whereNotNull(DB::raw('YEAR(fecha_baja)'))
             ->get();
-        $baj_tot = $c->first()->total;
-
+        $baj_tot  = $c->first()->total;
         $porc_cvu = round(($baj_cv / $baj_tot), 2);
-
         //Detalle  promedio hs activas
         $promhsact = Luminaria::select(DB::raw('avg(cant_hs_uso) as hs_activas'), DB::raw('tipo'))
             ->whereNull(DB::raw('fecha_baja'))
             ->groupBy(DB::raw('tipo'))
             ->get();
-
         //Detalle promedio de vida util
         $promcanthsuso = Luminaria::select(DB::raw('avg(cant_hs_uso) as hs_activas'), DB::raw('tipo'))
             ->whereNotNull(DB::raw('fecha_baja'))
             ->groupBy(DB::raw('tipo'))
             ->get();
-
         //dd($request->get('mes'), $request->get('anio'));
-        if ($request->get('anio') != "") {
-            if ($request->get('mes') == "00") {
-                $anio  = $request->get('anio');
-                $datos = array();
+        if ($request->get('piso') != "") {
+            if ($request->get('anio') != "") {
+                if ($request->get('mes') == "00") {
 
-                //Detalle total de cambios
-                $c = Luminaria::select(DB::raw('count(*) as total'))
-                    ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->get();
-                $total_cambios = $c->first()->total;
-                //Fin detalle
+                    $anio  = $request->get('anio');
+                    $piso  = $request->get('piso');
+                    $datos = array();
 
-                $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
-                    ->groupBy(DB::raw('tipo'))
-                    ->get();
-                foreach ($tiposLumi as $tipol) {
-                    $t = $tipol->tipo;
-
-                    $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
-                        ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->where(DB::raw('tipo'), '=', $t)
-                        ->get();
-                    $b = $bajasAt->first()->bajas;
-
-                    $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
-                        ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
-                        ->where(DB::raw('tipo'), '=', $t)
-                        ->get();
-                    $bpf = $bajasPreviasxFallas->first()->fallas;
-
-                    $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
-                        ->where(DB::raw('fecha_baja'), '=', null)
+                    //Detalle total de cambios
+                    $c = Luminaria::select(DB::raw('count(*) as total'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                        ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->get();
+                    $total_cambios = $c->first()->total;
+                    //Fin detalle
+                    $tiposLumi = Luminaria::select(DB::raw('tipo'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
                         ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
-                        ->where(DB::raw('tipo'), '=', $t)
+                        ->groupBy(DB::raw('tipo'))
                         ->get();
-                    $a               = $activasAt->first()->activas;
-                    $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a, 'promha' => $promhsact];
+                    foreach ($tiposLumi as $tipol) {
+                        $t       = $tipol->tipo;
+                        $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $b                   = $bajasAt->first()->bajas;
+                        $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                            ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $bpf       = $bajasPreviasxFallas->first()->fallas;
+                        $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('fecha_baja'), '=', null)
+                            ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $a               = $activasAt->first()->activas;
+                        $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a, 'promha' => $promhsact];
+                        $datos           = array_prepend($datos, $cantidadesPtipo);
+                    }
+                    $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                        ->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
+                        ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                        ->get();
+                    //dd($anios);
+                    $pisos  = Piso::all();
+                    $titulo = 'Eficiencia de Uso de las Luminarias en el Piso seleccionado en';
+                    return view('reportes.performance', ['titulo' => $titulo, 'a' => $anio
+                        , 'pisos' => $pisos, 'datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
+                } else {
+                    $mes   = $request->get('mes');
+                    $anio  = $request->get('anio');
+                    $piso  = $request->get('piso');
+                    $datos = array();
+                    //dd($mes, $anio, $piso);
 
-                    $datos = array_prepend($datos, $cantidadesPtipo);
-
-                }
-
-                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
-                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
-                    ->get();
-                //dd($anios);
-
-                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
-
-            } else {
-
-                $mes   = $request->get('mes');
-                $anio  = $request->get('anio');
-                $datos = array();
-                //Detalle total de cambios
-
-                $c = Luminaria::select(DB::raw('count(*) as total'))
-                    ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
-                    ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)->get();
-                $total_cambios = $c->first()->total;
-
-                $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
-                    ->groupBy(DB::raw('tipo'))
-                    ->get();
-                foreach ($tiposLumi as $tipol) {
-                    $t = $tipol->tipo;
-
-                    $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                    //Detalle total de cambios
+                    $c = Luminaria::select(DB::raw('count(*) as total'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
                         ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
-                        ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
-                        ->where(DB::raw('tipo'), '=', $t)
-                        ->get();
-                    $b = $bajasAt->first()->bajas;
+                        ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)->get();
+                    $total_cambios = $c->first()->total;
 
-                    $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
-                        ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
-                        ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
-                        ->where(DB::raw('tipo'), '=', $t)
-                        ->get();
-                    $bpf = $bajasPreviasxFallas->first()->fallas;
-
-                    $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
-                        ->where(DB::raw('fecha_baja'), '=', null)
-                        ->where(DB::raw('MONTH(fecha_alta)'), '=', $mes)
+                    $tiposLumi = Luminaria::select(DB::raw('tipo'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
                         ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
-                        ->where(DB::raw('tipo'), '=', $t)
+                        ->groupBy(DB::raw('tipo'))
                         ->get();
-                    $a               = $activasAt->first()->activas;
-                    $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
-
-                    $datos = array_prepend($datos, $cantidadesPtipo);
-
+                    //dd($tiposLumi);
+                    foreach ($tiposLumi as $tipol) {
+                        $t       = $tipol->tipo;
+                        $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                            ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $b                   = $bajasAt->first()->bajas;
+                        $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
+                            ->where(DB::raw('MONTH(fecha_baja)'), '=', $mes)
+                            ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $bpf       = $bajasPreviasxFallas->first()->fallas;
+                        $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
+                            ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                            ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                            ->where(DB::raw('fecha_baja'), '=', null)
+                            ->where(DB::raw('MONTH(fecha_alta)'), '=', $mes)
+                            ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+                            ->where(DB::raw('tipo'), '=', $t)
+                            ->get();
+                        $a               = $activasAt->first()->activas;
+                        $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
+                        $datos           = array_prepend($datos, $cantidadesPtipo);
+                    }
+                    $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))
+                        ->join('grupos', 'grupos.id', '=', 'luminarias.grupo_id')
+                        ->join('pisos', 'pisos.id', '=', 'grupos.piso_id')
+                        ->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
+                        ->groupBy(DB::raw('YEAR(fecha_alta)'))
+                        ->get();
+                    //dd($anios);
+                    $pisos  = Piso::all();
+                    $titulo = utf8_decode('Eficiencia de Uso de las Luminarias en el Piso y Mes seleccionado del');
+                    return view('reportes.performance', ['titulo' => $titulo, 'a' => $anio, 'pisos' => $pisos, 'datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
                 }
-                $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
-                    ->groupBy(DB::raw('YEAR(fecha_alta)'))
-                    ->get();
-                //dd($anios);
-
-                return view('reportes.performance', ['datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promvu' => $promcanthsuso]);
             }
         } else {
-//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018 para todo el edificio
             $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                 ->groupBy(DB::raw('YEAR(fecha_alta)'))
                 ->get();
-            $anio  = $anios->first()->anio;
+            $anio    = $anios->first()->anio;
+            $anombre = $anios->first()->nombre;
+
             $datos = array();
             //Detalle total de cambios
             $c = Luminaria::select(DB::raw('count(*) as total'))
                 ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->get();
             $total_cambios = $c->first()->total;
-
-            $tiposLumi = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
+            $tiposLumi     = Luminaria::select(DB::raw('tipo'))->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
                 ->groupBy(DB::raw('tipo'))
                 ->get();
             foreach ($tiposLumi as $tipol) {
-                $t = $tipol->tipo;
-
+                $t       = $tipol->tipo;
                 $bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
                     ->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)->where(DB::raw('tipo'), '=', $t)
                     ->get();
-                $b = $bajasAt->first()->bajas;
-
+                $b                   = $bajasAt->first()->bajas;
                 $bajasPreviasxFallas = Luminaria::select(DB::raw('count(*) as fallas'))->where(DB::raw('YEAR(fecha_baja)'), '=', $anio)
                     ->where(DB::raw('vida_util'), '>', DB::raw('cant_hs_uso'))
                     ->where(DB::raw('tipo'), '=', $t)
                     ->get();
-                $bpf = $bajasPreviasxFallas->first()->fallas;
-
+                $bpf       = $bajasPreviasxFallas->first()->fallas;
                 $activasAt = Luminaria::select(DB::raw('count(*) as activas'))
                     ->where(DB::raw('fecha_baja'), '=', null)
                     ->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
@@ -412,25 +440,75 @@ class ReporteController extends Controller
                     ->get();
                 $a               = $activasAt->first()->activas;
                 $cantidadesPtipo = ['tipo' => $t, 'bajas' => $b, 'fallas' => $bpf, 'activas' => $a];
-
-                $datos = array_prepend($datos, $cantidadesPtipo);
-
+                $datos           = array_prepend($datos, $cantidadesPtipo);
+                $pisos           = Piso::all();
+                $titulo          = 'Eficiencia de Uso de las Luminarias en Todo Edificio en el';
             } //dd($anios);
-
-            return view('reportes.performance', ['datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
+            return view('reportes.performance', ['titulo' => $titulo, 'a' => $anio, 'pisos' => $pisos, 'datos' => $datos, 'anios' => $anios, 'totales' => $total_cambios, 'porcentaje' => $porc_cvu, 'promha' => $promhsact, 'promvu' => $promcanthsuso]);
         }
-
     }
 
-    public function eficienciaEnergetica()
+    public function eficienciaEnergetica(Request $request)
     {
-        $eficiencias = EnergiaPiso::
-            select(DB::raw('YEAR(fecha) as anio'), DB::raw('MONTH(fecha) as mes'), DB::raw('SUM(energia_pisos.energia) as energia'))->where(DB::raw('YEAR(fecha)'), '=', 2018)
-            ->orderBy(DB::raw('YEAR(fecha)'), DB::raw('MONTH(fecha)'), 'asc')
-            ->groupBy(DB::raw('YEAR(fecha)'), DB::raw('MONTH(fecha)'))
+        $meses = EnergiaPiso::
+            select(DB::raw('MONTH(fecha) as mes'))
+            ->distinct()
+            ->orderBy('mes', 'asc')
             ->get();
+        $pisos = Piso::all();
 
-        return view('reportes.eficiencia', ['eficiencias' => $eficiencias]);
+        if ($request->get('anio') != "") {
+            if ($request->get('mes') == "00") {
+
+                $anio = $request->get('anio');
+                $piso = $request->get('piso');
+
+                $eficiencias = EnergiaPiso::
+                    select(DB::raw('MONTH(fecha) as mes'), DB::raw('AVG(eficiencia) as eficiencia'))->where(DB::raw('YEAR(fecha)'), ' = ', $anio)
+                    ->where('piso_id', ' = ', $piso)
+                    ->groupBy(DB::raw('MONTH(fecha)'))
+                    ->get();
+                $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                    ->groupBy(DB::raw('YEAR(fecha)'))
+                    ->get();
+
+                return view('reportes.eficiencia', ['pisos' => $pisos, 'anios' => $anios, 'eficiencias' => $eficiencias]);
+            } else {
+                //viene el mes
+                $mes  = $request->get('mes');
+                $anio = $request->get('anio');
+                $piso = $request->get('piso');
+
+                $eficienciamensual = EnergiaPiso::
+                    select(DB::raw('DAY(fecha) as dia'), DB::raw('AVG(eficiencia) as eficiencia'))
+                    ->where(DB::raw('YEAR(fecha)'), ' = ', $anio)
+                    ->where('piso_id', ' = ', $piso)
+                    ->where(DB::raw('MONTH(fecha)'), ' = ', $mes)
+                    ->groupBy(DB::raw('DAY(fecha)'))
+                    ->get();
+                $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                    ->groupBy(DB::raw('YEAR(fecha)'))
+                    ->get();
+
+                return view('reportes.eficiencia', ['pisos' => $pisos, 'anios' => $anios, 'eficienciamensual' => $eficienciamensual]);
+            }
+        } else {
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por el ultimo año y para todos los pisos por mes
+            // dd($request->get('anio'), $request->get('mes'), $request->get('piso'));
+            $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))
+                ->orderBy(DB::raw('YEAR(fecha)'), 'asc')
+                ->groupBy(DB::raw('YEAR(fecha)'))
+                ->get();
+            $a = $anios->first()->anio;
+            //dd($a); 1905
+            $eficienciagral = EnergiaPiso::
+                select(DB::raw('MONTH(fecha) as mes'), DB::raw('AVG(eficiencia) as eficiencia'))
+                ->where(DB::raw('YEAR(fecha)'), '=', $a)
+                ->groupBy(DB::raw('MONTH(fecha)'))
+                ->get();
+
+            //dd($eficienciagral);
+            return view('reportes.eficiencia', ['pisos' => $pisos, 'anios' => $anios, 'eficienciagral' => $eficienciagral]);
+        }
     }
-
 }
