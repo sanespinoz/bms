@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Alarma;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -47,8 +48,7 @@ class AlarmasCero extends Command
                 ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
                 ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A1\G%' . $i)
                 ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
-                ->orwhere('NETX_HISTORICAL_VALUE.NUM_VALUE', '0')
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
+                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
                 ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
                 ->first();
 
@@ -78,36 +78,47 @@ class AlarmasCero extends Command
                 DB::table('alarmas')->insert(
                     ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
                 );
-                // dd($fech);
-                //TRUNCO ESTAS ALARMAS  DE LA BD NETX DE  LA FECHA DE HOY si leo cada 10 minutos el dia de hoy y paso la info a mi bd borro lo q haya de fecha de hoy de la netx
+                //Inserto un nuevo estado para cada luminaria del grupo alarmado
 
-                \Log::info('insertando alarmas del sector A1 Piso 0' . \Carbon\Carbon::now());
+                $luminarias = Alarma::select('luminarias.id as idl')
+                    ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                    ->groupBy('luminarias.id')
+                    ->get();
+
+                foreach ($luminarias as $v) {
+                    $il = $v->idl;
+
+                    $carbon = new \Carbon\Carbon();
+                    $date   = $carbon->now();
+
+                    $fi = $date->toDateString();
+
+                    DB::table('estado_luminarias')->insert(
+                        ['fecha'           => $fi,
+                            'estado'           => 2,
+                            'on_off'           => 'null',
+                            'valor_regulacion' => 0,
+                            'luminaria_id'     => $il]
+                    );
+
+                    \Log::info('insertando alarmas del sector A1 Piso 0' . \Carbon\Carbon::now());
+                }
+
             }
+
         }
-        //Sector A2  ACTUALIZAR COMO EL SECTOR A1 G1
-        //
-        //
-        //
-        //
-        //
-        //       HACER!
-        //       HACER UN TRIGER POR CADA ENTRADA EN LA TABLA ALARMAS QUE
-        //       MODIFICA EL ESTADO DE LA LUMI DE ESE GRUPO
-        //
-        //
-        //
-        //
-        //
-        //
 
         for ($i = 1; $i < 4; $i++) {
             $alarmas = DB::connection('netx')
                 ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('MAX(NUM_VALUE) as m'))
+                ->select(DB::raw('(NUM_VALUE) as m'))
                 ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
                 ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A2\G%' . $i)
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-                ->get();
+                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
+                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
+                ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
+                ->first();
+
             if ($alarmas != []) {
                 foreach ($alarmas as $al) {
                     $mensalarma = $al->m;
@@ -133,168 +144,286 @@ class AlarmasCero extends Command
                 DB::table('alarmas')->insert(
                     ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
                 );
+                //Inserto un nuevo estado para cada luminaria del grupo alarmado
 
-                \Log::info('insertando alarmas del sector A2 Piso 0' . \Carbon\Carbon::now());
+                $luminarias = Alarma::select('luminarias.id as idl')
+                    ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                    ->groupBy('luminarias.id')
+                    ->get();
+
+                foreach ($luminarias as $v) {
+                    $il = $v->idl;
+
+                    $carbon = new \Carbon\Carbon();
+                    $date   = $carbon->now();
+
+                    $fi = $date->toDateString();
+
+                    DB::table('estado_luminarias')->insert(
+                        ['fecha'           => $fi,
+                            'estado'           => 2,
+                            'on_off'           => 'null',
+                            'valor_regulacion' => 0,
+                            'luminaria_id'     => $il]
+                    );
+
+                    \Log::info('insertando alarmas del sector A2 Piso 0' . \Carbon\Carbon::now());
+                }
             }
-        }
-        //Sector A3N
+            //Sector A3N
 
-        for ($i = 1; $i < 4; $i++) {
-            $alarmas = DB::connection('netx')
-                ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('MAX(NUM_VALUE) as m'))
-                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A3N\G%' . $i)
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-                ->get();
-            if ($alarmas != []) {
-                foreach ($alarmas as $al) {
-                    $mensalarma = $al->m;
-                };
+            for ($i = 1; $i < 4; $i++) {
+                $alarmas = DB::connection('netx')
+                    ->table('dbo.NETX_DEFINITION')
+                    ->select(DB::raw('(NUM_VALUE) as m'))
+                    ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                    ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A3N\G%' . $i)
+                    ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
+                    ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
+                    ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
+                    ->first();
+                if ($alarmas != []) {
+                    foreach ($alarmas as $al) {
+                        $mensalarma = $al->m;
+                    };
 
-                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
-                foreach ($piso as $p) {
-                    $pis = $p->id;
+                    $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
+                    foreach ($piso as $p) {
+                        $pis = $p->id;
+                    }
+                    $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
+                    foreach ($grupo as $g) {
+                        $gid = $g->id;
+                    }
+
+                    $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3N%')
+                        ->where('piso_id', '=', $pis)->get();
+                    foreach ($sector as $s) {
+                        $se = $s->id;
+                    }
+                    $fech = Carbon\Carbon::now();
+
+                    $fi = $fech->toDateTimeString();
+                    DB::table('alarmas')->insert(
+                        ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
+                    );
+                    //Inserto un nuevo estado para cada luminaria del grupo alarmado
+
+                    $luminarias = Alarma::select('luminarias.id as idl')
+                        ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                        ->groupBy('luminarias.id')
+                        ->get();
+
+                    foreach ($luminarias as $v) {
+                        $il = $v->idl;
+
+                        $carbon = new \Carbon\Carbon();
+                        $date   = $carbon->now();
+
+                        $fi = $date->toDateString();
+
+                        DB::table('estado_luminarias')->insert(
+                            ['fecha'           => $fi,
+                                'estado'           => 2,
+                                'on_off'           => 'null',
+                                'valor_regulacion' => 0,
+                                'luminaria_id'     => $il]
+                        );
+
+                        \Log::info('insertando alarmas del sector A3N Piso 0' . \Carbon\Carbon::now());
+                    }
                 }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
+                //Sector A3S
 
-                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3N%')
-                    ->where('piso_id', '=', $pis)->get();
-                foreach ($sector as $s) {
-                    $se = $s->id;
-                }
-                $fech = Carbon\Carbon::now();
+                for ($i = 1; $i < 4; $i++) {
+                    $alarmas = DB::connection('netx')
+                        ->table('dbo.NETX_DEFINITION')
+                        ->select(DB::raw('(NUM_VALUE) as m'))
+                        ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                        ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A3S\G%' . $i)
+                        ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
+                        ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
+                        ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
+                        ->first();
+                    if ($alarmas != []) {
+                        foreach ($alarmas as $al) {
+                            $mensalarma = $al->m;
+                        };
 
-                $fi = $fech->toDateTimeString();
-                DB::table('alarmas')->insert(
-                    ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
-                );
+                        $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
+                        foreach ($piso as $p) {
+                            $pis = $p->id;
+                        }
+                        $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
+                        foreach ($grupo as $g) {
+                            $gid = $g->id;
+                        }
 
-                \Log::info('insertando alarmas del sector A3N Piso 0' . \Carbon\Carbon::now());
-            }
-        }
-        //Sector A3S
+                        $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3S%')
+                            ->where('piso_id', '=', $pis)->get();
+                        foreach ($sector as $s) {
+                            $se = $s->id;
+                        }
+                        $fech = Carbon\Carbon::now();
 
-        for ($i = 1; $i < 4; $i++) {
-            $alarmas = DB::connection('netx')
-                ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('MAX(NUM_VALUE) as m'))
-                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A3S\G%' . $i)
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-                ->get();
-            if ($alarmas != []) {
-                foreach ($alarmas as $al) {
-                    $mensalarma = $al->m;
-                };
+                        $fi = $fech->toDateTimeString();
+                        DB::table('alarmas')->insert(
+                            ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
+                        );
+                        //Inserto un nuevo estado para cada luminaria del grupo alarmado
 
-                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
-                foreach ($piso as $p) {
-                    $pis = $p->id;
-                }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
+                        $luminarias = Alarma::select('luminarias.id as idl')
+                            ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                            ->groupBy('luminarias.id')
+                            ->get();
 
-                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3S%')
-                    ->where('piso_id', '=', $pis)->get();
-                foreach ($sector as $s) {
-                    $se = $s->id;
-                }
-                $fech = Carbon\Carbon::now();
+                        foreach ($luminarias as $v) {
+                            $il = $v->idl;
 
-                $fi = $fech->toDateTimeString();
-                DB::table('alarmas')->insert(
-                    ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
-                );
+                            $carbon = new \Carbon\Carbon();
+                            $date   = $carbon->now();
 
-                \Log::info('insertando alarmas del sector A3S Piso 0' . \Carbon\Carbon::now());
-            }
-        }
+                            $fi = $date->toDateString();
 
-        //Sector A4N
+                            DB::table('estado_luminarias')->insert(
+                                ['fecha'           => $fi,
+                                    'estado'           => 2,
+                                    'on_off'           => 'null',
+                                    'valor_regulacion' => 0,
+                                    'luminaria_id'     => $il]
+                            );
 
-        for ($i = 1; $i < 4; $i++) {
-            $alarmas = DB::connection('netx')
-                ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('MAX(NUM_VALUE) as m'))
-                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A4N\G%' . $i)
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-                ->get();
-            if ($alarmas != []) {
-                foreach ($alarmas as $al) {
-                    $mensalarma = $al->m;
-                };
+                            \Log::info('insertando alarmas del sector A3S Piso 0' . \Carbon\Carbon::now());
+                        }
+                    }
 
-                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
-                foreach ($piso as $p) {
-                    $pis = $p->id;
-                }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
+                    //Sector A4N
 
-                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4N%')
-                    ->where('piso_id', '=', $pis)->get();
-                foreach ($sector as $s) {
-                    $se = $s->id;
-                }
-                $fech = Carbon\Carbon::now();
+                    for ($i = 1; $i < 4; $i++) {
+                        $alarmas = DB::connection('netx')
+                            ->table('dbo.NETX_DEFINITION')
+                            ->select(DB::raw('(NUM_VALUE) as m'))
+                            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                            ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A4N\G%' . $i)
+                            ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
+                            ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
+                            ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
+                            ->first();
+                        if ($alarmas != []) {
+                            foreach ($alarmas as $al) {
+                                $mensalarma = $al->m;
+                            };
 
-                $fi = $fech->toDateTimeString();
-                DB::table('alarmas')->insert(
-                    ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
-                );
+                            $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
+                            foreach ($piso as $p) {
+                                $pis = $p->id;
+                            }
+                            $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
+                            foreach ($grupo as $g) {
+                                $gid = $g->id;
+                            }
 
-                \Log::info('insertando alarmas del sector A4N Piso 0' . \Carbon\Carbon::now());
-            }
-        }
+                            $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4N%')
+                                ->where('piso_id', '=', $pis)->get();
+                            foreach ($sector as $s) {
+                                $se = $s->id;
+                            }
+                            $fech = Carbon\Carbon::now();
 
-        //Sector A4S
+                            $fi = $fech->toDateTimeString();
+                            DB::table('alarmas')->insert(
+                                ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
+                            );
+                            //Inserto un nuevo estado para cada luminaria del grupo alarmado
 
-        for ($i = 1; $i < 4; $i++) {
-            $alarmas = DB::connection('netx')
-                ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('MAX(NUM_VALUE) as m'))
-                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A4S\G%' . $i)
-                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-                ->get();
-            if ($alarmas != []) {
-                foreach ($alarmas as $al) {
-                    $mensalarma = $al->m;
-                };
+                            $luminarias = Alarma::select('luminarias.id as idl')
+                                ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                                ->groupBy('luminarias.id')
+                                ->get();
 
-                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
-                foreach ($piso as $p) {
-                    $pis = $p->id;
-                }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
+                            foreach ($luminarias as $v) {
+                                $il = $v->idl;
 
-                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4S%')
-                    ->where('piso_id', '=', $pis)->get();
-                foreach ($sector as $s) {
-                    $se = $s->id;
-                }
-                $fech = Carbon\Carbon::now();
+                                $carbon = new \Carbon\Carbon();
+                                $date   = $carbon->now();
 
-                $fi = $fech->toDateTimeString();
-                DB::table('alarmas')->insert(
-                    ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
-                );
+                                $fi = $date->toDateString();
 
-                \Log::info('insertando alarmas del sector A4S Piso 0' . \Carbon\Carbon::now());
-            }
-        }
+                                DB::table('estado_luminarias')->insert(
+                                    ['fecha'           => $fi,
+                                        'estado'           => 2,
+                                        'on_off'           => 'null',
+                                        'valor_regulacion' => 0,
+                                        'luminaria_id'     => $il]
+                                );
 
-    }
-}
+                                \Log::info('insertando alarmas del sector A4N Piso 0' . \Carbon\Carbon::now());
+                            }
+                        }
+
+                        //Sector A4S
+
+                        for ($i = 1; $i < 4; $i++) {
+                            $alarmas = DB::connection('netx')
+                                ->table('dbo.NETX_DEFINITION')
+                                ->select(DB::raw('(NUM_VALUE) as m'))
+                                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 0\A4S\G%' . $i)
+                                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE', '1')
+                                ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '>', DB::raw('DATEADD([minute], -10, GETDATE()'))
+                                ->orderBy('NETX_HISTORICAL_VALUE.LOCAL_DATE', 'desc')
+                                ->first();
+                            if ($alarmas != []) {
+                                foreach ($alarmas as $al) {
+                                    $mensalarma = $al->m;
+                                };
+
+                                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 0%')->get();
+                                foreach ($piso as $p) {
+                                    $pis = $p->id;
+                                }
+                                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
+                                foreach ($grupo as $g) {
+                                    $gid = $g->id;
+                                }
+
+                                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4S%')
+                                    ->where('piso_id', '=', $pis)->get();
+                                foreach ($sector as $s) {
+                                    $se = $s->id;
+                                }
+                                $fech = Carbon\Carbon::now();
+
+                                $fi = $fech->toDateTimeString();
+                                DB::table('alarmas')->insert(
+                                    ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
+                                );
+                                //Inserto un nuevo estado para cada luminaria del grupo alarmado
+
+                                $luminarias = Alarma::select('luminarias.id as idl')
+                                    ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
+                                    ->groupBy('luminarias.id')
+                                    ->get();
+
+                                foreach ($luminarias as $v) {
+                                    $il = $v->idl;
+
+                                    $carbon = new \Carbon\Carbon();
+                                    $date   = $carbon->now();
+
+                                    $fi = $date->toDateString();
+
+                                    DB::table('estado_luminarias')->insert(
+                                        ['fecha'           => $fi,
+                                            'estado'           => 2,
+                                            'on_off'           => 'null',
+                                            'valor_regulacion' => 0,
+                                            'luminaria_id'     => $il]
+                                    );
+
+                                    \Log::info('insertando alarmas del sector A4S Piso 0' . \Carbon\Carbon::now());
+                                }
+                            }
+
+                        }
+                    }

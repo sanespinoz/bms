@@ -5,7 +5,7 @@
             <meta content="IE=edge" http-equiv="X-UA-Compatible">
                 <meta content="width=device-width, initial-scale=1" name="viewport">
                     <title>
-                        SAI
+                        BMS
                     </title>
                     <!-- Bootstrap -->
                     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -226,132 +226,132 @@
     </section>
     <!-- Auth Section
 -->
-    <section class="container-fluid content-section text-center" id="login" style="background-color:#ccebff">
-        <div class="row">
-            <div class="panel-heading">
-                INICIO DE SESIÓN
-            </div>
-            <div class="panel-body">
-                <form action="login" method="POST">
-                    {!! csrf_field() !!}
-                @if (count($errors) > 0)
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <lu>
-                            {{ $error }}
-                        </lu>
-                        @endforeach
-                    </ul>
-                    @endif
-                    <div class="form-group">
-                        <label>
-                            Correo Electrónico
-                        </label>
-                        {!! Form::email('email', '', ['class'=> 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Contraseña
-                        </label>
-                        {!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
-                    </div>
-                    <div>
-                        <input name="remember" type="checkbox">
-                            Recuérdame
-                        </input>
-                    </div>
-                    <div>
-                        <a href="password/email">
-                            Restablecer Contraseña
-                        </a>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit">
-                            Ingresar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-    <section class="container-fluid content-section text-center" id="register" style="background-color:#022B59">
-        <div class="row">
+    <section class="container-fluid content-section text-center" id="login">
+        <div class="row" style="background-color:#022B59">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel-heading">
-                    REGISTRO DE USUARIO
+                    Iniciar Sesion
                 </div>
                 <div class="panel-body">
-                    {!! Form::open(['route' => 'register', 'class' => 'form']) !!}
-                    {!! csrf_field() !!}
-                    <div class="form-group">
-                        <label>
-                            Nombre
-                        </label>
-                        {!! Form::input('text', 'name', '', ['class'=> 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Correo Electrónico
-                        </label>
-                        {!! Form::email('email', '', ['class'=> 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Contraseña
-                        </label>
-                        {!! Form::password('password', ['class'=> 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Confirmación de Contraseña
-                        </label>
-                        {!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
-                    </div>
-                    <div>
-                        {!! Form::submit('Enviar',['class' => 'btn btn-primary']) !!}
-                    </div>
-                    {!! Form::close() !!}
+                    <form action="login" method="POST">
+                        {!! csrf_field() !!}
+                @if (count($errors) > 0)
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <lu>
+                                {{ $error }}
+                            </lu>
+                            @endforeach
+                        </ul>
+                        @endif
+                        <div class="form-group">
+                            <label>
+                                Correo Electrónico
+                            </label>
+                            {!! Form::email('email', '', ['class'=> 'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Contraseña
+                            </label>
+                            {!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
+                        </div>
+                        <div class="form-group text-center">
+                            <input name="remember" type="checkbox">
+                                Recuérdame
+                            </input>
+                        </div>
+                        <div>
+                            <a class="forgot-password" href="password/email">
+                                Restablecer Contraseña
+                            </a>
+                        </div>
+                        <div>
+                            {!! Form::submit('Ingresar',['class' => 'btn btn-info']) !!}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>
-                Copyright © Proyecto Final de Grado
-            </p>
+</body>
+<section class="container-fluid content-section text-center" id="register" style="background-color:#022B59">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel-heading">
+                REGISTRO DE USUARIO
+            </div>
+            <div class="panel-body">
+                {!! Form::open(['route' => 'register', 'class' => 'form']) !!}
+                    {!! csrf_field() !!}
+                <div class="form-group">
+                    <label>
+                        Nombre
+                    </label>
+                    {!! Form::input('text', 'name', '', ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    <label>
+                        Correo Electrónico
+                    </label>
+                    {!! Form::email('email', '', ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    <label>
+                        Contraseña
+                    </label>
+                    {!! Form::password('password', ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    <label>
+                        Confirmación de Contraseña
+                    </label>
+                    {!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
+                </div>
+                <div>
+                    {!! Form::submit('Enviar',['class' => 'btn btn-info']) !!}
+                </div>
+                {!! Form::close() !!}
+            </div>
         </div>
-    </footer>
-    <script src="js/bootstrap.min.js">
-    </script>
-    <!--<script src="../bower_components/velocity/velocity.js"></script>-->
-    <script src="../bower_components/moment/min/moment-with-locales.js">
-    </script>
-    <!--<script src="../bower_components/angular/angular.js"></script> -->
-    <script src="js/metisMenu.min.js">
-    </script>
-    <!-- Plugin JavaScript
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>
+            Copyright © Proyecto Final de Grado
+        </p>
+    </div>
+</footer>
+<script src="js/bootstrap.min.js">
+</script>
+<!--<script src="../bower_components/velocity/velocity.js"></script>-->
+<script src="../bower_components/moment/min/moment-with-locales.js">
+</script>
+<!--<script src="../bower_components/angular/angular.js"></script> -->
+<script src="js/metisMenu.min.js">
+</script>
+<!-- Plugin JavaScript
 <script src="js/jquery.easing.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-    <!--<script src="assets/js/grayscale.js"></script>-->
-    <script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <!-- Angular JavaScript -->
-    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>-->
-    <!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<!--<script src="assets/js/grayscale.js"></script>-->
+<script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js">
+</script>
+<!-- Angular JavaScript -->
+<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>-->
+<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.min.js"></script>
 <!-- Custom Angular JavaScript-->
-    <!--<script src="js/app.js"></script>
+<!--<script src="js/app.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/services.js"></script>-->
-    <!--Internacionalizacion -->
-    <!--<script src="http://code.angularjs.org/1.2.9/i18n/angular-locale_es-cr.js"></script>-->
-    <!--Raphael-->
-    <script src="../vendor/raphael/raphael.min.js" type="text/javascript">
-    </script>
-</body>
+<!--Internacionalizacion -->
+<!--<script src="http://code.angularjs.org/1.2.9/i18n/angular-locale_es-cr.js"></script>-->
+<!--Raphael-->
+<script src="../vendor/raphael/raphael.min.js" type="text/javascript">
+</script>

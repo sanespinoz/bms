@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\ActivacionesPisoUno::class,
         \App\Console\Commands\ActivacionesPisoDos::class,
         \App\Console\Commands\ActivacionesPisoTres::class,*/
-        \App\Console\Commands\MostrarAlarmas::class,
-        // \App\Console\Commands\AlarmasCero::class,
+        // \App\Console\Commands\MostrarAlarmas::class,
+        \App\Console\Commands\AlarmasCero::class,
         /* \App\Console\Commands\AlarmasUno::class,
     \App\Console\Commands\AlarmasDos::class,
     \App\Console\Commands\AlarmasTres::class,
@@ -63,8 +63,8 @@ class Kernel extends ConsoleKernel
         //  $schedule->command('activaciones:uno');
         // $schedule->command('activaciones:dos');
         // $schedule->command('activaciones:tres');
-        $schedule->command('mostrar:alarmas');
-        // $schedule->command('alarmas:cero'); // cada 5 minutos???
+        //$schedule->command('mostrar:alarmas');
+        $schedule->command('alarmas:cero'); // CADA 10 MIN EMPIEZA 00:11 AM???
         /* $schedule->command('alarmas:uno');
     $schedule->command('alarmas:dos');
     $schedule->command('alarmas:tres');

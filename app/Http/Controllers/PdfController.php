@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App;
 
 class PdfController extends Controller
 {
@@ -12,35 +11,15 @@ class PdfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
-    }
-    // public function crearPDF($etotals, $eiluminacions, $anios, $demanda, $vistaurl, $tipo)
-    public function crearPDF()
-    {
-        $file_name = 'google_chart.pdf';
-
-        //$date = date('Y-m-d');
-        //dd($etotals, $eiluminacions, $anios, $demanda, $vistaurl, $tipo, $date);die();
-        // $view = \View::make($vistaurl, compact('etotals', 'eiluminacions', 'anios', 'demanda'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream($file_name, array("Attachment" => false));
-        //if ($tipo == 1) {return $pdf->stream('reporte');}
-        //if ($tipo == 2) {return $pdf->download('reporte.pdf');}
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML('<h1>Hello World!!</h1>');
+        return $pdf->stream();
     }
 
     //public function crear_reporte_ener($tipo, $etotals, $eiluminacions, $anios, $demanda)
-    public function crear_reporte_ener(graf)
-    {
-
-        //$vistaurl = "reportes.ener";
-
-        //return $this->crearPDF($etotals, $eiluminacions, $anios, $demanda, $vistaurl, $tipo);
-        return $this->crearPDF();
-
-    }
 
     /**
      * Show the form for creating a new resource.

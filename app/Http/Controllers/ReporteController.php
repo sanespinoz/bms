@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\EnergiaPiso;
 use App\Http\Controllers\Controller;
 use App\Luminaria;
@@ -9,6 +10,7 @@ use App\Piso;
 use DB;
 use Illuminate\Http\Request;
 
+//
 //Solo accesible a los usuarios de area y de mantenimiento
 class ReporteController extends Controller
 {
@@ -19,6 +21,7 @@ class ReporteController extends Controller
 
         //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -509,6 +512,34 @@ class ReporteController extends Controller
 
             //dd($eficienciagral);
             return view('reportes.eficiencia', ['pisos' => $pisos, 'anios' => $anios, 'eficienciagral' => $eficienciagral]);
+        }
+    }
+
+    public function createPDF(Request $request)
+    {
+        $r = $request->input('hidden_html');
+        // var_dump($r);exit();
+        if ($r != "") {
+
+            $file_name = 'consumo_energia';
+
+            $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
+            $html .= '<meta content="width=device-width, initial-scale=1" name="viewport"/>';
+            $html .= '<link rel="stylesheet" href="~assets/css/style.css">';
+            $html .= '<link rel="stylesheet" href="~assets/css/sb-admin-2.css">';
+            $html .= '<link rel="stylesheet" href="~assets/css/bootstrap.min.css">';
+            $html .= '<link rel="stylesheet" href="~assets/fonts/rotobo">';
+            $html .= '<link rel="stylesheet" href="~assets/fonts">';
+            $html .= '</head><body>';
+            $html .= $r;
+            $html .= '</body></html>';
+
+            $pdf = App::make('dompdf.wrapper');
+
+            $pdf->loadHTML($html);
+            $pdf->setPaper('a4', 'portrait')->setWarnings(false);
+            return $pdf->stream($file_name . date('d/m/Y H:i:s') . '.pdf', array("Attachment" => false));
+
         }
     }
 }

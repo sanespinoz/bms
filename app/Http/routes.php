@@ -86,6 +86,9 @@ Route::resource('reporte', 'ReporteController');
 Route::resource('mail', 'MailController');
 Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
+Route::post('reporte/create_pdf/{graf}', 'ReporteController@createPDF');
+Route::get('pdf', 'PdfController@index');
+
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');
 Route::get('performance', 'ReporteController@performanceLuminaria');
 Route::resource('alarma', 'AlarmaController');
@@ -108,5 +111,5 @@ Route::get('sendemail', function () {
     return "tu email a sido enviado";
 });
 
-Route::get('reporte/crear_reporte_ener/{graf}', 'PdfController@crear_reporte_ener');
 Route::get('gestion/alarmas', 'AlarmaController@ver_alarmas')->name('alarmas');
+Route::get('gestion/magia', 'PdfController@index');
