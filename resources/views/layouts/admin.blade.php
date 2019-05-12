@@ -5,6 +5,7 @@
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <title>
+            SAI
         </title>
         {!!Html::style('css/bootstrap.min.css')!!}
                         {!!Html::style('css/metisMenu.min.css')!!}
@@ -12,6 +13,8 @@
                         {!!Html::style('css/sb-admin-2.css')!!}
                         {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
                         {!!Html::style('fontawesome-free/css/all.css')!!}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+        </script>
         <!-- Datepicker Files -->
         <link href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}" rel="stylesheet"/>
         {!!Html::style('datePicker/css/bootstrap-datepicker.standalone.css')!!}
@@ -22,10 +25,10 @@
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="gestion">
-                        @if(Auth::user()->rol_id == 5)
-                        BMS Alarmas
+                        @if(Auth::user()->rol == 'admin')
+                        SAI Alarmas
                         @else
-                        BMS
+                        SAI
                         @endif
                     </a>
                 </div>

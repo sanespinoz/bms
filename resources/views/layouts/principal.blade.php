@@ -5,7 +5,7 @@
             <meta content="IE=edge" http-equiv="X-UA-Compatible">
                 <meta content="width=device-width, initial-scale=1" name="viewport">
                     <title>
-                        BMS
+                        SAI
                     </title>
                     <!-- Bootstrap -->
                     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -31,42 +31,8 @@
             </meta>
         </meta>
     </head>
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
     <script>
         $(function(){
-
-        var municipios_data = {
-            'psupIzq1': 'Piso superior izquierdo lum 1',
-            'psupIzq2': 'Piso superior izquierdo lum 2',
-            'psupIzq3': 'Piso superior izquierdo lum 3',
-        };
-
-
-        var $luminaria = $('#luminariatxt');
-
-        $.ajax({
-            url: 'img/lumicopia1.svg',
-            type: 'GET',
-            dataType: 'xml',
-            success: function(xml) {
-                var rjs = Raphael('lienzo',1400, 700);
-
-                $(xml).find('svg > g ').each(function() {
-                    var pid = $(this).attr('id');
-                    //var rectan = $(this).attr('rect');
-                    console.log(pid);
-
-                });
-                //$('#loadingicon').hide();
-            }
-        });
-    });
-
-    $(function(){
         <?php
        if (Auth::guest()){
 
@@ -114,7 +80,7 @@
                     </li>
                     <li>
                         <a class="page-scroll" href="#contacto">
-                            Contactanos
+                            Contáctenos
                         </a>
                         <!--tenia un ancla al pie de la pagina #Auth-->
                     </li>
@@ -132,7 +98,7 @@
                             Luminarias
                         </a>
                     </li>
-                    @if (Auth::user()->rol_id != 5)
+                    @if ((Auth::user()->rol_id != 5) && (Auth::user()->rol_id != 1) && (Auth::user()->rol_id != 6))
                     <li>
                         <a class="page-scroll" href="#monitoreo">
                             Monitoreo
@@ -180,57 +146,64 @@
         </div>
     </header>
     <!-- pisos Section -->
-    <section class="container content-section text-center" id="dreams">
-        <div class="row">
-            <div id="municipiotxt">
-                Selecciona una luminaria
-            </div>
-            <div class="col-md-8">
-                <object data="img/lumicopia.svg" height="100%" type="image/svg+xml" width="100%">
-                </object>
-            </div>
-        </div>
-    </section>
     <section id="monitoreo">
-        <!--<div class="col-md-6 col-md-offset-3"> -->
-        <!--    <div class="embed-container"> -->
-        <!--  <iframe width="640" height="360" src="http://192.168.0.111/BMS/login.html" frameborder="0" allowfullscreen></iframe> -->
-        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://192.168.0.111/BMS/login.html" webkitallowfullscreen="true" width="1250px">
+        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://192.168.1.120/BMS/login.html" webkitallowfullscreen="true" width="1250px">
         </iframe>
         <!--    </div>-->
     </section>
-    <section class="container content-section text-center" id="contacto" style="background-color:#022B59">
-        <div class="row">
-            <div class="main-contact">
-                <h3 class="head">
-                    Contáctanos
-                </h3>
-                <p>
-                    Estamos para ayudarte
-                </p>
-                <div class="contact-form">
-                    {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
+    <section class="container-fluid content-section text-center" id="contacto">
+        <div class="row" style="background-color:#022B59">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel-heading">
+                    <h4>
+                        Contáctenos
+                    </h4>
+                    <p>
+                        Estamos para ayudarle
+                    </p>
+                    <div class="panel-body">
+                        <div class="contact-form">
+                            {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
                     {!! csrf_field() !!}
-                    <div class="col-md-6 contact-left">
-                        {!!Form::text('name',null,['class'=> 'form-control','placeholder' => 'Nombre'])!!}
-                            {!!Form::text('email',null,['class'=> 'form-control','placeholder' => 'Email'])!!}
+                            <div class="col-md-6 contact-left">
+                                <div class="form-group">
+                                    <label>
+                                        Nombre de Usuario
+                                    </label>
+                                    {!!Form::text('name',null,['class'=> 'form-control'])!!}
+                                </div>
+                                <label>
+                                    Correo electrónico
+                                </label>
+                                {!!Form::text('email',null,['class'=> 'form-control'])!!}
+                            </div>
+                        </div>
+                        <div class="col-md-6 contact-right">
+                            <label>
+                                Mensaje
+                            </label>
+                            {!!Form::textarea('mensaje',null,['class'=> 'form-control'])!!}
+                        </div>
+                        <div class="col-md-6 contact-right">
+                            {!!Form::submit('Enviar',['class' => 'btn btn-info'])!!}
+                        </div>
+                        {!!Form::close()!!}
                     </div>
-                    <div class="col-md-6 contact-right">
-                        {!!Form::textarea('mensaje',null,['class'=> 'form-control','placeholder' => 'Mensaje'])!!}
-                    </div>
-                    {!!Form::submit('ENVIAR')!!}
-                     {!!Form::close()!!}
                 </div>
             </div>
         </div>
     </section>
-    <!-- Auth Section
+</body>
+<!-- Auth Section
 -->
-    <section class="container-fluid content-section text-center" id="login">
-        <div class="row" style="background-color:#022B59">
+<section class="container-fluid content-section text-center" id="login">
+    <div class="row" style="background-color:#022B59">
+        <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel-heading">
-                    Iniciar Sesion
+                    <h4>
+                        INICIAR SESIÓN
+                    </h4>
                 </div>
                 <div class="panel-body">
                     <form action="login" method="POST">
@@ -273,85 +246,21 @@
                 </div>
             </div>
         </div>
-    </section>
-</body>
-<section class="container-fluid content-section text-center" id="register" style="background-color:#022B59">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel-heading">
-                REGISTRO DE USUARIO
-            </div>
-            <div class="panel-body">
-                {!! Form::open(['route' => 'register', 'class' => 'form']) !!}
-                    {!! csrf_field() !!}
-                <div class="form-group">
-                    <label>
-                        Nombre
-                    </label>
-                    {!! Form::input('text', 'name', '', ['class'=> 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                    <label>
-                        Correo Electrónico
-                    </label>
-                    {!! Form::email('email', '', ['class'=> 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                    <label>
-                        Contraseña
-                    </label>
-                    {!! Form::password('password', ['class'=> 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                    <label>
-                        Confirmación de Contraseña
-                    </label>
-                    {!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
-                </div>
-                <div>
-                    {!! Form::submit('Enviar',['class' => 'btn btn-info']) !!}
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
     </div>
 </section>
 <!-- Footer -->
 <footer>
     <div class="container text-center">
         <p>
-            Copyright © Proyecto Final de Grado
+            Proyecto Final de Grado
         </p>
     </div>
 </footer>
 <script src="js/bootstrap.min.js">
 </script>
-<!--<script src="../bower_components/velocity/velocity.js"></script>-->
 <script src="../bower_components/moment/min/moment-with-locales.js">
 </script>
-<!--<script src="../bower_components/angular/angular.js"></script> -->
 <script src="js/metisMenu.min.js">
 </script>
-<!-- Plugin JavaScript
-<script src="js/jquery.easing.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<!--<script src="assets/js/grayscale.js"></script>-->
 <script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js">
-</script>
-<!-- Angular JavaScript -->
-<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>-->
-<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.min.js"></script>
-<!-- Custom Angular JavaScript-->
-<!--<script src="js/app.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/services.js"></script>-->
-<!--Internacionalizacion -->
-<!--<script src="http://code.angularjs.org/1.2.9/i18n/angular-locale_es-cr.js"></script>-->
-<!--Raphael-->
-<script src="../vendor/raphael/raphael.min.js" type="text/javascript">
 </script>

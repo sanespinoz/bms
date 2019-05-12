@@ -45,6 +45,7 @@
                     });
                     chart.draw(etotal, options);
 
+
                     var chart1_a = document.getElementById('piechart1_3d');
                     var chart1 = new google.visualization.PieChart(chart1_a);
                    google.visualization.events.addListener(chart1, 'ready', function()
@@ -69,9 +70,10 @@
          @endforeach
                     ]);
              var table_a = document.getElementById('table_div');
-            var table = new google.visualization.Table(table_a);
+            var tab_datos = new google.visualization.Table(table_a);
 
-            table.draw(data, {showRowNumber: true, width: '100%'});
+            tab_datos.draw(data, {showRowNumber: true, width: '100%'});
+
           }
         </script>
         <nav class="navbar navbar-default">
@@ -148,11 +150,11 @@
                     </h3>
                 </div>
                 <div align="center" class="panel-body">
-                    <div align="center" id="piechart_3d" style="width: 400px; height: 200px;">
+                    <div align="center" id="piechart_3d">
                     </div>
-                    <div align="center" id="piechart1_3d" style="width: 400px; height: 200px;">
+                    <div align="center" id="piechart1_3d">
                     </div>
-                    <div align="center" id="table_div" style="width: 700px; ">
+                    <div align="center" id="table_div">
                     </div>
                 </div>
             </div>

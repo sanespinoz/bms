@@ -525,13 +525,17 @@ class ReporteController extends Controller
 
             $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
             $html .= '<meta content="width=device-width, initial-scale=1" name="viewport"/>';
+            //$html .= '<link rel="stylesheet" href="~assets/css/pdf_sai.css">';
             $html .= '<link rel="stylesheet" href="~assets/css/style.css">';
             $html .= '<link rel="stylesheet" href="~assets/css/sb-admin-2.css">';
             $html .= '<link rel="stylesheet" href="~assets/css/bootstrap.min.css">';
             $html .= '<link rel="stylesheet" href="~assets/fonts/rotobo">';
             $html .= '<link rel="stylesheet" href="~assets/fonts">';
+
             $html .= '</head><body>';
+            $html .= '<div align="center">';
             $html .= $r;
+            $html .= '</div>';
             $html .= '</body></html>';
 
             $pdf = App::make('dompdf.wrapper');

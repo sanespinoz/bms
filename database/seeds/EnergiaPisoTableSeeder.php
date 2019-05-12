@@ -98,7 +98,7 @@ for($i=0; $i < 30; $i ++)
                 'max_tension'         => $faker->randomFloat($nbMaxDecimals = 2, $min = $pten, $max = 234),
                 'min_tension'         => $faker->randomFloat($nbMaxDecimals = 2, $min = 192, $max = $pten),
                 'prom_corriente'      => $pc,
-                'energia_iluminacion' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0.20, $max = 1.54),
+                'energia_iluminacion' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0.20, $max =  < $ene),
 
                 'fecha'               => $fi,
                 'piso_id'             => 66,

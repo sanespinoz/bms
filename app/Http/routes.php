@@ -80,6 +80,17 @@ Route::resource('pisos', 'PisoController');
 Route::resource('sector', 'SectorController');
 Route::resource('grupo', 'GrupoController');
 Route::resource('luminaria', 'LuminariaController');
+
+Route::post('/autocomplete/fetch', 'LuminariaController@fetch')->name('autocomplete.fetch');
+Route::post('/autocomplete/info', 'LuminariaController@info')->name('autocomplete.info');
+Route::post('/autocomplete/descripcion', 'LuminariaController@descripcion')->name('autocomplete.descripcion');
+Route::post('/autocomplete/dimensiones', 'LuminariaController@dimensiones')->name('autocomplete.dimensiones');
+Route::post('/autocomplete/volt', 'LuminariaController@volt')->name('autocomplete.volt');
+Route::post('/autocomplete/pot', 'LuminariaController@pot')->name('autocomplete.pot');
+Route::post('/autocomplete/corr', 'LuminariaController@corr')->name('autocomplete.corr');
+Route::post('/autocomplete/vida_util', 'LuminariaController@vida_util')->name('autocomplete.vida_util');
+Route::post('/autocomplete/temperatura', 'LuminariaController@temperatura')->name('autocomplete.temperatura');
+
 Route::resource('dispositivo', 'DispositivoController');
 Route::resource('energiapiso', 'EnergiaPisoController');
 Route::resource('reporte', 'ReporteController');

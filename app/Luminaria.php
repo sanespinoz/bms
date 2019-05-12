@@ -3,13 +3,14 @@
 namespace App;
 
 use App\Grupo;
+use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Luminaria extends Model
 {
     protected $table    = 'luminarias';
-    protected $fillable = ['codigo', 'nombre', 'tipo', 'descripcion', 'dimensiones', 'voltaje_nominal', 'potencia_nominal', 'corriente_nominal', 'fecha_alta', 'fecha_baja', 'vida_util', 'cant_activaciones', 'cant_hs_uso', 'temperatura', 'grupo_id'];
+    protected $fillable = ['codigo', 'nombre', 'tipo', 'descripcion', 'dimensiones', 'voltaje_nominal', 'potencia_nominal', 'corriente_nominal', 'fecha_alta', 'fecha_baja', 'vida_util', 'cant_activaciones', 'cant_hs_uso', 'temperatura', 'grupo_id', 'catalogo_id'];
     protected $dates    = ['created_at', 'updated_at'];
 
     protected $dateFormat = 'Y-m-d H:i:s.000';
@@ -18,6 +19,11 @@ class Luminaria extends Model
     public function grupo()
     {
         return $this->belongsTo('App\Grupo');
+    }
+
+    public function catalogo()
+    {
+        return $this->belongsTo('App\Catalogo');
     }
 
     public function estado_luminaria()
@@ -32,6 +38,24 @@ class Luminaria extends Model
 
         return $estado;
 
+    }
+
+    public function fetch(Request $request)
+    {
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+            foreach ($data as $row) {
+                $output .= '
+       <li><a href="#">' . $row->nombre . '</a></li>
+       ';
+            }
+            $output .= '</ul>';
+            echo $output;
+        }
     }
 
     public function scopeSearchluminarias($query, $idPiso, $idSector = "", $idGrupo = "")

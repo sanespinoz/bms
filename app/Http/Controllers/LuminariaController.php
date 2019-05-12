@@ -9,6 +9,7 @@ use App\Http\Requests\LuminariaUpdateRequest;
 use App\Luminaria;
 use App\Piso;
 use App\Sector;
+use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -268,6 +269,156 @@ class LuminariaController extends Controller
             return view('luminaria.index', compact('pisos', 'luminarias'));
         }
 
+    }
+
+    public function fetch(Request $request)
+    {
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+            foreach ($data as $row) {
+                $output .= '
+       <li><a href="#">' . $row->nombre . '</a></li>
+       ';
+            }
+            $output .= '</ul>';
+            return $output;
+        }
+    }
+
+    public function info(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->tipo;
+            }
+
+            return $output;
+        }
+    }
+    public function descripcion(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->descripcion;
+            }
+
+            return $output;
+        }
+    }
+    public function dimensiones(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->dimensiones;
+            }
+
+            return $output;
+        }
+    }
+    public function volt(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->voltaje_nominal;
+            }
+
+            return $output;
+        }
+    }
+
+    public function corr(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->corriente_nominal;
+            }
+
+            return $output;
+        }
+    }
+
+    public function pot(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->potencia_nominal;
+            }
+
+            return $output;
+        }
+    }
+    public function vida_util(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->vida_util;
+            }
+
+            return $output;
+        }
+    }
+
+    public function temperatura(Request $request)
+    {
+
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = DB::table('catalogos')
+                ->where('nombre', 'LIKE', "%{$query}%")
+                ->get();
+
+            foreach ($data as $row) {
+                $output = $row->temperatura;
+            }
+
+            return $output;
+        }
     }
 
 }
