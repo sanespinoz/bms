@@ -1,9 +1,23 @@
 @extends('layouts.admin')
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias registradas</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Información de la luminaria</li>
+  </ol>
+</nav>
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
+<html>
+    <head>
+    </head>
+    <body>
+ <div align="left" class="container"> 
+ <h3>Datos de la luminaria {{$l->nombre}}</h3>
+<br>
+ <div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
                 <div class="panel-heading">
                     Luminaria: {{ $l->codigo }}
                 </div>
@@ -19,9 +33,6 @@
                     </p>
                     <p>
                         Código: {{ $l->codigo }}
-                    </p>
-                    <p>
-                        Nombre: {{ $l->nombre }}
                     </p>
                     <p>
                         Tipo: {{ $l->tipo }}
@@ -45,7 +56,8 @@
                         Fecha de Instalación: {{ $l->fecha_alta }}
                     </p>
                     <p>
-                        Fecha de Desinstalación: {{ $l->fecha_baja }}
+                    @if ($l->fecha_baja) Fecha de Desinstalación: {{ $l->fecha_baja }}
+                    @endif
                     </p>
                     <p>
                         Vida Útil: {{ $l->vida_util }}
@@ -57,8 +69,12 @@
             </div>
         </div>
     </div>
-</div>
+
+
 <div class="form-group col-xs-12">
     {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
 </div>
+</div>
+</body>
+</html>
 @endsection

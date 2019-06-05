@@ -24,10 +24,10 @@
       { 
     var route =  window.location.href + "/alarmas";
         $.get(route, function(response, state){
-       $('.modal-body').load(route,function(){
-       
-
-         $("#mostrarmodal").modal({show:true});
+       $('.modal-body').load(route,function(data){
+            $("#mostrarmodal").modal({show:true});
+            $('#nombreList').html(data);
+        
       });
     });
     });
@@ -38,13 +38,13 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="gestion">
+                <a class="navbar-brand" href="gestion" style="font-weight: bold;">
                     SAI Alarmas
                 </a>
             </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;">
                         {!! Auth::user()->name !!}
                         <i class="fa fa-user fa-fw">
                         </i>
@@ -53,11 +53,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="{!!URL::to('logout')!!}">
-                                <i aria-hidden="true" class="fa fa-arrow-left">
-                                </i>
-                                Salir
-                            </a>
+                                <a href="{!!URL::to('logout')!!}" style="font-weight: bold; text-align:center;">
+                                    <i aria-hidden="true" class="fa fa-arrow-left" "> Salir
+                                    </i>                                    
+                                </a>
                         </li>
                     </ul>
                 </li>
@@ -66,69 +65,83 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="#">
+                            <a href="#" style="font-weight: bold;">
+                                <i aria-hidden="true" class="fa fa-lightbulb-o">
+                                </i>
                                 Luminaria
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{!!URL::to('/luminaria/create')!!}">
+                                    <a href="{!!URL::to('/luminaria/create')!!}" style="font-weight: bold;">
+                                        <i aria-hidden="true" class="fa fa-newspaper-o">
+                                        </i>
                                         Agregar
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{!!URL::to('/luminaria')!!}">
+                                    <a href="{!!URL::to('/luminaria')!!}" style="font-weight: bold;">
+                                        <i aria-hidden="true" class="fa fa-list">
+                                        </i>
                                         Luminarias
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" style="font-weight: bold;">
+                                <i aria-hidden="true" class="fa fa-tablet">
+                                </i>
                                 Dispositivo
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{!!URL::to('/dispositivo/create')!!}">
+                                    <a href="{!!URL::to('/dispositivo/create')!!}" style="font-weight: bold;">
+                                        <i aria-hidden="true" class="fa fa-newspaper-o">
+                                        </i>
                                         Agregar
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{!!URL::to('/dispositivo')!!}">
+                                    <a href="{!!URL::to('/dispositivo')!!}" style="font-weight: bold;">
+                                        <i aria-hidden="true" class="fa fa-list">
+                                        </i>
                                         Dispositivos
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" style="font-weight: bold;">
+                                <i aria-hidden="true" class="fa fa-file">
+                                </i>
                                 Reportes
                                 <span class="fa arrow">
                                 </span>
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{!!URL::to('/reporte')!!}">
+                                    <a href="{!!URL::to('/reporte')!!}" style="font-weight: bold;">
                                         <i aria-hidden="true" class="fa fa-pie-chart">
                                         </i>
                                         Energía
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{!!URL::to('/tendencia')!!}">
+                                    <a href="{!!URL::to('/tendencia')!!}" style="font-weight: bold;">
                                         <i aria-hidden="true" class="fa fa-line-chart">
                                         </i>
                                         Tendencia de Consumo
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{!!URL::to('/eficiencia')!!}">
+                                    <a href="{!!URL::to('/eficiencia')!!}" style="font-weight: bold;">
                                         <i aria-hidden="true" class="fa fa-line-chart">
                                         </i>
                                         índice de Eficiencia Energética
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{!!URL::to('/performance')!!}">
+                                    <a href="{!!URL::to('/performance')!!}" style="font-weight: bold;">
                                         <i aria-hidden="true" class="fa fa-bar-chart">
                                         </i>
                                         Performance de Luminarias
@@ -156,8 +169,8 @@
                     </h3>
                 </div>
                 <div class="modal-body">
-                    <h4>
-                    </h4>
+  <div id="nombreList">
+        </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-danger" data-dismiss="modal" href="#">

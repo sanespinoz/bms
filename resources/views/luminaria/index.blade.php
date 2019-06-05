@@ -10,69 +10,57 @@
     {{Session::get('message')}}
 </div>
 @endif
-
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Luminarias</li>
+  </ol>
+</nav>
 @section('content')
-<h1>
+<html>
+<head>
+</head>
+<body>
+<div align="left" class="container">
+<h2>
     Luminarias Registradas
-</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group" id="adv-search">
-                <input class="form-control" placeholder="Buscar " type="text"/>
-                <div class="input-group-btn">
-                    <div class="btn-group" role="group">
-                        <div class="dropdown dropdown-lg">
-                            <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
-                                <span class="caret">
-                                </span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                {!! Form::open(['route'=>'luminaria.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
-                                {!! csrf_field() !!}
-                                <div class="form-group">
-                                    <label for="filter">
-                                        Filtrar por
-                                    </label>
-                                    <select name="piso">
-                                        @foreach($pisos as $piso){
-                                        <option value="{{ $piso->id }}">
-                                            {{ $piso->nombre }}
-                                        </option>
-                                        } 
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::text('grupo',null, ['class'=>'form-control','placeholder'=>'Buscar por Grupo','aria-describedby'=>'search']) !!}
-                                </div>
-                                <button class="btn btn-primary" type="submit">
-                                    <span aria-hidden="true" class="glyphicon glyphicon-search">
-                                    </span>
-                                </button>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" type="button">
-                            <span aria-hidden="true" class="glyphicon glyphicon-search">
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+</h2>
+<br>
+<div class="container-fluid col-md-8">
+    <div class="input-group" role="menu">
+        {!! Form::open(['route'=>'luminaria.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+        {!! csrf_field() !!}
+        <div class="form-group">
+            <select name="piso">
+            @foreach($pisos as $piso){
+                <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
+                } 
+            @endforeach
+            </select>
         </div>
+        <div class="form-group">
+            {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::text('grupo',null, ['class'=>'form-control','placeholder'=>'Buscar por Grupo','aria-describedby'=>'search']) !!}
+        </div>
+        <button class="btn btn-primary" type="submit">
+        <span aria-hidden="true" class="glyphicon glyphicon-search">BUSCAR </span>
+        </button>
+        {!! Form::close() !!}
     </div>
 </div>
+</div>
 <br>
+    <!-- contenido principal -->
+<section class="resultados" id="resultados">
     <table class="table table-bordered table-striped">
-        <head>
+        <thead>
             {{-- Este listado quizas deba mostrarme algo mas util o bien dejo solo los datos especificos de la tabla luminaria y cuando view traigo los datos del piso sector y grupo y tambien lo de la tabla de estado..el valor de regulacion, para cambiar el estado link en el i y me manda a edit estado --}}
             <tr>
                 <th>
-                    Código
+                    N° de Serie
                 </th>
                 <th>
                     Nombre
@@ -81,43 +69,13 @@
                     Tipo
                 </th>
                 <th>
-                    Descripción
-                </th>
-                <th>
-                    Dimensiones
-                </th>
-                <th>
-                    Voltaje Nominal
-                </th>
-                <th>
-                    Potencia Nominal
-                </th>
-                <th>
-                    Corriente Nominal
-                </th>
-                <th>
-                    Fecha Instalación
-                </th>
-                <th>
-                    Fecha de Baja
-                </th>
-                <th>
-                    Vida Útil
-                </th>
-                <th>
                     Estado
-                </th>
-                <th>
-                    Temperatura
-                </th>
-                <th>
-                    Grupo
                 </th>
                 <th>
                     Acciones
                 </th>
             </tr>
-        </head>
+        </thead>
         <tbody>
             @foreach($luminarias as $luminaria)
             <tr>
@@ -131,31 +89,6 @@
                 </td>
                 <td>
                     {{ $luminaria->tipo }}
-                </td>
-                <td>
-                    {{ $luminaria->descripcion }}
-                </td>
-                <td>
-                    {{ $luminaria->dimensiones }}
-                </td>
-                <td>
-                    {{ $luminaria->voltaje_nominal }}
-                </td>
-                <td>
-                    {{ $luminaria->potencia_nominal }}
-                </td>
-                <td>
-                    {{ $luminaria->corriente_nominal }}
-                </td>
-                <td>
-                    {{ $luminaria->fecha_alta }}
-                </td>
-                <td>
-                    @if ($luminaria->fecha_baja) {{ $luminaria->fecha_baja }}
-                    @endif
-                </td>
-                <td>
-                    {{ $luminaria->vida_util }}
                 </td>
                 <td>
                     @if ($luminaria->estado($luminaria->id))
@@ -186,19 +119,17 @@
                     {{-- luminaria  llama a la funcion estado en luminaria.php y si esta activa muestra check sino x solo que me lo tiene que traer como una  collect para accederlo o un array hacer un dd dentro de la funcioon estado para ver como lo devuelve --}}
                 </td>
                 <td>
-                    {{ $luminaria->temperatura }}
-                </td>
-                <td>
-                    {{ $luminaria->grupo->nombre }}
-                </td>
-                <td>
                     {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!}
+
+                    {!!link_to_route('luminaria.eliminar', $title = 'Eliminar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-danger'])!!}
+
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
     {!! $luminarias->render() !!}       
-
+    </section>
+</body>
+</html>
 @endsection
-</br>

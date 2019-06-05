@@ -1,21 +1,40 @@
 @extends('layouts.admin')
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias instaladas</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edición de la Luminaria</li>
+  </ol>
+</nav>
 @section('content')
-		 @include('alerts.request') 
+@include('alerts.request')
+<html>
+<head>
+</head>
+<body>
+<div align="left" class="container">
+<h2>
+    Editar Luminaria
+</h2>
+<br>
+<div class="container-fluid col-md-8">
 		
-		{!!Form::model($luminaria,['route'=> ['luminaria.update',$luminaria->id],'method'=>'PUT',$pisos,$sectdelp, $gruposdelp, $p, $g, $s])!!}
+{!!Form::model($luminaria,['route'=> ['luminaria.update',$luminaria->id],'method'=>'PUT',$pisos,$sectdelp, $gruposdelp, $p, $g, $s])!!}
+{!! csrf_field() !!}
 			@include('luminaria.partials.fields')
-<div class="form-group col-xs-12">
-    {!!Form::submit('Actualizar',['class'=>'btn btn-primary'])!!}
-		{!!Form::close()!!}
-</div>
-<div class="form-group col-xs-12">
-    {!!Form::open(['route'=> ['luminaria.destroy',$luminaria->id],'method'=>'DELETE'])!!}
-    {!! csrf_field() !!}
-			{!!Form::submit('Eliminar',['class'=>'btn btn-danger'])!!}
-		{!!Form::close()!!}
+            <div class="row">
+            <div class="form-group col-md-12">
+            {!!Form::submit('Guardar',['class'=>'btn btn-primary'])!!}
+		    {!!Form::close()!!}
 
-		{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
+		    {!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
 </div>
+</div>
+</div>
+</div>
+</body>
+</html>
 @endsection
 @section('scripts')     
     {!! Html::script('js/editlumis.js') !!}

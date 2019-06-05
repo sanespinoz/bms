@@ -72,104 +72,108 @@
              var table_a = document.getElementById('table_div');
             var tab_datos = new google.visualization.Table(table_a);
 
-            tab_datos.draw(data, {showRowNumber: true, width: '100%'});
+            tab_datos.draw(data, {showRowNumber: true, width: '80%'});
 
           }
         </script>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                {!! Form::open(['action' => 'ReporteController@index','method'=>'GET','class'=>'navbar-form navbar-right','role'=>'form']) !!}
-                <div class="form-group">
-                    <select class="form-control" name="anio">
-                        @foreach($anios as $anio)
-                        <option selected="selected" value="{{ $anio->anio }}">
-                            {{ $anio->anio }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <select class="form-control" name="mes">
-                        <option selected="selected" value="00">
-                        </option>
-                        <option value="01">
-                            Enero
-                        </option>
-                        <option value="02">
-                            Febrero
-                        </option>
-                        <option value="03">
-                            Marzo
-                        </option>
-                        <option value="04">
-                            Abril
-                        </option>
-                        <option value="05">
-                            Mayo
-                        </option>
-                        <option value="06">
-                            Junio
-                        </option>
-                        <option value="07">
-                            Julio
-                        </option>
-                        <option value="08">
-                            Agosto
-                        </option>
-                        <option value="09">
-                            Septiembre
-                        </option>
-                        <option value="10">
-                            Octubre
-                        </option>
-                        <option value="11">
-                            Noviembre
-                        </option>
-                        <option value="12">
-                            Diciembre
-                        </option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" type="submit">
-                    <span aria-hidden="true" class="glyphicon glyphicon-search">
-                    </span>
-                </button>
-                {!! Form::close() !!}
+        <div class="container-fluid">
+            <br/>
+            <br/>
+            {!! Form::open(['action' => 'ReporteController@index','method'=>'GET','class'=>'navbar-form navbar-right','role'=>'form']) !!}
+            <div class="form-group">
+                <select class="form-control" name="anio">
+                    @foreach($anios as $anio)
+                    <option selected="selected" value="{{ $anio->anio }}">
+                        {{ $anio->anio }}
+                    </option>
+                    @endforeach
+                </select>
+                <select class="form-control" name="mes">
+                    <option selected="selected" value="00">
+                    </option>
+                    <option value="01">
+                        Enero
+                    </option>
+                    <option value="02">
+                        Febrero
+                    </option>
+                    <option value="03">
+                        Marzo
+                    </option>
+                    <option value="04">
+                        Abril
+                    </option>
+                    <option value="05">
+                        Mayo
+                    </option>
+                    <option value="06">
+                        Junio
+                    </option>
+                    <option value="07">
+                        Julio
+                    </option>
+                    <option value="08">
+                        Agosto
+                    </option>
+                    <option value="09">
+                        Septiembre
+                    </option>
+                    <option value="10">
+                        Octubre
+                    </option>
+                    <option value="11">
+                        Noviembre
+                    </option>
+                    <option value="12">
+                        Diciembre
+                    </option>
+                </select>
             </div>
-        </nav>
+            <button class="btn btn-primary" type="submit">
+                <span aria-hidden="true" class="glyphicon glyphicon-search">
+                </span>
+            </button>
+            {!! Form::close() !!}
+        </div>
     </head>
     <body>
-        <div align="center" class="container" id="testing" style="width: 900px;
+        <div align="center" class="container" id="testing" style="width: 800px;
   margin: 0 auto; ">
             <h2 align="center">
                 Consumo energético
             </h2>
             <br/>
             <div align="center" class="panel panel-default">
-                <div align="center" class="panel-heading">
-                    <h3 align="center" class="panel-title">
-                        Gráficos de consumos energéticos y tabla de detalle
-                    </h3>
-                </div>
                 <div align="center" class="panel-body">
                     <div align="center" id="piechart_3d">
                     </div>
                     <div align="center" id="piechart1_3d">
                     </div>
-                    <div align="center" id="table_div">
+                    <br/>
+                    <div align="center" class="panel-heading">
+                        <h4 align="center">
+                            Detalle
+                        </h4>
+                    </div>
+                    <br/>
+                    <div align="center" class="panel-body">
+                        <div align="center" id="table_div">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div align="center">
-            {!! Form::open(['action' => 'ReporteController@createPDF','method'=>'POST','id'=>'make_pdf']) !!}
-            <input id="hidden_html" name="hidden_html" type="hidden"/>
-            <button class="btn btn-danger btn-xs" id="create_pdf" name="create_pdf" type="submit">
-                Imprimir
-            </button>
-            {!! Form::close() !!}
-        </div>
-        @section('scripts')
-        {!!Html::script('js/pdfenergia.js') !!}
-        @show
     </body>
 </html>
+<div align="center">
+    {!! Form::open(['action' => 'ReporteController@createPDF','method'=>'POST','id'=>'make_pdf']) !!}
+    <input id="hidden_html" name="hidden_html" type="hidden"/>
+    <button class="btn btn-danger btn-xs" id="create_pdf" name="create_pdf" type="submit">
+        Imprimir
+    </button>
+    {!! Form::close() !!}
+</div>
+@section('scripts')
+        {!!Html::script('js/pdfenergia.js') !!}
+        @show
 @endsection

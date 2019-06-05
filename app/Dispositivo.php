@@ -4,6 +4,7 @@ namespace App;
 
 use App\Piso;
 use App\Sector;
+use App\Catalogo;
 use Illuminate\Database\Eloquent\Model;
 
 class Dispositivo extends Model
@@ -22,6 +23,10 @@ class Dispositivo extends Model
     public function piso()
     {
         return $this->belongsTo('App\Piso');
+    }
+    public function catalogo()
+    {
+        return $this->belongsTo('App\Catalogo');
     }
     public function scopeSearchdispositivos($query, $idPiso, $idSector = "")
     {

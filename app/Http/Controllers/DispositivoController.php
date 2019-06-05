@@ -55,7 +55,7 @@ class DispositivoController extends Controller
 
             $pisos = Piso::all();
 
-            $dispositivos = Dispositivo::paginate(10);
+            $dispositivos = Dispositivo::paginate(2);
 
             return view('dispositivo.index', compact('pisos', 'dispositivos'));
 

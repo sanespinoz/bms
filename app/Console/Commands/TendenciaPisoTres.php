@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Console\Commands;
+use App\EnergiaPiso;
 
 use DB;
+use App\Piso;
 use Illuminate\Console\Command;
+
 
 class TendenciaPisoTres extends Command
 {
@@ -43,7 +46,7 @@ class TendenciaPisoTres extends Command
             ->table('dbo.NETX_DEFINITION')
             ->select(DB::raw('MAX(NUM_VALUE) as ener'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
             ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-            ->where('ITEMID', 'like', '%NETx\VIRTUAL\BMS\Energia\Piso 3\Energia')
+            ->where('ITEMID', 'like', '%NETx\VIRTUAL\BMS\Energia\Piso 3\Energia%')
             ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
             ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
             ->get();
@@ -51,14 +54,17 @@ class TendenciaPisoTres extends Command
             $energia = $e->ener;
             $h       = $e->hora;
         };
-        //dd($energia);
+        // dd($energias);
 
-        $piso = DB::table('pisos')->select('id')->where('nombre', ' = ', 'Piso 3')->get();
+   $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
+        foreach ($piso as $p) {
+            $pis = $p->id;
+        }
 
         foreach ($piso as $p) {
             $piso_id = $p->id;
-            // $piso_id=(int)$p->id;
-            // dd($piso_id);
+
+            //dd($piso_id);
         }
         //PICO
 
@@ -111,17 +117,18 @@ class TendenciaPisoTres extends Command
         //PROM CORRIENTE Piso 3
         $promcorriente = DB::connection('netx')
             ->table('dbo.NETX_DEFINITION')
-            ->select(DB::raw('AVG (NUM_VALUE) as F1'), DB::raw('AVG (NUM_VALUE) as F2'), DB::raw('AVG (NUM_VALUE) as F3'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'))
+            ->select(DB::raw('AVG (NUM_VALUE) as F1'), DB::raw('AVG (NUM_VALUE) as F2'), DB::raw('AVG (NUM_VALUE) as F3'), DB::raw('DATEPART(HOUR,[LOCAL_DATE]) as hora'),DB::raw('CONVERT(date, LOCAL_DATE) as fecha'))
             ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
             ->where('ITEMID', 'like', '%NETx\XIO\Modbus\PM 3200 0\Holding Registers\2999%')
             ->where(DB::raw('CONVERT(date, LOCAL_DATE)'), '=', DB::raw('CONVERT(date, GETDATE())'))
-            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'))
+            ->groupBy(DB::raw('DATEPART(HOUR,[LOCAL_DATE])'),DB::raw('CONVERT(date, LOCAL_DATE)'))
             ->get();
         foreach ($promcorriente as $e) {
             $f1      = $e->F1;
             $f2      = $e->F2;
             $f3      = $e->F3;
             $promcor = $f1 + $f2 + $f3;
+            $date = \Carbon\Carbon::now();
         };
 
         //dd($promcorriente);
@@ -136,12 +143,14 @@ class TendenciaPisoTres extends Command
             'min_tension'         => $mint,
             'prom_corriente'      => $promcor,
             'energia_iluminacion' => $energiailum,
-            'fecha'               => $fecha,
-            'eficiencia'          => 'null',
+            'fecha'               => $date,
+            'eficiencia'          => null,
             'piso_id'             => $piso_id,
+            'created_at'          => null,
+            'updated_at'          => null,
         ));
         $energy->save();
 
-        \Log::info('ProbandoenergiaPiso3' . \Carbon\Carbon::now());
+        \Log::info('ProbandoenergiaPiso 3' . \Carbon\Carbon::now());
     }
 }

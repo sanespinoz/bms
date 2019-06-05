@@ -80,7 +80,7 @@ class ActivacionesPisoCero extends Command
                     ->where('id', $l->id)
                     ->update(['cant_activaciones' => ($l->cant_activaciones + $k)]);
             }
-            \Log::info('L ' . $i . 'Piso 0' . \Carbon\Carbon::now() . ' id grupo' . $idg . ' sector' . ' ' . $se . ' act netx' . $k . ' ' . $cac);
+            \Log::info('L ' . $i . 'Piso 0 id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
         }
 //Sector A3 Sur o A3S CAMBIAR NOMBRE
         for ($i = 1; $i < 5; $i++) {
@@ -125,7 +125,7 @@ class ActivacionesPisoCero extends Command
                     ->where('id', $l->id)
                     ->update(['cant_activaciones' => ($l->cant_activaciones + $k)]);
             }
-            \Log::info('L ' . $i . 'Piso 0' . \Carbon\Carbon::now() . ' id grupo' . $idg . ' sector' . ' ' . $se . ' act netx' . $k . ' ' . $cac);
+            \Log::info('L ' . $i . 'Piso 0 id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
 
         }
 
@@ -173,7 +173,7 @@ class ActivacionesPisoCero extends Command
                     ->where('id', $l->id)
                     ->update(['cant_activaciones' => ($l->cant_activaciones + $k)]);
             }
-            \Log::info('L ' . $i . 'Piso 0' . \Carbon\Carbon::now() . ' id grupo' . $idg . ' sector' . ' ' . $se . ' act netx' . $k . ' ' . $cac);
+            \Log::info('L ' . $i . 'Piso 0  id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
         }
 
         //Sector A4 Sur
@@ -220,7 +220,7 @@ class ActivacionesPisoCero extends Command
                     ->where('id', $l->id)
                     ->update(['cant_activaciones' => ($l->cant_activaciones + $k)]);
             }
-            \Log::info('L ' . $i . 'Piso 0' . \Carbon\Carbon::now() . ' id grupo' . $idg . ' sector' . ' ' . $se . ' act netx' . $k . ' ' . $cac);
+            \Log::info('L ' . $i . 'Piso 0 id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
         }
 
         //Sector A5
@@ -267,7 +267,7 @@ class ActivacionesPisoCero extends Command
                     ->where('id', $l->id)
                     ->update(['cant_activaciones' => ($l->cant_activaciones + $k)]);
             }
-            \Log::info('L ' . $i . 'Piso 0' . \Carbon\Carbon::now() . ' id grupo' . $idg . ' sector' . ' ' . $se . ' act netx' . $k . ' ' . $cac);
+            \Log::info('L ' . $i . 'Piso 0 id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
         }
 
     }

@@ -9,6 +9,7 @@ use App\Http\Requests\LuminariaUpdateRequest;
 use App\Luminaria;
 use App\Piso;
 use App\Sector;
+use App\Catalogo;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -119,7 +120,7 @@ class LuminariaController extends Controller
 //listado inicial sin filtro
             $pisos = Piso::all();
 
-            $luminarias = Luminaria::paginate(10);
+            $luminarias = Luminaria::paginate(6);
 
             return view('luminaria.index', compact('pisos', 'luminarias'));
         }
@@ -144,15 +145,13 @@ class LuminariaController extends Controller
  * @param  \Illuminate\Http\Request  $request
  * @return \Illuminate\Http\Response
  */
+
     public function store(LuminariaCreateRequest $request)
     {
-
         $r = Luminaria::create($request->all());
         //dd($r);
         Session::flash('message', 'Luminaria Creada Correctamente');
-
         return redirect('luminaria');
-
     }
 
 /**
@@ -232,6 +231,12 @@ class LuminariaController extends Controller
         Session::flash('message', 'Luminaria Eliminada Correctamente');
         return redirect('luminaria');
     }
+    public function eliminar($id)
+    {
+        Luminaria::destroy($id);
+        Session::flash('message', 'Luminaria Eliminada Correctamente');
+        return redirect('luminaria');
+    }
 
 /**
  * Update the specified resource in storage.
@@ -250,12 +255,11 @@ class LuminariaController extends Controller
             return response()->json($grupos);
         }
     }
-
     public function getSectores(Request $request, $id)
     {
         if ($request->ajax()) {
             $sectores = Sector::where('piso_id', '=', $id)->get();
-
+            
             return response()->json($sectores);
         }
     }
@@ -289,7 +293,7 @@ class LuminariaController extends Controller
         }
     }
 
-    public function info(Request $request)
+    public function tipo(Request $request)
     {
 
         if ($request->get('query')) {
@@ -337,7 +341,7 @@ class LuminariaController extends Controller
             return $output;
         }
     }
-    public function volt(Request $request)
+    public function voltaje_nominal(Request $request)
     {
 
         if ($request->get('query')) {
@@ -354,7 +358,7 @@ class LuminariaController extends Controller
         }
     }
 
-    public function corr(Request $request)
+    public function corriente_nominal(Request $request)
     {
 
         if ($request->get('query')) {
@@ -371,7 +375,7 @@ class LuminariaController extends Controller
         }
     }
 
-    public function pot(Request $request)
+    public function potencia_nominal(Request $request)
     {
 
         if ($request->get('query')) {
@@ -418,6 +422,63 @@ class LuminariaController extends Controller
             }
 
             return $output;
+        }
+    }
+
+    public function obtsectores(Request $request)
+    {
+        //dd($request);die();
+        if ($request->get('id')) {
+            $query = $request->get('id');
+            $data  = Sector::where('piso_id', '=', $id)->get();
+            foreach ($data as $row) {
+                $output = $row->temperatura;
+
+            }
+
+            return $output;
+        }
+
+    }
+       public function sect(Request $request)
+    {
+
+        if ($request->get('query')) {
+
+            $query = $request->get('query');
+            $data  = Sector::where('piso_id', '=', $query)->get();
+
+            return response()->json($data);
+
+        }
+    }
+
+           public function groups(Request $request)
+    {
+
+        if ($request->get('sect') && $request->get('pis')) {
+
+            $sect = $request->get('sect');
+            $pis = $request->get('pis');
+            $grupos = Grupo::where('piso_id', '=', $pis)
+                ->where('sector_id', '=', $sect)
+                ->get();
+            return response()->json($grupos);
+
+        }
+    }
+
+
+       public function catalog(Request $request)
+    {
+        dd($request->catalogo_id);exit();
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data  = Catalogo::select('id')->where('nombre', '=', $query)
+                ->first();
+              
+
+            return $data->id;
         }
     }
 

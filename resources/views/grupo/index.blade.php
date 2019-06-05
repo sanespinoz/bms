@@ -10,61 +10,49 @@
     {{Session::get('message')}}
 </div>
 @endif
-
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Grupos</li>
+  </ol>
+</nav>
 @section('content')
-<h1>
+<html>
+<head>
+</head>
+<body>
+<div align="left" class="container">
+<h2>
     Grupos Registrados
-</h1>
+</h2>
 {{--https://bootsnipp.com/snippets/featured/advanced-dropdown-search--}}
 {{--AGREGUE EN EL ADMIN UN BUSCADOR.CSS --}}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group" id="adv-search">
-                <input class="form-control" placeholder="Buscar por fragmentos" type="text"/>
-                <div class="input-group-btn">
-                    <div class="btn-group" role="group">
-                        <div class="dropdown dropdown-lg">
-                            <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
-                                <span class="caret">
-                                </span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
-                                {!! csrf_field() !!}
-                                <div class="form-group">
-                                    <label for="filter">
-                                        Filtrar por
-                                    </label>
-                                    <select name="piso">
+<br>
+<div class="container-fluid col-md-8">
+    <div class="input-group" role="menu">
+                {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+                 {!! csrf_field() !!}
+                    <div class="form-group">
+                        <select name="piso">
                                         @foreach($pisos as $piso){
                                         <option value="{{ $piso->id }}">
                                             {{ $piso->nombre }}
                                         </option>
                                         } 
                                         @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
-                                </div>
-                                <button class="btn btn-primary" type="submit">
-                                    <span aria-hidden="true" class="glyphicon glyphicon-search">
-                                    </span>
-                                </button>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" type="button">
-                            <span aria-hidden="true" class="glyphicon glyphicon-search">
-                            </span>
-                        </button>
+                        </select>
                     </div>
-                </div>
+            <div class="form-group">
+                {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
+            </div>
+                <button class="btn btn-primary" type="submit">
+                    <span aria-hidden="true" class="glyphicon glyphicon-search">BUSCAR</span>
+                </button>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
-</div>
 <br>
     <!-- contenido principal -->
     <section class="resultados" id="resultados">
@@ -78,22 +66,10 @@
                         Descripción
                     </th>
                     <th>
-                        Cantidad de Luminarias
-                    </th>
-                    <th>
-                        Energía Consumida
-                    </th>
-                    <th>
                         Piso
                     </th>
                     <th>
                         Sector
-                    </th>
-                    <th>
-                        Hs Activo
-                    </th>
-                    <th>
-                        Activaciones
                     </th>
                     <th>
                         Acciones
@@ -104,32 +80,24 @@
                 @foreach($grupos as $grupo)
                 <tr>
                     <td>
-                        {{ $grupo->nombre }}
+                                <a href="{{ route('grupo.show', $grupo->id) }}">
+                        {{$grupo->nombre}}
+                    </a>
                     </td>
                     <td>
                         {{ $grupo->descripcion }}
                     </td>
-                    <td>
-                        {{ $grupo->cant_luminarias }}
-                    </td>
-                    <td>
-                        {{ $grupo->energia_consumida }}
-                    </td>
+
                     <td>
                         {{ $grupo->piso->nombre }}
                     </td>
                     <td>
-                        {{ $grupo->sector }}
-                    </td>
-                    <td>
-                        {{ $grupo->cant_hs_activo }}
-                    </td>
-                    <td>
-                        {{ $grupo->cant_activaciones }}
+                        {{ $grupo->sector}}
                     </td>
                     <td>
                         {!!link_to_route('grupo.edit', $title = 'Editar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                        {!!link_to_route('grupo.show', $title = 'Ver', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-success'])!!}
+                        {!!link_to_route('grupo.eliminar', $title = 'Eliminar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-danger'])!!}
+                     
                     </td>
                 </tr>
                 @endforeach
@@ -137,5 +105,6 @@
         </table>
         {!! $grupos->render() !!}
     </section>
+    </body>
+</html>
     @endsection
-</br>

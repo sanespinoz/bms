@@ -1,29 +1,40 @@
 @extends('layouts.admin')
+
+@if(Session::has('message'))
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+    {{Session::get('message')}}
+</div>
+@endif
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Registrar Luminaria</li>
+  </ol>
+</nav>
 @section('content')
-
-@include('alerts.request')
-<h1>
-    Registrar Luminaria
-</h1>
-{!! Form::open(['route'=>'luminaria.store']) !!}
-{!! csrf_field() !!}
-
-    @include('luminaria.partials.form')
+<html>
+  <head>
+  </head>
+  <body>
+    <div align="left" class="container">
+      <h1>Registrar Luminaria</h1>
+      <div class="container-fluid col-md-8">
+{!! Form::open(['route'=>'luminaria.store', 'autocomplete'=>'off']) !!}
+ @include('luminaria.partials.form')
 <div class="form-group col-xs-12">
-    {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
+{!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
 {!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
 </div>
 {!! Form::close() !!}
-@endsection
-
-@section('scripts')  
-   
-    {!! Html::script('js/lumi.js') !!}
-    {!! Html::script('js/lumigroup.js') !!} 
-    {!! Html::script('js/datepick.js') !!}
 <script>
     $(document).ready(function(){
- $('#nombre').keyup(function(){ 
+      $('#nombre').keyup(function(){ 
         var query = $(this).val();
         if(query != '')
         {
@@ -45,20 +56,20 @@
       var query = $('#nombre').val();
       var _token = $('input[name="_token"]').val();
        $.ajax({
-          url:"{{ route('autocomplete.info') }}",
+          url:"{{ route('autocomplete.tipo') }}",
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#tipo').val(data);
           }
-         });   
- $.ajax({
+         }); 
+$.ajax({
           url:"{{ route('autocomplete.descripcion') }}",
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#descripcion').val(data);
           }
          });   
@@ -67,34 +78,34 @@ $.ajax({
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#dimensiones').val(data);
           }
          });  
 $.ajax({
-          url:"{{ route('autocomplete.volt') }}",
+          url:"{{ route('autocomplete.voltaje_nominal') }}",
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#voltaje_nominal').val(data);
           }
          }); 
  $.ajax({
-          url:"{{ route('autocomplete.pot') }}",
+          url:"{{ route('autocomplete.potencia_nominal') }}",
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#potencia_nominal').val(data);
           }
          }); 
 $.ajax({
-          url:"{{ route('autocomplete.corr') }}",
+          url:"{{ route('autocomplete.corriente_nominal') }}",
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#corriente_nominal').val(data);
           }
          }); 
@@ -103,7 +114,7 @@ $.ajax({
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#vida_util').val(data);
           }
          }); 
@@ -112,11 +123,51 @@ $.ajax({
           method:"POST",
           data:{query:query, _token:_token},
           success:function(data){
-			console.log(data);
+      console.log(data);
           $('#temperatura').val(data);
-          }
-         }); 
+        }
+      }); 
     });  
+ $("#piso_id").change(function(event) {
+      var query = $('#piso_id').val();
+      var _token = $('input[name="_token"]').val();
+      $.ajax({
+          url:"{{ route('autocomplete.sectores') }}",
+          method:"POST",
+          data:{query:query, _token:_token},
+          success:function(data){
+      console.log(data);     
+        $("#sector_id").empty();
+        for (i = 0; i < data.length; i++) {
+            $("#sector_id").append("<option value='" + data[i].id + "'> " + data[i].nombre + "</option>");
+        };
+      }
+    });
+    });
+$("#sector_id").change(function(event) {
+        var sect = $('#sector_id').val();
+        var _token = $('input[name="_token"]').val();
+        var pis = document.getElementById("piso_id").value;
+ $.ajax({
+          url:"{{ route('autocomplete.grupos') }}",
+          method:"POST",
+          data:{sect:sect, pis:pis, _token:_token},
+          success:function(data){
+      console.log(data);     
+        $("#grupo_id").empty();
+        for (i = 0; i < data.length; i++) {
+            $("#grupo_id").append("<option value='" + data[i].id + "'> " + data[i].nombre + "</option>");
+        };
+       }
+      }); 
+});
+
+
 });
 </script>
+</div>
+</div>
+</body>
+</html>
+
 @endsection

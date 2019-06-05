@@ -147,7 +147,7 @@
     </header>
     <!-- pisos Section -->
     <section id="monitoreo">
-        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://192.168.1.120/BMS/login.html" webkitallowfullscreen="true" width="1250px">
+        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://scada/BMS/login.html" webkitallowfullscreen="true" width="1250px">
         </iframe>
         <!--    </div>-->
     </section>

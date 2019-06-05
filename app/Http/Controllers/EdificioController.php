@@ -31,7 +31,7 @@ class EdificioController extends Controller
     public function index()
     {
 
-        $edificios = Edificio::orderBy('nombre', 'asc')->paginate();
+        $edificios = Edificio::orderBy('nombre', 'asc')->paginate(3);
         //dd($edificios);
 
         return view('edificio.index', compact('edificios'));
@@ -131,10 +131,13 @@ class EdificioController extends Controller
         return redirect('edificio');
 
     }
+
+    public function eliminar($id)
+    {
+        Edificio::destroy($id);
+        Session::flash('message', 'Edificio Eliminado Correctamente');
+        return redirect('edificio');
+    }
 }
 
-/*public function show(Request request, $eventId) {
-$event = Event::findOrFail($eventId);
-$startTime = $event->start_time->format('Y-m-d H:i');
-$endTime = $event->end_time->format('Y-m-d H:i');
-}*/
+

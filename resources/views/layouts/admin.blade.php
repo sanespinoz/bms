@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        <title>
+        <title style="font-weight: bold;">
             SAI
         </title>
         {!!Html::style('css/bootstrap.min.css')!!}
@@ -24,29 +24,26 @@
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="gestion">
-                        @if(Auth::user()->rol == 'admin')
-                        SAI Alarmas
-                        @else
+                    <a class="navbar-brand" href="gestion" style="font-weight: bold;">
+                       
                         SAI
-                        @endif
+                     
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;">
                             {!! Auth::user()->name !!}
                             <i class="fa fa-user fa-fw">
                             </i>
                             <i class="fa fa-caret-down">
                             </i>
                         </a>
-                        <ul class="dropdown-menu dropdown-user">
+                        <ul class="dropdown-menu dropdown-user" style="width: 94.25; height: 50";>
                             <li>
-                                <a href="{!!URL::to('logout')!!}">
-                                    <i aria-hidden="true" class="fa fa-arrow-left">
-                                    </i>
-                                    Salir
+                                <a href="{!!URL::to('logout')!!}" style="font-weight: bold; text-align:center;">
+                                    <i aria-hidden="true" class="fa fa-arrow-left" "> Salir
+                                    </i>                                    
                                 </a>
                             </li>
                         </ul>
@@ -57,85 +54,115 @@
                         <ul class="nav" id="side-menu">
                             @if(Auth::user()->rol_id == 1)
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-users">
+                                    </i>
                                     Usuario
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/user/create')!!}">
+                                        <a href="{!!URL::to('/user/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/user')!!}">
+                                        <a href="{!!URL::to('/user')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Usuarios
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-building">
+                                    </i>
                                     Edificio
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/edificio/create')!!}">
+                                        <a href="{!!URL::to('/edificio/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/edificio')!!}">
+                                        <a href="{!!URL::to('/edificio')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Edificios
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-square">
+                                    </i>
                                     Piso
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/pisos/create')!!}">
+                                        <a href="{!!URL::to('/pisos/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/pisos')!!}">
+                                        <a href="{!!URL::to('/pisos')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Pisos
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-th-large">
+                                    </i>
                                     Sector
                                 </a>
-                                <ul class="nav nav-second-level">
+                                <ul class="nav nav-second-level" style="font-weight: bold;">
                                     <li>
-                                        <a href="{!!URL::to('/sector/create')!!}">
+                                        <a href="{!!URL::to('/sector/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/sector')!!}">
+                                        <a href="{!!URL::to('/sector')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Sectores
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-th">
+                                    </i>
                                     Grupo
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/grupo/create')!!}">
+                                        <a href="{!!URL::to('/grupo/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/grupo')!!}">
+                                        <a href="{!!URL::to('/grupo')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Grupos
                                         </a>
                                     </li>
@@ -144,34 +171,46 @@
                             @endif
                             @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 5)
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-lightbulb-o">
+                                    </i>
                                     Luminaria
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/luminaria/create')!!}">
+                                        <a href="{!!URL::to('/luminaria/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/luminaria')!!}">
+                                        <a href="{!!URL::to('/luminaria')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Luminarias
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-tablet">
+                                    </i>
                                     Dispositivo
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/dispositivo/create')!!}">
+                                        <a href="{!!URL::to('/dispositivo/create')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-newspaper-o">
+                                            </i>
                                             Agregar
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/dispositivo')!!}">
+                                        <a href="{!!URL::to('/dispositivo')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-list">
+                                            </i>
                                             Dispositivos
                                         </a>
                                     </li>
@@ -180,35 +219,37 @@
                             @endif
                             @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 5 || Auth::user()->rol_id == 6)
                             <li>
-                                <a href="#">
+                                <a href="#" style="font-weight: bold;">
+                                    <i aria-hidden="true" class="fa fa-file">
+                                    </i>
                                     Reportes
                                     <span class="fa arrow">
                                     </span>
                                 </a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="{!!URL::to('/reporte')!!}">
+                                        <a href="{!!URL::to('/reporte')!!}" style="font-weight: bold;">
                                             <i aria-hidden="true" class="fa fa-pie-chart">
                                             </i>
                                             Energía
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/tendencia')!!}">
+                                        <a href="{!!URL::to('/tendencia')!!}" style="font-weight: bold;">
                                             <i aria-hidden="true" class="fa fa-line-chart">
                                             </i>
                                             Tendencia de Consumo
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/eficiencia')!!}">
-                                            <i aria-hidden="true" class="fa fa-line-chart">
+                                        <a href="{!!URL::to('/eficiencia')!!}" style="font-weight: bold;">
+                                            <i aria-hidden="true" class="fa fa-area-chart">
                                             </i>
                                             índice de Eficiencia Energética
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{!!URL::to('/performance')!!}">
+                                        <a href="{!!URL::to('/performance')!!}" style="font-weight: bold;">
                                             <i aria-hidden="true" class="fa fa-bar-chart">
                                             </i>
                                             Performance de Luminarias
@@ -229,10 +270,11 @@
     {!!Html::script('js/bootstrap.min.js')!!}
     {!!Html::script('js/metisMenu.min.js')!!}
     {!!Html::script('js/sb-admin-2.js')!!}
-    {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!}
+   {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!} 
+     {!! Html::script('js/datepick.js') !!}
+    
         <!-- Languaje -->
-        {!!Html::script('datePicker/locales/bootstrap-datepicker.es.min.js')!!}             
-    @section('scripts')
-    @show
+       {{-- {!!Html::script('datePicker/locales/bootstrap-datepicker.es.min.js')!!}    --}}           
+
     </body>
 </html>

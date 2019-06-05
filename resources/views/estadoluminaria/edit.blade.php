@@ -1,5 +1,13 @@
 @extends('layouts.admin')
-    @section('content')
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item">{!! link_to(URL::previous(), 'Estado de la luminaria') !!}</li>
+    <li class="breadcrumb-item active" aria-current="page">Edición del estado de la luminaria</li>
+  </ol>
+</nav>
+@section('content')
          @include('alerts.request') 
         
 
@@ -12,13 +20,14 @@
     <div class="form-group">
         {!! Form::text('on_off', null, ['class'=>'form-control floating-label', 'placeholder'=>'On Off:']) !!}
     </div>
-    <div class="form-group">
-        {!! Form::label('valor_regulacion', 'Valor de Regulación') !!}
-        {!! Form::text('valor_regulacion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Valor de Regulación:']) !!}
-    </div>
+
     <div class="form-group">
         {!! Form::label('luminaria_id', 'Luminaria') !!}
         {!! Form::text('luminaria_id', null, ['class'=>'form-control floating-label', 'placeholder'=>'Id Luminaria:']) !!}
+    </div>
+        <div class="form-group">
+        {!! Form::label('observacion', 'Observación') !!}
+        {!! Form::textarea('observacion', null, ['class'=>'form-control floating-label', 'rows' => 4, 'cols' => 54, 'style' => 'resize:none','placeholder'=>'Observación:']) !!}
     </div>
     <div class="form-group">
         <div class="input-group">

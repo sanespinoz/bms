@@ -8,6 +8,7 @@ use App\Luminaria;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
+use DB;
 
 class EstadoLuminariaController extends Controller
 {
@@ -40,7 +41,7 @@ class EstadoLuminariaController extends Controller
         //dd($id me falta guardar el id de la luminiaria del estado);
         // $estadoluminaria = EstadoLuminaria::where('luminaria_id', $id)->first();
 
-        return view('estadoluminaria.edit');
+      //  return view('estadoluminaria.edit');
     }
     /**
      * Store a newly created resource in storage.
@@ -64,11 +65,34 @@ class EstadoLuminariaController extends Controller
     public function show($id)
     {
 
-        $estados = EstadoLuminaria::where('luminaria_id', $id)->paginate(10);
-        // dd($estado); trae los estados de la luminaria con fechas como un log
-        $luminaria = Luminaria::findOrFail($id);
+        $estado = DB::table('estado_luminarias')
+        ->join('luminarias', 'luminarias.id', '=', 'estado_luminarias.luminaria_id')
+        ->orderBy('fecha', 'desc')
+        ->first();
 
-        return view('estadoluminaria.show', compact('estados', 'luminaria'));
+     $lumi = Luminaria::findOrFail($id);
+  
+        return view('estadoluminaria.show', compact('estado', 'lumi'));
+    }
+
+    public function estados_prev($id)
+    {
+        $estados = DB::table('estado_luminarias')
+        ->where('luminaria_id',$id)
+        ->orderBy('fecha', 'desc')->get();
+        //->paginate(6);
+        if (count($estados) == 1){
+            $e = "No hay estados previos para la luminaria ";
+             $lumi = Luminaria::findOrFail($id); 
+            return view('estadoluminaria.showprev', compact('e','lumi'));
+      }else {
+        $lumi = Luminaria::findOrFail($id); 
+         $estados = DB::table('estado_luminarias')
+        ->where('luminaria_id',$id)
+        ->orderBy('fecha', 'desc')->paginate(6);
+  
+        return view('estadoluminaria.showprev', compact('estados', 'lumi'));
+    }
     }
 
     /**

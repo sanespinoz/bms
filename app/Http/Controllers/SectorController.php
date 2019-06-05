@@ -140,6 +140,13 @@ class SectorController extends Controller
         return redirect('sector');
     }
 
+    public function eliminar($id)
+    {
+        Sector::destroy($id);
+        Session::flash('message', 'Sector Eliminado Correctamente');
+        return redirect('sector');
+    }
+
     public function sectores($piso)
     {
 

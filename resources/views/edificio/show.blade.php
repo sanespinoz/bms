@@ -1,9 +1,24 @@
 @extends('layouts.admin')
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio registrado</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Información del edificio</li>
+  </ol>
+</nav>
 @section('content')
-<div class="form-group col-xs-12">
+<html>
+    <head>
+    </head>
+    <body>
+
+ <div align="left" class="container">    
+    <br>
     <h2>
         Datos del Edificio {{$edificio->nombre}}
     </h2>
+        <br>
     <p>
         Descripción:
         {{$edificio->descripcion}}
@@ -30,12 +45,13 @@
         <h3>
             Consta de los siguientes Pisos
         </h3>
+        <br>
+
         <?php foreach($pisos as $piso){ ?>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
+ <div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+                <div class="panel-heading">
                             {{$piso->nombre}}
                         </div>
                         <div class="panel-body">
@@ -46,12 +62,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+   
         <?php  }
         ?>
         <div class="form-group col-xs-12">
             {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
         </div>
-        @endsection
-    </p>
-</div>
+        </div>
+</body>
+</html>
+@endsection
+

@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 
+
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -10,67 +11,57 @@
     {{Session::get('message')}}
 </div>
 @endif
-
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dispositivos registrados</li>
+  </ol>
+</nav>
 @section('content')
-<h1>
+<html>
+<head>
+</head>
+<body>
+<div align="left" class="container">
+<h2>
     Dispositivos Registrados
-</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group" id="adv-search">
-                <input class="form-control" placeholder="Search for snippets" type="text"/>
-                <div class="input-group-btn">
-                    <div class="btn-group" role="group">
-                        <div class="dropdown dropdown-lg">
-                            <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
-                                <span class="caret">
-                                </span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                {!! Form::open(['route'=>'dispositivo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
-                                <div class="form-group">
-                                    <label for="filter">
-                                        Filtrar por
-                                    </label>
-                                    <select name="piso">
-                                        @foreach($pisos as $piso){
-                                        <option value="{{ $piso->id }}">
-                                            {{ $piso->nombre }}
-                                        </option>
+</h2>
+<br>
+<br>
+<div class="container-fluid col-md-8">
+    <div class="input-group" role="menu">
+        {!! Form::open(['route'=>'dispositivo.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+        {!! csrf_field() !!}
+        <div class="form-group">
+            <select name="piso">
+            @foreach($pisos as $piso){
+                <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
                                         } 
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
-                                </div>
-                                <button class="btn btn-primary" type="submit">
-                                    <span aria-hidden="true" class="glyphicon glyphicon-search">
-                                    </span>
-                                </button>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" type="button">
-                            <span aria-hidden="true" class="glyphicon glyphicon-search">
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+            </select>
         </div>
+        <div class="form-group">
+            {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::text('grupo',null, ['class'=>'form-control','placeholder'=>'Buscar por Grupo','aria-describedby'=>'search']) !!}
+        </div>
+        <button class="btn btn-primary" type="submit">
+        <span aria-hidden="true" class="glyphicon glyphicon-search">BUSCAR </span>
+        </button>
+        {!! Form::close() !!}
     </div>
 </div>
+</div>
 <br>
+    <!-- contenido principal -->
+<section class="resultados" id="resultados">
     <table class="table table-bordered table-striped">
-        <head>
+        <thead>
             <tr>
                 <th>
                     Código
-                </th>
-                <th>
-                    Marca
                 </th>
                 <th>
                     Tipo
@@ -79,42 +70,26 @@
                     Nombre
                 </th>
                 <th>
-                    Descripción
-                </th>
-                <th>
                     Estado
-                </th>
-                <th>
-                    Fecha de Alta
-                </th>
-                <th>
-                    Piso
-                </th>
-                <th>
-                    Sector
                 </th>
                 <th>
                     Acciones
                 </th>
             </tr>
-        </head>
+        </thead>
         <tbody>
             @foreach($dispositivos as $dispositivo)
             <tr>
                 <td>
-                    {{ $dispositivo->codigo }}
-                </td>
-                <td>
-                    {{ $dispositivo->marca }}
+                     <a href="{{ route('dispositivo.show', $dispositivo->id) }}">
+                        {{$dispositivo->codigo}}
+                    </a>
                 </td>
                 <td>
                     {{ $dispositivo->tipo }}
                 </td>
                 <td>
                     {{ $dispositivo->nombre }}
-                </td>
-                <td>
-                    {{ $dispositivo->descripcion }}
                 </td>
                 <td>
                     @if ($dispositivo->estado == 'a')
@@ -135,23 +110,15 @@
                     @endif
                 </td>
                 <td>
-                    {{ $dispositivo->fecha_alta}}
-                </td>
-                <td>
-                    {{ $dispositivo->piso->nombre}}
-                </td>
-                <td>
-                    {{ $dispositivo->sector}}
-                </td>
-                <td>
                     {!!link_to_route('dispositivo.edit', $title = 'Editar', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                    {!!link_to_route('dispositivo.show', $title = 'Ver', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-success'])!!}
+                    {!!link_to_route('dispositivo.eliminar', $title = 'Eliminar', $parameters = $dispositivo->id, $attributes = ['class'=>'btn btn-danger'])!!}
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
     {!! $dispositivos->render() !!}     
-
+    </section>
+</body>
+</html>
 @endsection
-</br>

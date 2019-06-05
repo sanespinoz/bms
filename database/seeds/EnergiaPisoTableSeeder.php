@@ -84,7 +84,7 @@ for($i=0; $i < 30; $i ++)
         //strtotime("now");echo date("Y-m-d", $i)."<br>";
         while ($fechaInicio < $fechaFin) {
 
-            $fi   = $fechaInicio->toDateTimeString();
+            $fi   = $fechaInicio->toDateTime();
             $ene  = $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10);
             $pc   = round(($ene / 220), 2);
             $pten = $faker->randomFloat($nbMaxDecimals = 2, $min = 212, $max = 225);

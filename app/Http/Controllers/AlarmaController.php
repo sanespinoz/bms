@@ -8,6 +8,8 @@ use App\Piso;
 use App\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support; 
+use Illuminate\Foundation; 
 
 class AlarmaController extends Controller
 {
@@ -101,6 +103,8 @@ class AlarmaController extends Controller
             ->where('alarmas.mensaje', 'like', 1)
             ->groupBy('grupos.id', 'grupos.nombre', 'grupos.piso_id', 'grupos.sector_id')
             ->get();
+            
+            $alarm = array();
         foreach ($groups as $k) {
             $ng = $k->nombre;
             $ip = $k->piso_id;
@@ -122,12 +126,48 @@ class AlarmaController extends Controller
                 $ns = $l->nombre;
 
             }
-            $a = array();
+       
+            /*$a = array_prepend($a, $np);
             $a = array_prepend($a, $ng);
-            $a = array_prepend($a, $np);
             $a = array_prepend($a, $ns);
-            return ($a);
-        }
+            */
+           $ag = ["piso" => $np, "sector" => $ns , "grupo" => $ng];
+           $alarm = array_prepend($alarm, $ag); 
 
-    }
+        }
+        $output = '<div class="table-responsive">
+                    <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            Piso
+                        </th>
+                        <th>
+                            Sector
+                        </th>
+                        <th>
+                           Grupo
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>';
+         foreach($alarm as $a){
+                $output .= '<tr>
+                        <td>'.
+                          $a["piso"].'
+                        </td>
+                        <td>'.
+                         $a["sector"] .'         
+                        </td>
+                        <td>'.
+                         $a["grupo"].'
+                        </td>
+                    </tr>';
+            }
+            $output .= '
+                </tbody>
+                 </table>
+</div>';
+            return $output;
+        }
 }

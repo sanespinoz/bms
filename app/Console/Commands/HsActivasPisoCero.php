@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Piso;
 use DB;
 use Illuminate\Console\Command;
 

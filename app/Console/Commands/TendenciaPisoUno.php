@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\EnergiaPiso;
+
 use DB;
+use App\Piso;
 use Illuminate\Console\Command;
 
-class TendenciaPisoCero extends Command
+class TendenciaPisoUno extends Command
 {
     /**
      * The name and signature of the console command.
@@ -53,7 +56,10 @@ class TendenciaPisoCero extends Command
         };
         //dd($energia);
 
-        $piso = DB::table('pisos')->select('id')->where('nombre', ' = ', 'Piso 1')->get();
+   $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 1%')->get();
+        foreach ($piso as $p) {
+            $pis = $p->id;
+        }
 
         foreach ($piso as $p) {
             $piso_id = $p->id;
@@ -122,6 +128,7 @@ class TendenciaPisoCero extends Command
             $f2      = $e->F2;
             $f3      = $e->F3;
             $promcor = $f1 + $f2 + $f3;
+            $date = \Carbon\Carbon::now();
         };
 
         //dd($promcorriente);
@@ -136,12 +143,14 @@ class TendenciaPisoCero extends Command
             'min_tension'         => $mint,
             'prom_corriente'      => $promcor,
             'energia_iluminacion' => $energiailum,
-            'fecha'               => $fecha,
-            'eficiencia'          => 'null',
+            'fecha'               => $date,
+            'eficiencia'          => null,
             'piso_id'             => $piso_id,
+            'created_at'          => null,
+            'updated_at'          => null,
         ));
         $energy->save();
 
-        \Log::info('ProbandoenergiaPiso1' . \Carbon\Carbon::now());
+        \Log::info('ProbandoenergiaPiso 1' . \Carbon\Carbon::now());
     }
 }

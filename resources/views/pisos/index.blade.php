@@ -12,9 +12,9 @@
 @endif
 
 @section('content')
-<h1>
+<h2>
     Pisos Registrados
-</h1>
+</h2>
 <br>
     <!--Buscador de sectores -->
     {!! Form::open(['route'=>'pisos.index', 'method'=>'GET','role'=>'search']) !!}
@@ -47,14 +47,16 @@
                 @foreach($pisos as $piso)
                 <tr>
                     <td>
-                        {{ $piso->nombre }}
+                    <a href="{{ route('pisos.show', $piso->id) }}">
+                        {{$piso->nombre}}
+                    </a>
                     </td>
                     <td>
                         {{ $piso->descripcion }}
                     </td>
                     <td>
                         {!!link_to_route('pisos.edit', $title = 'Editar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                {!!link_to_route('pisos.show', $title = 'Ver', $parameters = $piso->id, $attributes = ['class'=>'btn btn-success'])!!}
+                        {!!link_to_route('pisos.eliminar', $title = 'Eliminar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-danger'])!!}
                     </td>
                 </tr>
                 @endforeach
@@ -63,5 +65,3 @@
         {!! $pisos->render() !!}        
 
 @endsection
-    </hr>
-</br>

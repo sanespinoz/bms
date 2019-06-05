@@ -5,6 +5,7 @@
     <div class="form-group">
         {!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
     </div>
+     <div class="form-group">
     <select class="form-control floating-label" name="piso_id">
         @foreach($pisos as $piso)
         <option value="{{ $piso->id }}">
@@ -12,4 +13,5 @@
         </option>
         @endforeach
     </select>
+    </div>
 </div>

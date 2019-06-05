@@ -1,4 +1,4 @@
-<div class="col-sm-4">
+<div class="col-sm-6">
     <div class="form-group">
         {!! Form::text('codigo', null, ['class'=>'form-control floating-label','placeholder'=>'Código:']) !!}
     </div>

@@ -156,6 +156,13 @@ class GrupoController extends Controller
         return redirect('grupo');
 
     }
+
+    public function eliminar($id)
+    {
+        Grupo::destroy($id);
+        Session::flash('message', 'Grupo Eliminado Correctamente');
+        return redirect('grupo');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -168,6 +175,7 @@ class GrupoController extends Controller
     {
 
         if ($request->ajax()) {
+            dd($id);
             $sectores = Sector::where('piso_id', '=', $id)->get();
             return response()->json($sectores);
         }

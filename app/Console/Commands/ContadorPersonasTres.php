@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use DB;
 use Illuminate\Console\Command;
 
-class ContadorPersonasCero extends Command
+class ContadorPersonasTres extends Command
 {
     /**
      * The name and signature of the console command.

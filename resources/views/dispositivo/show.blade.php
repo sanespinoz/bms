@@ -1,9 +1,23 @@
 @extends('layouts.admin')
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('dispositivo') }}">Dispositivos registrados</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Información del dispositivo</li>
+  </ol>
+</nav>
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
+<html>
+    <head>
+    </head>
+    <body>
+ <div align="left" class="container"> 
+ <h3>Datos del dispositivo {{$dis->nombre}}</h3>
+<br>
+ <div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
                 <div class="panel-heading">
                     Dispositivo: {{ $dis->codigo}}
                 </div>
@@ -36,8 +50,11 @@
             </div>
         </div>
     </div>
-</div>
+
 <div class="form-group col-xs-12">
     {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
 </div>
+</div>
+</body>
+</html>
 @endsection

@@ -9,22 +9,30 @@
     {{Session::get('message')}}
 </div>
 @endif
-
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edificios</li>
+  </ol>
+</nav>
 @section('content')
-<h1>
-    Edificios Registrados
-</h1>
-<table class="table table-bordered table-striped">
+<html>
     <head>
+    </head>
+    <body>
+        <div align="left" class="container">
+            <h2>
+                  Edificios Registrados
+            </h2>
+        </div>
+<br>
+  <section class="resultados" id="resultados">
+    <table class="table table-bordered table-striped">
+        <thead>
         <tr>
             <th>
                 Nombre
-            </th>
-            <th>
-                Dirección
-            </th>
-            <th>
-                Teléfono
             </th>
             <th>
                 Descripción
@@ -33,24 +41,17 @@
                 Ciudad
             </th>
             <th>
-                Provincia
-            </th>
-            <th>
                 Acciones
             </th>
         </tr>
-    </head>
+    </thead>
     <tbody>
         @foreach($edificios as $edificio)
         <tr>
             <td>
-                {{ $edificio->nombre }}
-            </td>
-            <td>
-                {{ $edificio->direccion }}
-            </td>
-            <td>
-                {{ $edificio->telefono}}
+            <a href="{{ route('edificio.show', $edificio->id) }}">
+                        {{ $edificio->nombre }}
+            </a>   
             </td>
             <td>
                 {{ $edificio->descripcion}}
@@ -59,16 +60,21 @@
                 {{ $edificio->ciudad}}
             </td>
             <td>
-                {{ $edificio->provincia}}
-            </td>
-            <td>
                 {!!link_to_route('edificio.edit', $title = 'Editar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                {!!link_to_route('edificio.show', $title = 'Ver', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-success'])!!}
+                {!!link_to_route('edificio.eliminar', $title = 'Eliminar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-danger'])!!}
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
 {!! $edificios->render() !!}
+    </section>
+        <div class="form-group col-xs-12">
+    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+    </div>
+
+</body>
+
+</html>
 
 @endsection
