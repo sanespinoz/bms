@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        <title>
+        <title style="font-weight: bold;">
             SAI
         </title>
         {!!Html::style('css/bootstrap.min.css')!!}
@@ -13,12 +13,13 @@
                         {!!Html::style('css/sb-admin-2.css')!!}
                         {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
                         {!!Html::style('fontawesome-free/css/all.css')!!}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+        </script>
         <!-- Datepicker Files -->
         <link href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}" rel="stylesheet"/>
         {!!Html::style('datePicker/css/bootstrap-datepicker.standalone.css')!!}
         <meta content="{{ csrf_token() }}" name="csrf-token"/>
-        {!!Html::script('js/jquery.min.js')!!}
-    {!!Html::script('js/bootstrap.min.js')!!}
+
         <script>
             $(document).ready(function()
       { 
@@ -39,9 +40,10 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <a class="navbar-brand" href="gestion" style="font-weight: bold;">
-                    SAI Alarmas
+                    <i class="fas fa-bell"></i> SAI Alarmas
                 </a>
             </div>
+            <br>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;">
@@ -165,7 +167,7 @@
                         ×
                     </button>
                     <h3>
-                        Alarmas Registradas
+                      <i class="fas fa-bell"></i> Alarmas Registradas
                     </h3>
                 </div>
                 <div class="modal-body">
@@ -179,14 +181,11 @@
                 </div>
             </div>
         </div>
-        {!!Html::script('js/metisMenu.min.js')!!}
+        {!!Html::script('js/jquery.min.js')!!}
+    {!!Html::script('js/bootstrap.min.js')!!}
+    {!!Html::script('js/metisMenu.min.js')!!}
     {!!Html::script('js/sb-admin-2.js')!!}
-    {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!}
-        <!-- Languaje -->
-        {!!Html::script('datePicker/locales/bootstrap-datepicker.es.min.js')!!}
-       
-        @section('scripts')
-
-    @show
+   {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!} 
+     {!! Html::script('js/datepick.js') !!}
     </div>
 </body>

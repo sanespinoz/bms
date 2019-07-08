@@ -1,4 +1,4 @@
-<div class="col-sm-6">
+<div class="form-group">
     <div class="form-group">
         {!! Form::text('codigo', null, ['class'=>'form-control floating-label', 'placeholder'=>'N. Serie:']) !!}
     </div>
@@ -40,10 +40,13 @@
     <div class="form-group">
         <input class="form-control floating-label" id="temperatura" name="temperatura" placeholder="Temperatura color:" type="text"/>
     </div>
-    <div class="form-group">
-        {!! Form::select('piso_id',$pisos,null,['id'=>'piso_id']) !!}
-        {!! Form::select('sector_id',['placeholder'=>'Selecciona'],null,['id'=>'sector_id']) !!}
-        {!! Form::select('grupo_id',['placeholder'=>'Selecciona'],null,['id'=>'grupo_id']) !!}
+        <div class="form-group">
+        {!! Form::select('piso_id',$pisos,null,['class'=>'form-control floating-label', 'id'=>'piso_id']) !!}
     </div>
-    {{ csrf_field() }}
+        <div class="form-group">
+        {!! Form::select('sector_id',['placeholder'=>'Selecciona un sector'],null,['class'=>'form-control floating-label', 'id'=>'sector_id']) !!}
+    </div>
+        <div class="form-group">
+        {!! Form::select('grupo_id',['placeholder'=>'Selecciona un grupo'],null,['class'=>'form-control floating-label', 'id'=>'grupo_id']) !!}
+    </div>
 </div>

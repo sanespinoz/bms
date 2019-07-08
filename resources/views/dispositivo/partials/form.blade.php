@@ -1,4 +1,4 @@
-<div class="col-sm-6">
+<div class="form-group">
     <div class="form-group">
         {!! Form::text('codigo', null, ['class'=>'form-control floating-label','placeholder'=>'Código:']) !!}
     </div>
@@ -32,6 +32,9 @@
             <option value="f">
                 Falla
             </option>
+            <option value="m">
+                Mantenimiento
+            </option>
         </select>
     </div>
     <div class="form-group">
@@ -44,7 +47,9 @@
         </div>
     </div>
     <div class="form-group">
-        {!! Form::select('piso_id',$pisos,null,['id'=>'piso_id']) !!}
-        {!! Form::select('sector_id',['placeholder'=>'Selecciona'],null,['id'=>'sector_id']) !!}
+        {!! Form::select('piso_id',$pisos,null,['class'=>'form-control floating-label', 'id'=>'piso_id']) !!}
+    </div>
+        <div class="form-group">
+        {!! Form::select('sector_id',['placeholder'=>'Selecciona un sector'],null,['class'=>'form-control floating-label', 'id'=>'sector_id']) !!}
     </div>
 </div>

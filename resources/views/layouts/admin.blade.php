@@ -8,7 +8,7 @@
             SAI
         </title>
         {!!Html::style('css/bootstrap.min.css')!!}
-                        {!!Html::style('css/metisMenu.min.css')!!}
+                      {{-- {!!Html::style('css/metisMenu.min.css')!!} --}}  
                         {!!Html::style('css/buscador.css')!!}
                         {!!Html::style('css/sb-admin-2.css')!!}
                         {!!Html::style('font-awesome/css/font-awesome.min.css')!!}
@@ -22,7 +22,7 @@
     </head>
     <body>
         <div id="wrapper">
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="gestion" style="font-weight: bold;">
                        
@@ -39,10 +39,10 @@
                             <i class="fa fa-caret-down">
                             </i>
                         </a>
-                        <ul class="dropdown-menu dropdown-user" style="width: 94.25; height: 50";>
+                        <ul class="dropdown-menu dropdown-user" style="width: 94.25; height: 40";>
                             <li>
                                 <a href="{!!URL::to('logout')!!}" style="font-weight: bold; text-align:center;">
-                                    <i aria-hidden="true" class="fa fa-arrow-left" "> Salir
+                                    <i aria-hidden="true" class="fa fa-arrow-left"> Salir
                                     </i>                                    
                                 </a>
                             </li>
@@ -262,7 +262,7 @@
                     </div>
                 </div>
             </nav>
-            <div id="page-wrapper">
+            <div id="page-wrapper" align="left">
                 @yield('content')
             </div>
         </div>

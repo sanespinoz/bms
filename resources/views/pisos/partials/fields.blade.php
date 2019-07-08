@@ -1,8 +1,11 @@
-<div class="col-sm-6">
-
-	<div class="form-group">
-		{!! Form::text('nombre', null, ['class'=>'form-control floating-label','placeholder'=>'Nombre:','required']) !!}
-				<!--VALIDACION -->
+<div class="form-group">
+    <div class="form-group row">
+        {!! Form::label('nom', 'Nombre', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('nombre' ,old('nombre'),['class'=>'form-control']) !!}
+        </div>
+    </div>
+				<!--VALIDACION 
 
 		@if($errors->has('nombre'))
 
@@ -10,27 +13,16 @@
 		@endif
 
 		<!--VALIDACION -->
-
-	</div>
-	<div class="form-group">
-		{!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
-
-	</div>
-
-	{{--<div class="form-group">
-	{!! Form::text('piso_id', null, ['class'=>'form-control floating-label', 'placeholder'=>'Piso:']) !!}
-	</div>--}}
-	 <select class ="form-control floating-label" name="edificio_id">
-	@foreach($edificios as $edificio)
-
-			<option value="{{$edificio->id }}" <?php if($edificio['id']==$piso['edificio_id']) echo 'selected' ; ?>>{{ $edificio->nombre }}</option>
-
-	@endforeach
-	</select>
-			
-
-
-
-
-
+    <div class="form-group row">
+        {!! Form::label('descrip', 'Descripción', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::textarea('descripcion', old('descripcion'), ['class'=>'form-control floating-label', 'rows'=>'3']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+     {!! Form::label('edif', 'Edificio', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::select('edificio_id',$edificios, $e,['id'=>'edificio_id','class'=>'form-control']) !!}
+        </div>
+    </div>
 </div>

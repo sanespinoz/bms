@@ -89,7 +89,7 @@
                     @endforeach
                 </select>
                 <select class="form-control" name="mes">
-                    <option selected="selected" value="00">
+                    <option selected="selected" value="00"> Mes
                     </option>
                     <option value="01">
                         Enero
@@ -130,15 +130,14 @@
                 </select>
             </div>
             <button class="btn btn-primary" type="submit">
-                <span aria-hidden="true" class="glyphicon glyphicon-search">
-                </span>
+                Buscar
             </button>
             {!! Form::close() !!}
         </div>
     </head>
     <body>
         <div align="center" class="container" id="testing" style="width: 800px;
-  margin: 0 auto; ">
+  margin: 0 auto;">
             <h2 align="center">
                 Consumo energético
             </h2>
@@ -168,6 +167,7 @@
 <div align="center">
     {!! Form::open(['action' => 'ReporteController@createPDF','method'=>'POST','id'=>'make_pdf']) !!}
     <input id="hidden_html" name="hidden_html" type="hidden"/>
+    <input id="hidden_html_titulo" name="hidden_html_titulo" value= "energia" type="hidden"/>
     <button class="btn btn-danger btn-xs" id="create_pdf" name="create_pdf" type="submit">
         Imprimir
     </button>

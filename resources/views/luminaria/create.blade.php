@@ -18,19 +18,27 @@
   </ol>
 </nav>
 @section('content')
+@include('alerts.request')
 <html>
   <head>
   </head>
-  <body>
-    <div align="left" class="container">
-      <h1>Registrar Luminaria</h1>
-      <div class="container-fluid col-md-8">
+ <body>
+<div align="left" class="container">
+<div class="container-fluid">
+<br>
+<h2>Registrar Luminaria</h2>
+<br>
+</div>
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
 {!! Form::open(['route'=>'luminaria.store', 'autocomplete'=>'off']) !!}
+{!! csrf_field() !!}
+<br>
  @include('luminaria.partials.form')
-<div class="form-group col-xs-12">
+ <br>
+
 {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
 {!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
-</div>
+
 {!! Form::close() !!}
 <script>
     $(document).ready(function(){

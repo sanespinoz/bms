@@ -10,8 +10,8 @@ use App\Piso;
 use DB;
 use Illuminate\Http\Request;
 
-//
-//Solo accesible a los usuarios de area y de mantenimiento
+
+//Solo accesible a los usuarios admin y de mantenimiento
 class ReporteController extends Controller
 {
     public function __construct()
@@ -93,7 +93,7 @@ class ReporteController extends Controller
                 return view('reportes.ener', ['etotals' => $etotals, 'eiluminacions' => $eiluminacions, 'anios' => $anios, 'demanda' => $demanda]);
             }
         } else {
-//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2019
             $a = $anios->first()->anio;
             // select('rols.id','rols.rol')->get();
             $etotals = EnergiaPiso::
@@ -191,7 +191,7 @@ class ReporteController extends Controller
                     ->groupBy(DB::raw('DAY(DATEADD( DAY ,DATEDIFF( DAY ,0,fecha),0))'))
                     ->get();
                 $plu         = $tendencia->pluck('max_pic')->all();
-                $maximo_pico = max($plu);
+                $maximo_pico = round(max($plu), 2);
 
                 $fpmax = EnergiaPiso::
                     select(
@@ -220,7 +220,7 @@ class ReporteController extends Controller
                 return view('reportes.tendenciam', ['pisos' => $pisos, 'anios' => $anios, 'tendencia' => $tendencia, 'pei' => $pei, 'maximo' => $maximo_pico, 'fechpic' => $fechmax]);
             }
         } else {
-//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2019
             $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
                 ->groupBy(DB::raw('YEAR(fecha)'))
                 ->get();
@@ -403,6 +403,7 @@ class ReporteController extends Controller
                         ->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                         ->groupBy(DB::raw('YEAR(fecha_alta)'))
                         ->get();
+
                     //dd($anios);
                     $pisos  = Piso::all();
                     $titulo = utf8_decode('Eficiencia de Uso de las Luminarias en el Piso y Mes seleccionado del');
@@ -410,7 +411,7 @@ class ReporteController extends Controller
                 }
             }
         } else {
-//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2018 para todo el edificio
+//cdo se ejecuta por primera vez el request viene vacio entonces busco por 2019 para todo el edificio
             $anios = Luminaria::select(DB::raw('YEAR(fecha_alta) as anio'))->orderBy(DB::raw('YEAR(fecha_alta)'), 'desc')
                 ->groupBy(DB::raw('YEAR(fecha_alta)'))
                 ->get();
@@ -484,9 +485,9 @@ class ReporteController extends Controller
 
                 $eficienciamensual = EnergiaPiso::
                     select(DB::raw('DAY(fecha) as dia'), DB::raw('AVG(eficiencia) as eficiencia'))
-                    ->where(DB::raw('YEAR(fecha)'), ' = ', $anio)
-                    ->where('piso_id', ' = ', $piso)
-                    ->where(DB::raw('MONTH(fecha)'), ' = ', $mes)
+                    ->where(DB::raw('YEAR(fecha)'), '=', $anio)
+                    ->where('piso_id', '=', $piso)
+                    ->where(DB::raw('MONTH(fecha)'), '=', $mes)
                     ->groupBy(DB::raw('DAY(fecha)'))
                     ->get();
                 $anios = EnergiaPiso::select(DB::raw('YEAR(fecha) as anio'))->orderBy(DB::raw('YEAR(fecha)'), 'asc')
@@ -518,14 +519,12 @@ class ReporteController extends Controller
     public function createPDF(Request $request)
     {
         $r = $request->input('hidden_html');
-        // var_dump($r);exit();
+        $titulo = $request->input('hidden_html_titulo');
+      //dd($r);exit();
         if ($r != "") {
-
-            $file_name = 'consumo_energia';
-
-            $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
+            $html ='<html><head><meta charset=UTF-8"/>';
             $html .= '<meta content="width=device-width, initial-scale=1" name="viewport"/>';
-            //$html .= '<link rel="stylesheet" href="~assets/css/pdf_sai.css">';
+            $html .= '<title style="font-weight: bold;">SAI</title>';
             $html .= '<link rel="stylesheet" href="~assets/css/style.css">';
             $html .= '<link rel="stylesheet" href="~assets/css/sb-admin-2.css">';
             $html .= '<link rel="stylesheet" href="~assets/css/bootstrap.min.css">';
@@ -542,7 +541,7 @@ class ReporteController extends Controller
 
             $pdf->loadHTML($html);
             $pdf->setPaper('a4', 'portrait')->setWarnings(false);
-            return $pdf->stream($file_name . date('d/m/Y H:i:s') . '.pdf', array("Attachment" => false));
+            return $pdf->stream($titulo . date('d/m/Y H:i:s') . '.pdf', array("Attachment" => false));
 
         }
     }

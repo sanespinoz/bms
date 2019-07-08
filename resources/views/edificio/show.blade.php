@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+
 <br>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -12,63 +13,60 @@
     <head>
     </head>
     <body>
-
- <div align="left" class="container">    
-    <br>
-    <h2>
-        Datos del Edificio {{$edificio->nombre}}
+<div align="left" class="container">
+<div class="container-fluid">
+<br>
+       <h2> Datos del Edificio {{$edificio->nombre}}
     </h2>
-        <br>
-    <p>
-        Descripción:
-        {{$edificio->descripcion}}
-    </p>
-    <p>
-        Dirección:
-        {{$edificio->direccion}}
-    </p>
-    <p>
-        Email:
-        {{$edificio->email}}
-    </p>
-    <p>
-        Provincia:
-        {{$edificio->provincia}}
-    </p>
-    <p>
-        Ciudad:
-        {{$edificio->ciudad}}
-    </p>
-    <p>
-        Código Postal:
-        {{$edificio->codigo}}
-        <h3>
-            Consta de los siguientes Pisos
-        </h3>
-        <br>
+<br>
+</div>
 
-        <?php foreach($pisos as $piso){ ?>
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+       <p><strong>Descripción:</strong> {{$edificio->descripcion}}</p>
+       <p><strong>Dirección:</strong> {{$edificio->direccion}}</p>
+        <p><strong>Email:</strong> {{$edificio->email}}</p>
+        <p><strong>Provincia:</strong> {{$edificio->provincia}}</p>
+        <p><strong>Ciudad:</strong> {{$edificio->ciudad}}</p>
+        <p><strong>Código Postal:</strong> {{$edificio->codigo}}</p>
+        </div>
+    <br>
+   
+     <?php
+            if(isset($pisos)) 
+            {
+             ?>
+         <h4>Pisos en el edificio</h4>
+    <?php foreach($pisos as $piso){
+             ?>
+<br>
+<div align="left" class="container-fluid">
  <div class="row">
-  <div class="col-md-6">
+  <div class="form-group">
     <div class="panel panel-default">
-                <div class="panel-heading">
-                            {{$piso->nombre}}
-                        </div>
-                        <div class="panel-body">
-                            <p>
-                                Descripción: {{$piso->descripcion}}
-                            </p>
-                        </div>
+        <div class="panel-heading">
+                    <strong>
+                            {{$piso->nombre}}</strong> 
                     </div>
+                    <div class="panel-body">
+                        <p>
+                            <strong>Descripción:</strong> {{$piso->descripcion}}
+                            </p>
+
+                </div>
                 </div>
             </div>
-   
-        <?php  }
-        ?>
-        <div class="form-group col-xs-12">
-            {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
         </div>
         </div>
+    <?php  }
+  }else echo "<h4><strong>No se registran pisos para el edificio</strong></h4>";
+          ?>
+<br>
+<br>
+        {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+
+</div>
+</div>
 </body>
 </html>
 @endsection

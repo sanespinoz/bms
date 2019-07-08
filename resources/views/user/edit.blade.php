@@ -9,25 +9,31 @@
 </nav>
 @section('content')
 @include('alerts.request')
-
 <html>
 <head>
 </head>
 <body>
-<div class="form-group col-xs-12">
-    <h2>
-        Datos del usuario {{$user->name}}
-    </h2>
-    {!!Form::model($user,['route'=> ['user.update',$user->id],'method'=>'PUT',$rols,$rolse])!!}
-            @include('user.partials.fields')
-    <div class="form-group col-xs-12">
-        {!!Form::submit('Guardar',['class'=>'btn btn-primary'])!!}
-      {!! Form::close()!!}
-
-
-{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
-    </div>
+<div align="left" class="container">
+<div class="container-fluid">
+<br>
+<h2>
+    Editar Usuario
+</h2>
 </div>
-  </body>
-  </html>
+<br>
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+
+    {!!Form::model($user,['route'=> ['user.update',$user->id],'method'=>'PUT',$rols,$rolse])!!}
+      <br>
+            @include('user.partials.fields')
+              <br>
+{!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
+{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
+
+{!! Form::close() !!}
+</div>
+</div>
+</body>
+</html>
+
 @endsection

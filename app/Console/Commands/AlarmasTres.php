@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console\Commands;
-
 use App\Piso;
 use App\Alarma;
 use App\Luminaria;
@@ -43,53 +42,64 @@ class AlarmasTres extends Command
      */
     public function handle()
     {
-        //Sector A1
+//Sector A1
         for ($i = 1; $i < 4; $i++) 
         {
             $alarmas = DB::connection('netx')
                 ->table('dbo.NETX_DEFINITION')
-                ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->select(DB::raw('(NUM_VALUE) as m'))
                 ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A1\G'.$i.'%')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A1\G'.$i)
                 ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
                 ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                ->first();
+                ->get();
 
-            if ($alarmas != []) 
+            if($alarmas != []) 
             {
                 foreach ($alarmas as $a) 
                 {
-                    $mensalarma = (int) $a;
+                   
+                    $mensalarma = (int) $a->m;
                 };
 
-                //dd($mensalarma);
+             
                 $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
                 foreach ($piso as $p) {
                     $pis = $p->id;
                 }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
-
+                
                 $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
                     ->where('piso_id', '=', $pis)->get();
                 foreach ($sector as $s) {
                     $se = $s->id;
                 }
+
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
+               
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
+                }
+
+             
                 $fech = \Carbon\Carbon::now();
 
                 $fi = $fech->toDateTimeString();
                 DB::table('alarmas')->insert(
                     ['mensaje' => $mensalarma, 'fecha' => $fi, 'grupo_id' => $gid]
                 );
+                
                 //Inserto un nuevo estado para cada luminaria del grupo alarmado
 
                 $luminarias = Alarma::select('luminarias.id as idl')
                     ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
                     ->groupBy('luminarias.id')
                     ->get();
+                  
 
                 foreach ($luminarias as $v) 
                 {
@@ -111,40 +121,44 @@ class AlarmasTres extends Command
                     \Log::info('insertando ALARMAS del sector A1 Piso 3' . \Carbon\Carbon::now());
                 }
             }
+            //echo ($i);
         }
 //Sector A2
         for ($i = 1; $i < 4; $i++) 
         {
-            $alarmas = DB::connection('netx')
+                 $alarmas = DB::connection('netx')
                 ->table('dbo.NETX_DEFINITION')
-                 ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->select(DB::raw('(NUM_VALUE) as m'))
                 ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A2\G'.$i.'%')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A2\G'.$i)
                 ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
                 ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                ->first();
+                ->get();
 
             if ($alarmas != []) 
             {
                 foreach ($alarmas as $al) 
                 {
-                    $mensalarma = $al->m;
+                    $mensalarma = (int) $al->m;
                 };
 
                 $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
                 foreach ($piso as $p) {
                     $pis = $p->id;
                 }
-                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                foreach ($grupo as $g) {
-                    $gid = $g->id;
-                }
-
-                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A2%')
+                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
                     ->where('piso_id', '=', $pis)->get();
                 foreach ($sector as $s) {
                     $se = $s->id;
+                }
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
                 }
                 $fech = Carbon\Carbon::now();
 
@@ -157,7 +171,7 @@ class AlarmasTres extends Command
                 $luminarias = Alarma::select('luminarias.id as idl')
                     ->join('luminarias', 'alarmas.grupo_id', '=', 'luminarias.grupo_id')
                     ->groupBy('luminarias.id')
-                    ->get();
+                    ->first();
 
                 foreach ($luminarias as $v) 
                 {
@@ -184,36 +198,42 @@ class AlarmasTres extends Command
 
             for ($i = 1; $i < 4; $i++) 
             {
-                $alarmas = DB::connection('netx')
-                    ->table('dbo.NETX_DEFINITION')
-                     ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
-                    ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                    ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A3\G'.$i.'%')
-                    ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                    ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
-                    ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                    ->first();
+
+            $alarmas = DB::connection('netx')
+                ->table('dbo.NETX_DEFINITION')
+                ->select(DB::raw('(NUM_VALUE) as m'))
+                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A3N\G'.$i)
+                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
+                ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
+                ->get();
+
                 if ($alarmas != [])
                 {
                     foreach ($alarmas as $al) 
                     {
-                        $mensalarma = $al->m;
+                        $mensalarma = (int) $al->m;
                     };
 
-                    $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
-                    foreach ($piso as $p) {
-                        $pis = $p->id;
-                    }
-                    $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                    foreach ($grupo as $g) {
-                        $gid = $g->id;
-                    }
+                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
+                foreach ($piso as $p) {
+                    $pis = $p->id;
+                }
+                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
+                    ->where('piso_id', '=', $pis)->get();
+                foreach ($sector as $s) {
+                    $se = $s->id;
+                }
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
 
-                    $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3N%')
-                        ->where('piso_id', '=', $pis)->get();
-                    foreach ($sector as $s) {
-                        $se = $s->id;
-                    }
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
+                }
                     $fech = Carbon\Carbon::now();
 
                     $fi = $fech->toDateTimeString();
@@ -252,36 +272,42 @@ class AlarmasTres extends Command
 
                 for ($i = 1; $i < 4; $i++)
                 {
-                    $alarmas = DB::connection('netx')
-                    ->table('dbo.NETX_DEFINITION')
-                    ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
-                    ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                    ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A3S\G'.$i.'%')
-                    ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                    ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
-                    ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                    ->first();
+
+                 $alarmas = DB::connection('netx')
+                ->table('dbo.NETX_DEFINITION')
+                ->select(DB::raw('(NUM_VALUE) as m'))
+                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A3S\G'.$i)
+                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
+                ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
+                ->get();
+
+
                     if ($alarmas != []) 
                     {
                         foreach ($alarmas as $al) 
                         {
-                            $mensalarma = $al->m;
+                            $mensalarma = (int) $al->m;
                         };
+                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
+                foreach ($piso as $p) {
+                    $pis = $p->id;
+                }
+                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
+                    ->where('piso_id', '=', $pis)->get();
+                foreach ($sector as $s) {
+                    $se = $s->id;
+                }
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
 
-                        $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
-                        foreach ($piso as $p) {
-                            $pis = $p->id;
-                        }
-                        $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                        foreach ($grupo as $g) {
-                            $gid = $g->id;
-                        }
-
-                        $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A3S%')
-                            ->where('piso_id', '=', $pis)->get();
-                        foreach ($sector as $s) {
-                            $se = $s->id;
-                        }
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
+                }
                         $fech = Carbon\Carbon::now();
 
                         $fi = $fech->toDateTimeString();
@@ -321,36 +347,39 @@ class AlarmasTres extends Command
 
                     for ($i = 1; $i < 4; $i++)
                     {
-                        $alarmas = DB::connection('netx')
-                            ->table('dbo.NETX_DEFINITION')
-                             ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
-                            ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                            ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A4N\G'.$i.'%')
-                            ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                            ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
-                            ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                            ->first();
+
+            $alarmas = DB::connection('netx')
+                ->table('dbo.NETX_DEFINITION')
+                ->select(DB::raw('(NUM_VALUE) as m'))
+                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A4N\G'.$i)
+                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
+                ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
+                ->get();
                         if ($alarmas != []) 
                         {
                             foreach ($alarmas as $al) 
                             {
-                                $mensalarma = $al->m;
+                                $mensalarma = (int) $al->m;
                             };
-
-                            $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
-                            foreach ($piso as $p) {
-                                $pis = $p->id;
-                            }
-                            $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                            foreach ($grupo as $g) {
-                                $gid = $g->id;
-                            }
-
-                            $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4N%')
-                                ->where('piso_id', '=', $pis)->get();
-                            foreach ($sector as $s) {
-                                $se = $s->id;
-                            }
+                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
+                foreach ($piso as $p) {
+                    $pis = $p->id;
+                }
+                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
+                    ->where('piso_id', '=', $pis)->get();
+                foreach ($sector as $s) {
+                    $se = $s->id;
+                }
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
+                }
                             $fech = Carbon\Carbon::now();
 
                             $fi = $fech->toDateTimeString();
@@ -384,41 +413,46 @@ class AlarmasTres extends Command
                                 \Log::info('insertando alarmas del sector A4N Piso 3' . \Carbon\Carbon::now());
                             }
                         }
+
                     }
 
                         //Sector A4S
 
                     for ($i = 1; $i < 4; $i++) 
                     {
-                            $alarmas = DB::connection('netx')
-                                ->table('dbo.NETX_DEFINITION')
-                                 ->select(DB::raw('(NUM_VALUE) as m'),DB::raw('LOCAL_DATE'),DB::raw('DATEADD([minute], -10, GETDATE())'))
-                                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
-                                ->where('ITEMID', 'like', '%BMS\Alarmas\Piso 3\A4S\G'.$i.'%')
-                                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
-                                ->where(DB::raw('LOCAL_DATE'), '>', DB::raw('DATEADD([minute], -10, GETDATE())'))
-                                ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
-                                ->first();
+
+            $alarmas = DB::connection('netx')
+                ->table('dbo.NETX_DEFINITION')
+                ->select(DB::raw('(NUM_VALUE) as m'))
+                ->join('dbo.NETX_HISTORICAL_VALUE', 'NETX_DEFINITION.handle', '=', 'NETX_HISTORICAL_VALUE.handle')
+                ->where('ITEMID', 'like', '%BMS\Alarmas\piso 3\A4S\G'.$i)
+                ->where('NETX_HISTORICAL_VALUE.NUM_VALUE','1')
+                ->where('LOCAL_DATE' ,'>', DB::raw('DATEADD([minute], -10, GETDATE())'))
+                ->where('LOCAL_DATE' ,'<',  DB::raw('GETDATE()'))
+                ->orderBy(DB::raw('LOCAL_DATE'), 'desc')
+                ->get();
                             if ($alarmas != []) 
                             {
                                 foreach ($alarmas as $al) {
-                                    $mensalarma = $al->m;
+                                    $mensalarma = (int) $al->m;
                                 };
 
-                                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
-                                foreach ($piso as $p) {
-                                    $pis = $p->id;
-                                }
-                                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)->get();
-                                foreach ($grupo as $g) {
-                                    $gid = $g->id;
-                                }
-
-                                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A4S%')
-                                    ->where('piso_id', '=', $pis)->get();
-                                foreach ($sector as $s) {
-                                    $se = $s->id;
-                                }
+                $piso = DB::table('pisos')->select('id')->where('nombre', 'like', '%Piso 3%')->get();
+                foreach ($piso as $p) {
+                    $pis = $p->id;
+                }
+                $sector = DB::table('sectores')->select('id')->where('nombre', 'like', '%A1%')
+                    ->where('piso_id', '=', $pis)->get();
+                foreach ($sector as $s) {
+                    $se = $s->id;
+                }
+                $grupo = DB::table('grupos')->select('id')->where('nombre', 'like', '%G' . $i)
+                ->where('piso_id', $pis)
+                ->where('sector_id', $se)
+                ->get();
+                foreach ($grupo as $g) {
+                    $gid = $g->id;
+                }
                                 $fech = Carbon\Carbon::now();
 
                                 $fi = $fech->toDateTimeString();
@@ -454,6 +488,5 @@ class AlarmasTres extends Command
                             }
 
                     }
-
     }
-}
+}               

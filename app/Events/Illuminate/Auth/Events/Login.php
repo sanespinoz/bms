@@ -2,7 +2,7 @@
 
 namespace App\Events\Illuminate\Auth\Events;
 
-use App\Events\Event;
+
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 

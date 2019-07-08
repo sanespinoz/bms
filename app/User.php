@@ -22,12 +22,12 @@ CanResetPasswordContract
      * @var string
      */
     protected $table    = 'users';
-    protected $fillable = ['name', 'email', 'password', 'rol_id', 'last_login_at'];
-    protected $dates    = ['created_at', 'updated_at'];
+    protected $fillable = ['apellido','nombre','name', 'email', 'password', 'rol_id'];
+    protected $dates    = ['created_at', 'updated_at','last_login_at'];
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $dateFormat = 'Y-m-d H:i:s.000';
+    protected $dateFormat = 'd-m-Y H:i';
     public $timestamps    = false;
 
     /**
@@ -62,5 +62,6 @@ CanResetPasswordContract
             $this->attributes['password'] = \Hash::make($valor);
         }
     }
+
 
 }

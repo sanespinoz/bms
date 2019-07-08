@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Rol;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class UserController extends Controller
 {
@@ -34,8 +37,27 @@ class UserController extends Controller
             if ($request->get('name')) {
                 $n     = $request->get('name');
                 $r     = $request->get('rol');
-                $users = User::where('name', 'LIKE', "%$n%")->
-                    where('rol_id', '=', $r)->paginate(6);
+                $usuarios = User::where('name', 'LIKE', "%$n%")->
+                    where('rol_id', '=', $r)->get();
+
+                //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($usuarios as $usu){
+            array_push($filter_products, $usu);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $users = array_slice($filter_products, $offset, $perPage);
+        $users = new Paginator($users, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
 
                 $roles = Rol::all();
                 return view('user.index', compact('roles', 'users'));
@@ -44,7 +66,26 @@ class UserController extends Controller
                 $roles = Rol::all();
                 $idRol = $request->get('rol');
 
-                $users = User::where('rol_id', $idRol)->orderBy('name', 'desc')->paginate(6);
+                $usuarios = User::where('rol_id', $idRol)->orderBy('name', 'desc')->get();
+
+                                //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($usuarios as $usu){
+            array_push($filter_products, $usu);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $users = array_slice($filter_products, $offset, $perPage);
+        $users = new Paginator($users, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
 
                 return view('user.index', compact('roles', 'users'));
             }
@@ -52,8 +93,8 @@ class UserController extends Controller
 
             $roles = Rol::all();
 
-            $users = User::paginate(6);
-
+            $users = User::paginate(3);
+//dd($users);
             return view('user.index', compact('roles', 'users'));
 
         }
@@ -81,11 +122,16 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-
+ //$fechaIni = Carbon::now();
+      //  dd($fechaIni);
+       // $fi   = $fechaIni; 'last_login_at'=>$fi,
         \App\User::create([
+            'apellido' => $request['apellido'],
+            'nombre'   => $request['nombre'],
             'name'     => $request['name'],
             'email'    => $request['email'],
             'password' => $request['password'],
+           
             'rol_id'   => $request['rol_id'],
 
         ]);
@@ -104,7 +150,13 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-
+        //dd($user->last_login_at);
+ 
+        // $fechaInicio = Carbon::today()->format('Y-m-d'); 
+  
+      // dd($fechaInicio);
+        //$uid = Auth::user()->id;
+//dd($uid);
         return view('user.show', compact('user'));
     }
 
@@ -123,7 +175,7 @@ class UserController extends Controller
         $rolse  = Rol::where('id', $userid)->lists('rol', 'id');
         $rols   = Rol::lists('rol', 'id');
         // show the edit form and pass the user
-        return view('user.edit', compact('user', 'rols', 'rolse'));
+        return view('user.edit', compact('user', 'rols', 'rolse','userid'));
 
     }
 
@@ -164,4 +216,10 @@ class UserController extends Controller
         Session::flash('message', 'Usuario Eliminada Correctamente');
         return redirect('user');
     }
+
+
+    public function getDateFormat()
+{
+    return 'Y-m-d H:i:s.u';
+}
 }

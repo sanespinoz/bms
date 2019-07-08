@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\Login;
+use App\Events\Illuminate\Auth\Events\UserLogin;
 
 class SuccessfulLogin
 {

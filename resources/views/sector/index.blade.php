@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -23,37 +22,44 @@
 </head>
 <body>
 <div align="left" class="container">
+<div class="container-fluid">
 <h2>
     Sectores Registrados
 </h2>
+</div>
 <br>
-    <!--Buscador de sectores <select class="form-control floating-label" name="piso">-->
 
-<div class="container-fluid col-md-8">
+<div class="container-fluid col-sm-6 col-md-6 col-lg-8">
     <div class="input-group" role="menu">
         {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
         {!! csrf_field() !!}
+
         <div class="form-group">
-            <select name="piso">
+        <select  class="form-control" name="piso" id="piso_id">            
+            <option selected="selected" value=""> Seleccione el Piso
+                    </option>
             @foreach($pisos as $piso){
                 <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
                                         } 
             @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            {!! Form::text('sector',null, ['class'=>'form-control','placeholder'=>'Buscar por Sector','aria-describedby'=>'search']) !!}
-        </div>
-        <button class="btn btn-primary" type="submit">
-        <span aria-hidden="true" class="glyphicon glyphicon-search">BUSCAR </span>
-        </button>
-        {!! Form::close() !!}
+        </select>
+        
+                <button class="form-control btn btn-primary" type="submit">
+                 Buscar
+                </button>
+                </div>
+                {!! Form::close() !!}
     </div>
-</div>
-</div>
+
 <br>
     <!-- contenido principal -->
 <section class="resultados" id="resultados">
+
+<div align="left" class="container">
+ <p><strong>Cantidad de sectores: {{ $sectores->total() }}</strong></p>
+ </div>
+ <br>
+
     <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -95,6 +101,8 @@
         </table>
         {!! $sectores->render() !!}     
     </section>
+</div>
+</div>
 </body>
 </html>
 @endsection

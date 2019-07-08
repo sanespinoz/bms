@@ -12,67 +12,54 @@
     <head>
     </head>
     <body>
- <div align="left" class="container"> 
- <h3>Datos de la luminaria {{$l->nombre}}</h3>
+     <div align="left" class="container">
+<div class="container-fluid">
 <br>
- <div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-default">
-                <div class="panel-heading">
-                    Luminaria: {{ $l->codigo }}
-                </div>
-                <div class="panel-body">
+<h2>Datos de la luminaria {{$l->nombre}}</h2>
+<br>
+</div>
+
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+       <p><strong>Luminaria:</strong> {{ $l->codigo }}</p>
+                    <p><strong>Piso:</strong> {{ $p->nombre}}</p>
+                    <p><strong>Sector:</strong> {{ $s->nombre }}</p>
+                    <p><strong>Grupo:</strong> {{ $g->nombre }}</p>
+                    <p><strong>Tipo:</strong> {{ $l->tipo }}</p>
+                    <p><strong>Descripción:</strong> {{ $l->descripcion }}</p>
+                    <p><strong>Dimensiones:</strong> {{ $l->dimensiones }}</p>
+                    <p><strong>Voltaje Nominal:</strong> {{ $l->voltaje_nominal }}</p>
+                    <p><strong>Potencia Nominal:</strong> {{ $l->potencia_nominal }}</p>
+                    <p><strong>Corriente Nominal:</strong> {{ $l->corriente_nominal }}</p>
+                    <p><strong>Fecha de Instalación:</strong> {{ $l->fecha_alta }}</p>
                     <p>
-                        Piso: {{ $p->nombre}}
-                    </p>
-                    <p>
-                        Sector: {{ $s->nombre }}
-                    </p>
-                    <p>
-                        Grupo: {{ $g->nombre }}
-                    </p>
-                    <p>
-                        Código: {{ $l->codigo }}
-                    </p>
-                    <p>
-                        Tipo: {{ $l->tipo }}
-                    </p>
-                    <p>
-                        Descripción: {{ $l->descripcion }}
-                    </p>
-                    <p>
-                        Dimensiones: {{ $l->dimensiones }}
-                    </p>
-                    <p>
-                        Voltaje Nominal: {{ $l->voltaje_nominal }}
-                    </p>
-                    <p>
-                        Potencia Nominal: {{ $l->potencia_nominal }}
-                    </p>
-                    <p>
-                        Corriente Nominal: {{ $l->corriente_nominal }}
-                    </p>
-                    <p>
-                        Fecha de Instalación: {{ $l->fecha_alta }}
-                    </p>
-                    <p>
-                    @if ($l->fecha_baja) Fecha de Desinstalación: {{ $l->fecha_baja }}
+                    @if ($l->fecha_baja) <strong>Fecha de Desinstalación:</strong> {{ $l->fecha_baja }}
                     @endif
                     </p>
-                    <p>
-                        Vida Útil: {{ $l->vida_util }}
+<p><strong>Vida Útil:</strong> {{ $l->vida_util }}
                     </p>
                     <p>
-                        Estado Actual: {{ $estado_lum }}
+                    <?php if($estado_lum == 0)
+               { ?>
+                   <strong>Estado Actual:</strong> Inactiva
+ 
+                <?php }elseif($estado_lum == 1){ ?>
+                    <strong>Estado Actual:</strong> Activa
+
+                <?php }elseif ($estado_lum == 2)
+                        { ?>
+                    <strong>Estado Actual:</strong> Fallo
+             
+                <?php }else{ ?>
+                    <strong>Estado Actual:</strong> Mantenimiento
+          
+                <?php } ?>
                     </p>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
+<br>
+<br>
+        {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
 
-
-<div class="form-group col-xs-12">
-    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
 </div>
 </div>
 </body>

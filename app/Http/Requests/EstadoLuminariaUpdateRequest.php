@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class SectorCreateRequest extends Request
+class LuminariaUpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class SectorCreateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'            => 'required|min:2',
-            'descripcion'       => 'required|min:10|max:200',
-            'piso_id'           => 'required|numeric|',
+            'fecha'        => 'date|after:today',
+            'estado'       => 'required',
+
         ];
     }
 }

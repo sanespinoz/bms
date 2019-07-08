@@ -35,7 +35,6 @@ class LuminariaUpdateRequest extends Request
             'fecha_alta'        => 'required|date',
             'fecha_baja'        => 'date|after:fecha_alta',
             'vida_util'         => 'required|numeric',
-            'estado'            => 'required|string|size:1',
             'grupo_id'          => 'required',
         ];
     }

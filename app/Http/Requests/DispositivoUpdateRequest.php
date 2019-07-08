@@ -30,9 +30,15 @@ class DispositivoUpdateRequest extends Request
             'nombre'     => 'required|min:4|max:15',
             'estado'     => 'required',
             'fecha_alta' => 'required|date',
-            'fecha_baja' => 'date|after:fecha_alta',
+            'fecha_baja' => 'required_if:estado,i|date|after:fecha_alta',
             'estado'     => 'required|string|size:1',
 
         ];
     }
+    public function messages()
+    {
+    return [
+        'fecha_baja.required_if' => 'El campo :attribute es obligatorio cuando el campo estado es inactivo.',
+    ];
+}
 }

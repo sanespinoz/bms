@@ -24,7 +24,9 @@ class SectorUpdateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'=>'required|min:2',
+            'nombre'            => 'required|min:2',
+            'descripcion'       => 'required|min:10|max:200',
+            'piso_id'           => 'required|numeric|',
         ];
     }
 }

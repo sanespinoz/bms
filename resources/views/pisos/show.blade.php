@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+
 <br>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -9,43 +10,58 @@
 </nav>
 @section('content')
 <html>
-    <head>
-    </head>
-    <body>
- <div align="left" class="container"> 
-    <h2>
-        Datos del {{$piso->nombre}}
-    </h2>
-    <div class="form-group">
-        Descripción:
-            {{$piso->descripcion}}
-    </div>
-    <h3>
-        Consta de los siguientes Sectores
-    </h3>
-    <?php foreach($sectores as $sector){ ?>
+<head>
+</head>
+<body>
+ <div align="left" class="container">
+<div class="container-fluid">
 <br>
+<h2>Datos del piso {{$piso->nombre}}</h2>
+<br>
+</div>
+
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+        <p><strong>Descripción:</strong> {{$piso->descripcion}}</p> 
+    </div>
+    <br>
+   
+     <?php
+            if (isset($sectores)) 
+            {
+             ?>
+         <h4>Sectores del piso
+        </h4>
+    <?php foreach($sectores as $sector){
+             ?>
+<br>
+<div align="left" class="container-fluid">
  <div class="row">
-  <div class="col-md-6">
+  <div class="form-group">
     <div class="panel panel-default">
-                <div class="panel-heading">
-                        Sector: {{$sector->nombre}}
+        <div class="panel-heading">
+                        <strong>Sector: {{$sector->nombre}}</strong> 
                     </div>
                     <div class="panel-body">
                         <p>
-                            Descripción: {{$sector->descripcion}}
+                            <strong>Descripción:</strong>  {{$sector->descripcion}}
+                        </p>
+                        <p>
+                            <strong>Cantidad de personas:</strong>  {{$sector->cant_personas}}
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-
+        </div>
     <?php  }
-            ?>
-
-    <div class="form-group col-xs-12">
+  } else echo "<h4><strong>No se registran sectores para el piso</strong></h4>";
+          ?>
+<br>
+<br>
         {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
-    </div>
+
+</div>
 </div>
 </body>
 </html>

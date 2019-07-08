@@ -1,4 +1,14 @@
 @extends('layouts.admin')
+@if(Session::has('message'))
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+    {{Session::get('message')}}
+</div>
+@endif
 <br>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -13,21 +23,26 @@
 </head>
 <body>
 <div align="left" class="container">
-<h1>
-    Registrar Edificio
-</h1>
-	<div class="container-fluid col-md-8">
+<div class="container-fluid">
+<br>
+<h2>Registrar Edificio
+</h2>
+<br>
+</div>
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+
 	{!!Form::open(['route'=>'edificio.store', 'method'=>'POST'])!!}
 	{!! csrf_field() !!}
-	<input id="token" name="_token" type="hidden" value="{{ csrf_token() }}">
+<br>
     @include('edificio.partials.form')
-    <div class="form-group col-xs-12">
-        {!!  Form::submit('Enviar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
-		{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
-	</div>
-    {!! Form::close() !!}
- 	</div>
+    <br>
+{!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
+{!! link_to(URL::previous(), 'Cancelar', ['class' => 'btn btn-default']) !!}
+
+{!! Form::close() !!}
+</div>
 </div>
 </body>
 </html>
+
 @endsection

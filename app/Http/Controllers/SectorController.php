@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class SectorController extends Controller
 {
@@ -30,20 +31,53 @@ class SectorController extends Controller
     {
         if ($request->get('piso') != "") {
             $p = $request->get('piso');
-
-            // $piso = Piso::where('nombre', $p)->get();
-            // dd($piso);
-            //$idPiso = $piso->first()->id;
             $pisos    = Piso::all();
-            $sectores = Sector::where('piso_id', $p)->orderBy('nombre', 'asc')->paginate(10);
+            $sects = Sector::where('piso_id', $p)->orderBy('nombre', 'asc')->get();
+             
+            //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($sects as $sect){
+            array_push($filter_products, $sect);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 4;
+        $offset = ($page-1) * $perPage;
+        $sectores = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $sectores = new Paginator($sectores, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
+
             return view('sector.index', compact('pisos', 'sectores'));
-            //dd($piso);
-            //dd($request->get('piso'));
-
         } else {
-
-            $sectores = Sector::paginate(10);
+            $sects = Sector::all();
             $pisos    = Piso::all();
+
+           //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($sects as $sect){
+            array_push($filter_products, $sect);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 8;
+        $offset = ($page-1) * $perPage;
+        $sectores = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $sectores = new Paginator($sectores, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
 
             return view('sector.index', compact('pisos', 'sectores'));
         }
@@ -103,9 +137,9 @@ class SectorController extends Controller
     {
 
         $pisos = Piso::lists('nombre', 'id');
-
         $sector = Sector::findOrFail($id);
-        return view('sector.edit', compact('sector', 'pisos'));
+        $p          = $sector->piso_id;
+        return view('sector.edit', compact('sector', 'pisos','p'));
     }
 
     /**

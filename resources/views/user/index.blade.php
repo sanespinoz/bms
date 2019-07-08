@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -23,22 +22,22 @@
     </head>
     <body>
         <div align="left" class="container">
-            <h2>
+<div class="container-fluid">
+<h2>
                 Usuarios Registrados
             </h2>
-
+</div>
+<br>
 {{-- buscador --}}
 
-    <div class="row">
-        <div class="col-md-9">
-            <div class="input-group" role="menu">
+
+<div class="container-fluid col-sm-6 col-md-6 col-lg-8">
+    <div class="input-group" role="menu">
                                 {!! Form::open(['route'=>'user.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
                                 {!! csrf_field() !!}
                 <div class="form-group">
-                    <label for="filter">
-                                     
-                    </label>
-                    <select name="rol">
+
+                    <select class="form-control" name="rol">
                         @foreach($roles as $rol){
                             <option value="{{ $rol->id }}">
                                             {{ $rol->rol }}
@@ -46,21 +45,24 @@
                                         } 
                         @endforeach
                     </select>
+              
+             
+                    {!! Form::text('name',null, ['class'=>'form-control','placeholder'=>'Nombre de usuario ','aria-describedby'=>'search']) !!}
+             
+                <button class="btn btn-primary" type="submit">Buscar</button>
                 </div>
-                <div class="form-group">
-                    {!! Form::text('name',null, ['class'=>'form-control','placeholder'=>'Nombre de usuario: ','aria-describedby'=>'search']) !!}
-                </div>
-                <button class="btn btn-primary" type="submit">
-                <span aria-hidden="true" class="glyphicon glyphicon-search"> BUSCAR
-                </span>
-                </button>
+            
                 {!! Form::close() !!}
             </div>
-        </div>
-    </div>
-</div>
 <br>
+
   <section class="resultados" id="resultados">
+
+  <div align="left" class="container">
+ <p><strong>Cantidad de usuarios: {{ $users->total() }}</strong></p>
+ </div>
+ <br>
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -104,7 +106,8 @@
     {!! $users->render() !!}
     </section>
 
+</div>
+</div>
 </body>
-
 </html>
 @endsection

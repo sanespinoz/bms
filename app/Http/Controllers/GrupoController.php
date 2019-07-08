@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class GrupoController extends Controller
 {
@@ -41,23 +42,64 @@ class GrupoController extends Controller
                 //dd($sector);
                 $idPiso = $request->get('piso');
 
-                $grupos = Grupo::where('piso_id', $idPiso)
-                    ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->paginate(10);
-                $pisos = Piso::all();
-                return view('grupo.index', compact('pisos', 'grupos'));
+                $grups = Grupo::where('piso_id', $idPiso)
+                    ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->get();
+
+                //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($grups as $grup){
+            array_push($filter_products, $grup);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $grupos = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $grupos = new Paginator($grupos, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
+        $pisos = Piso::all();
+        return view('grupo.index', compact('pisos', 'grupos'));
             } else {
 
                 $pisos  = Piso::all();
                 $idPiso = $request->get('piso');
 
-                $grupos = Grupo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->paginate(10);
+                $grups = Grupo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->get();
+                //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($grups as $grup){
+            array_push($filter_products, $grup);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->pge; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $grupos = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $grupos = new Paginator($grupos, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
 
                 return view('grupo.index', compact('pisos', 'grupos'));
             }
         } else {
             $pisos = Piso::all();
 
-            $grupos = Grupo::paginate(10);
+            $grupos = Grupo::paginate(3);
             //dd($grupos);
             return view('grupo.index', compact('pisos', 'grupos'));
         }
@@ -71,12 +113,9 @@ class GrupoController extends Controller
      */
     public function create()
     {
-        //$pisos = Piso::all();
 
         $pisos = Piso::lists('nombre', 'id');
         //dd($pisos);
-        //dd($users);
-
         return view('grupo.create', compact('pisos'));
     }
 
@@ -118,10 +157,13 @@ class GrupoController extends Controller
      */
     public function edit($id)
     {
-        $sectores = Sector::lists('nombre', 'id');
+        
         $pisos    = Piso::lists('nombre', 'id');
         $grupo    = Grupo::findOrFail($id);
-        return view('grupo.edit', compact('grupo', 'pisos', 'sectores'));
+        $p          = $grupo->piso_id;
+        $s          = $grupo->sector_id;
+        $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
+        return view('grupo.edit', compact('grupo', 'pisos', 'sectdelp', 'p', 's'));
 
     }
 

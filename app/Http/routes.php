@@ -114,7 +114,7 @@ Route::resource('mail', 'MailController');
 Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('estadoluminaria/estados_prev/{id}', 'EstadoLuminariaController@estados_prev')->name('estadoluminaria.estados_prev');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
-Route::post('reporte/create_pdf/{graf}', 'ReporteController@createPDF');
+Route::post('reporte/create_pdf/{graf}/{titulo}', 'ReporteController@createPDF');
 Route::get('pdf', 'PdfController@index');
 
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');

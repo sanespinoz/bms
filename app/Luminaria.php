@@ -17,6 +17,8 @@ class Luminaria extends Model
     protected $dateFormat = 'Y-m-d H:i:s.000';
     public $timestamps    = false;
 
+    
+
     public function grupo()
     {
         return $this->belongsTo('App\Grupo');
@@ -35,8 +37,23 @@ class Luminaria extends Model
 
     public function estado($id)
     {
-        $estado = EstadoLuminaria::where('luminaria_id', $id)->first();
-
+        //$estado = EstadoLuminaria::where('luminaria_id', $id)->orderBy('fecha', 'desc')->first();
+          $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
+                    ->join('luminarias', 'estado_luminarias.luminaria_id', '=', 'luminarias.id')
+                    ->where('luminarias.id', '=', $id)
+                    ->first();
+        $fech= $f->fecha;
+        $est = EstadoLuminaria::select('id')
+                ->where('fecha', $fech)
+                ->orderBy('id', 'desc')
+                ->first();
+        $estad= $est->id;
+         
+        $estado = EstadoLuminaria::where('id', $estad)->first();
+        $lumi = Luminaria::findOrFail($id);
+    
+//$estado = Collection::make($estado);
+//dd($estado);
         return $estado;
 
     }
@@ -61,7 +78,7 @@ class Luminaria extends Model
 
     public function scopeSearchluminarias($query, $idPiso, $idSector = "", $idGrupo = "")
     {
-        //dd($idPiso, $idSector, $idGrupo);
+      //dd($idPiso, $idSector, $idGrupo);
         //no viene grupo
 
         if ($idSector == "") {
@@ -81,10 +98,10 @@ class Luminaria extends Model
 
             }
 
-            return $luminarias;
+           
         } else {
             //viene un sector y no un grupo
-            //die('estoy en search');
+          die('estoy en search');
             $luminarias = new Collection;
             $grupos     = Grupo::where('piso_id', $idPiso)
                 ->where('sector_id', $idSector)
@@ -100,7 +117,7 @@ class Luminaria extends Model
             }
 
         }
-        //dd($luminarias);
+       //dd($luminarias);
         return $luminarias;
     }
 

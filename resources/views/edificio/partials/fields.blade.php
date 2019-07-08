@@ -1,26 +1,50 @@
-<div class="col-sm-6">
-    <div class="form-group">
-        {!! Form::text('nombre', null, ['class'=>'form-control floating-label','placeholder'=>'Nombre:']) !!}
+<div class="form-group">
+    <div class="form-group row">
+        {!! Form::label('nom', 'Nombre', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('nombre' ,old('nombre'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::textarea('descripcion', null, ['class'=>'form-control floating-label', 'rows'=>'8', 'placeholder'=>'Descripción:']) !!}
+    <div class="form-group row">
+        {!! Form::label('descrip', 'Descripción', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::textarea('descripcion', old('descripcion'), ['class'=>'form-control floating-label', 'rows'=>'3']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::text('direccion', null, ['class'=>'form-control floating-label', 'placeholder'=>'Dirección:']) !!}
+    <div class="form-group row">
+        {!! Form::label('direc', 'Dirección', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('direccion' ,old('direccion'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::text('telefono', null, ['class'=>'form-control floating-label', 'placeholder'=>'(0342) xxxxxxx']) !!}
+    <div class="form-group row">
+        {!! Form::label('tel', 'Teléfono', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('telefono',old('direccion'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::email('email', null, ['class'=>'form-control floating-label', 'placeholder'=>'Correo Electrónico:']) !!}
+    <div class="form-group row">
+        {!! Form::label('emai', 'Correo Electrónico', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::email('email',old('email'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::text('ciudad', null, ['class'=>'form-control floating-label', 'placeholder'=>'Ciudad:']) !!}
+    <div class="form-group row">
+        {!! Form::label('ciud', 'Ciudad', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('ciudad',old('ciudad'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::text('provincia', null, ['class'=>'form-control floating-label', 'placeholder'=>'Provincia:']) !!}
+    <div class="form-group row">
+        {!! Form::label('ciud', 'Provincia', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('provincia',old('provincia'),['class'=>'form-control']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::text('codigo', null, ['class'=>'form-control floating-label', 'placeholder'=>'Código Postal:']) !!}
+    <div class="form-group row">
+        {!! Form::label('ciud', 'CP', ['class'=>'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-7">
+        {!! Form::text('codigo',old('codigo'),['class'=>'form-control']) !!}
+        </div>
     </div>
 </div>

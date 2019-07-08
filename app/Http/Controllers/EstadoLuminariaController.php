@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Redirect;
 use Session;
 use DB;
+use DateTime;
+    
+
 
 class EstadoLuminariaController extends Controller
 {
@@ -38,10 +41,7 @@ class EstadoLuminariaController extends Controller
 
     public function create()
     {
-        //dd($id me falta guardar el id de la luminiaria del estado);
-        // $estadoluminaria = EstadoLuminaria::where('luminaria_id', $id)->first();
 
-      //  return view('estadoluminaria.edit');
     }
     /**
      * Store a newly created resource in storage.
@@ -51,8 +51,9 @@ class EstadoLuminariaController extends Controller
      */
     public function store(Request $request)
     {
+
         EstadoLuminaria::create($request->all());
-        Session::flash('message', 'Estado Creado Correctamente');
+        Session::flash('message', 'Estado editado'); // En efecto se crea un estado nuevo
         return redirect('luminaria');
     }
 
@@ -64,14 +65,27 @@ class EstadoLuminariaController extends Controller
      */
     public function show($id)
     {
-
-        $estado = DB::table('estado_luminarias')
-        ->join('luminarias', 'luminarias.id', '=', 'estado_luminarias.luminaria_id')
+   
+     /*    $estado = DB::table('estado_luminarias')
+        ->join('luminarias', 'luminarias.id', '=','estado_luminarias.luminaria_id')
+        ->where('luminarias.id', '=',  $id)
         ->orderBy('fecha', 'desc')
-        ->first();
+        ->first();*/
+        $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
+                    ->join('luminarias', 'estado_luminarias.luminaria_id', '=', 'luminarias.id')
+                    ->where('luminarias.id', '=', $id)
+                    ->first();
+        $fech= $f->fecha;
+        $est = EstadoLuminaria::select('id')
+                ->where('fecha', $fech)
+                ->orderBy('id', 'desc')
+                ->first();
+        $estad= $est->id;
+         
+        $estado = EstadoLuminaria::where('id', $estad)->first();
+        $lumi = Luminaria::findOrFail($id);
+    
 
-     $lumi = Luminaria::findOrFail($id);
-  
         return view('estadoluminaria.show', compact('estado', 'lumi'));
     }
 
@@ -103,9 +117,32 @@ class EstadoLuminariaController extends Controller
      */
     public function edit($id)
     {
-        $estadoLuminaria = EstadoLuminaria::where('luminaria_id', $id)->get();
+      
+         $estadolumi = EstadoLuminaria::find($id);
+         $lumid = $estadolumi->luminaria_id;
+        
+        $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
+                    ->join('luminarias', 'estado_luminarias.luminaria_id', '=', 'luminarias.id')
+                    ->where('luminarias.id', '=', $lumid)
+                    ->first();
+                   
 
-        return view('estadoluminaria.edit', compact('estadoLuminaria'));
+        $fech= $f->fecha;
+   
+        $est = EstadoLuminaria::select('id')
+                ->where('fecha', $fech)
+                ->orderBy('id', 'desc')
+                ->first();
+        $estad= $est->id;
+         
+        $estadoluminaria = EstadoLuminaria::where('id', $estad)->first();
+        //dd($estadoluminaria);
+
+      /*  $estadoluminaria = EstadoLuminaria::where('luminaria_id', $id)
+        ->orderBy('fecha', 'desc')
+        ->first();
+*/
+        return view('estadoluminaria.edit', compact('estadoluminaria'));
     }
 
     /**
@@ -115,14 +152,18 @@ class EstadoLuminariaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EstadoLuminariaUpdateRequest $request, $id)
     {
+
         $luminaria = Luminaria::find($id);
+
         $luminaria->fill($request->all());
+
         $luminaria->save();
 
         Session::flash('message', 'Estado de Luminaria Editado Correctamente');
         return redirect('luminaria');
+
     }
 
     /**

@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -22,10 +23,14 @@
     </head>
     <body>
         <div align="left" class="container">
+        <div class="container-fluid">
             <h2>
                   Edificios Registrados
-            </h2>
-        </div>
+</h2>
+</div>
+<br>
+
+<div class="container-fluid col-sm-6 col-md-6 col-lg-8">
 <br>
   <section class="resultados" id="resultados">
     <table class="table table-bordered table-striped">
@@ -69,12 +74,8 @@
 </table>
 {!! $edificios->render() !!}
     </section>
-        <div class="form-group col-xs-12">
-    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
-    </div>
-
+</div>
+</div>
 </body>
-
 </html>
-
 @endsection

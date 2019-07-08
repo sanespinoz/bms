@@ -13,7 +13,7 @@
                         <link href="css/grayscale.css" rel="stylesheet">
                             <link href="css/monitoreo.css" rel="stylesheet">
                                 <!-- MetisMenu CSS -->
-                                <link href="js/metisMenu.min.css" rel="stylesheet">
+                               <!-- <link href="js/metisMenu.min.css" rel="stylesheet">-->
                                     <!-- Custom Fonts -->
                                     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
                                         <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
@@ -119,7 +119,7 @@
                     </li>
                     @endif
                 </ul>
-            </div>
+</div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -147,106 +147,134 @@
     </header>
     <!-- pisos Section -->
     <section id="monitoreo">
-        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="http://scada/BMS/login.html" webkitallowfullscreen="true" width="1250px">
+        <iframe allowfullscreen="true" frameborder="0" height="700px" mozallowfullscreen="true" src="" webkitallowfullscreen="true" width="1250px">
         </iframe>
-        <!--    </div>-->
+        <!--    http://scada/BMS/login.html-->
     </section>
     <section class="container-fluid content-section text-center" id="contacto">
         <div class="row" style="background-color:#022B59">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel-heading">
+                <br>
                     <h4>
                         Contáctenos
                     </h4>
-                    <p>
+                    <h5>
                         Estamos para ayudarle
-                    </p>
+                    </h5>
                     <div class="panel-body">
                         <div class="contact-form">
                             {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
                     {!! csrf_field() !!}
-                            <div class="col-md-6 contact-left">
-                                <div class="form-group">
-                                    <label>
-                                        Nombre de Usuario
-                                    </label>
+           <div class="container-fluid  col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group row text-right">
+       
+        {!! Form::label('nombre', 'Nombre de usuario', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-6">
                                     {!!Form::text('name',null,['class'=> 'form-control'])!!}
                                 </div>
-                                <label>
-                                    Correo electrónico
-                                </label>
+                                </div>
+       <div class="form-group row text-right">
+        {!! Form::label('email', 'Correo Electrónico', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-6">
                                 {!!Form::text('email',null,['class'=> 'form-control'])!!}
                             </div>
-                        </div>
-                        <div class="col-md-6 contact-right">
-                            <label>
-                                Mensaje
-                            </label>
+
+                            </div>
+                      
+                     
+                          <div class="form-group row text-right">
+        {!! Form::label('mensaje', 'Mensaje', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-6">
                             {!!Form::textarea('mensaje',null,['class'=> 'form-control'])!!}
                         </div>
-                        <div class="col-md-6 contact-right">
+                        </div>
+                        <br>
+                        <div class="form-group text-center">
                             {!!Form::submit('Enviar',['class' => 'btn btn-info'])!!}
                         </div>
                         {!!Form::close()!!}
-                    </div>
+                  <br>
+<br>
+<br>
+<br>
+<br>
                 </div>
             </div>
         </div>
+        </div>
+        </div>
+        </div>
     </section>
-</body>
+
 <!-- Auth Section
 -->
 <section class="container-fluid content-section text-center" id="login">
-    <div class="row" style="background-color:#022B59">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel-heading">
-                    <h4>
-                        INICIAR SESIÓN
-                    </h4>
-                </div>
-                <div class="panel-body">
-                    <form action="login" method="POST">
+    <div class="row text-center" style="background-color:#022B59">
+<br>
+<br>  
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h4>INICIAR SESIÓN </h4>
+ <div class="abs-center">
+    <form action="login" method="POST">
                         {!! csrf_field() !!}
-                @if (count($errors) > 0)
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <lu>
-                                {{ $error }}
-                            </lu>
-                            @endforeach
-                        </ul>
-                        @endif
-                        <div class="form-group">
-                            <label>
-                                Correo Electrónico
-                            </label>
-                            {!! Form::email('email', '', ['class'=> 'form-control']) !!}
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                Contraseña
-                            </label>
-                            {!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
-                        </div>
-                        <div class="form-group text-center">
-                            <input name="remember" type="checkbox">
-                                Recuérdame
-                            </input>
-                        </div>
-                        <div>
-                            <a class="forgot-password" href="password/email">
-                                Restablecer Contraseña
-                            </a>
-                        </div>
-                        <div>
-                            {!! Form::submit('Ingresar',['class' => 'btn btn-info']) !!}
-                        </div>
-                    </form>
-                </div>
-            </div>
+        @if (count($errors) > 0)
+        <ul>
+        @foreach ($errors->all() as $error)
+        <lu> {{ $error }} </lu>
+         @endforeach
+        </ul>
+         @endif
+       <div class="container-fluid  col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group row text-right">
+        {!! Form::label('email', 'Correo Electrónico', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-3">
+        {!! Form::email('email', '', ['class'=> 'form-control']) !!}
         </div>
-    </div>
+        </div>
+
+        <div class="form-group row text-right">
+        {!! Form::label('contraseña', 'Contraseña', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-3">
+        {!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
+        </div>
+        </div>
+        <div class="form-group row text-center">
+        <input name="remember" type="checkbox"> Recuérdame </input>
+        </div>
+        <div class="form-group row text-center">
+        <a class="forgot-password" href="password/email">Restablecer Contraseña</a>
+        </div>
+        <br>    
+
+        <div>
+        {!! Form::submit('Ingresar',['class' => 'btn btn-info']) !!}
+        </div>
+        <br>
+          <br>         
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ <br>
+        </div>
+        </form>
+        </div>
+       </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </section>
 <!-- Footer -->
 <footer>
@@ -256,11 +284,13 @@
         </p>
     </div>
 </footer>
+</body>
+
 <script src="js/bootstrap.min.js">
 </script>
 <script src="../bower_components/moment/min/moment-with-locales.js">
 </script>
-<script src="js/metisMenu.min.js">
-</script>
+<!-- <script src="js/metisMenu.min.js">
+</script> -->
 <script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js">
 </script>

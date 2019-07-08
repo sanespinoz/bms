@@ -9,29 +9,29 @@
 </nav>
 @section('content')
 <html>
-    <head>
-    </head>
-    <body>
- <div align="left" class="container">    
-
-<h2>Datos del usuario {{$user->nombre}}</h2>
+<head>
+</head>
+<body>
+ <div align="left" class="container">
+<div class="container-fluid">
 <br>
- <div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-                        Datos del usuario {{$user->name}}
-                    </div>
-            <div class="panel-body">
-                        <p>Correo electrónico: {{$user->email}}</p>
-                        <p> Rol: {{$user->rol->rol}}</p>
-                        <p>Fecha y hora del último acceso: {{$user->last_login_at}}</p>
-                    </div>
-    </div>
-   </div>
+<h2>Datos del usuario {{$user->name}}</h2>
+<br>
 </div>
-{!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
 
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+        <p><strong>Apellido:</strong> {{$user->apellido}}</p>
+        <p><strong>Nombre:</strong> {{$user->nombre}}</p> 
+        <p><strong>Correo electrónico:</strong> {{$user->email}}</p>
+        <p><strong>Rol:</strong> {{$user->rol->rol}}</p>
+       <p><strong>Fecha el último acceso:</strong> {{ auth()->user()->last_login_at }}</p>
+    </div>              
+<br>
+<br>
+        {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+
+</div>
 </div>
 </body>
 </html>

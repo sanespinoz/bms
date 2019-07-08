@@ -12,47 +12,48 @@
     <head>
     </head>
     <body>
- <div align="left" class="container"> 
+     <div align="left" class="container">
+<div class="container-fluid">
+<br>
  <h3>Datos del dispositivo {{$dis->nombre}}</h3>
 <br>
- <div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-default">
-                <div class="panel-heading">
-                    Dispositivo: {{ $dis->codigo}}
-                </div>
-                <div class="panel-body">
-                    <p>
-                        Nombre : {{ $dis->nombre }}
-                    </p>
-                    <p>
-                        Descripción: {{ $dis->descripcion }}
-                    </p>
-                    <p>
-                        Tipo: {{ $dis->tipo }}
-                    </p>
-                    <p>
-                        Marca: {{ $dis->marca }}
-                    </p>
-                    <p>
-                        Piso: {{ $p->nombre }}
-                    </p>
-                    <p>
-                        Sector: {{ $s->nombre }}
-                    </p>
-                    <p>
-                        Fecha de Instalación: {{ $p->fecha_alta }}
-                    </p>
-                    <p>
-                        Fecha de Baja: {{ $p->fecha_baja }}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
-<div class="form-group col-xs-12">
-    {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+       <p><strong>Dispositivo:</strong> {{ $dis->codigo}}</p>
+                    <p><strong>Piso:</strong> {{ $p->nombre}}</p>
+                    <p><strong>Sector:</strong> {{ $s->nombre }}</p>
+                    <p><strong>Tipo:</strong> {{ $dis->tipo }}</p>
+                    <p><strong>Descripción:</strong> {{ $dis->descripcion }}</p>
+                    <p><strong>Marca:</strong> {{ $dis->dimensiones }}</p>
+                    <p><strong>Fecha de Instalación:</strong> {{ $dis->fecha_alta }}</p>
+                    <p>
+                    @if ($dis->fecha_baja) <strong>Fecha de Desinstalación:</strong> {{ $dis->fecha_baja }}
+                    @endif
+                    </p>
+                                        <p>
+                    <?php if($dis->estado == 'i')
+               { ?>
+                   <strong>Estado Actual:</strong> Inactivo
+ 
+                <?php }elseif($dis->estado == 'a'){ ?>
+                    <strong>Estado Actual:</strong> Activo
+
+                <?php }elseif ($dis->estado == 'f')
+                        { ?>
+                    <strong>Estado Actual:</strong> Fallo
+             
+                <?php }else{ ?>
+                    <strong>Estado Actual:</strong> Mantenimiento
+          
+                <?php } ?>
+                    </p>
+      </div>
+<br>
+<br>
+        {!! link_to(URL::previous(), 'Volver', ['class' => 'btn btn-default']) !!}
+
 </div>
 </div>
 </body>

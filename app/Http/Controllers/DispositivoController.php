@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class DispositivoController extends Controller
 {
@@ -29,35 +30,63 @@ class DispositivoController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request->get('piso'),$request->get('sector'));
+
         if ($request->get('piso') != "") {
-//viene piso
-            if ($request->get('sector')) {
-                $s      = $request->get('sector');
-                $sector = Sector::where('nombre', $request->get('sector'))
-                    ->where('piso_id', $request->get('piso'))->get();
-                $idSector = $sector->first()->id;
-                // dd($idSector);
-                $idPiso = $request->get('piso');
+           
+        $s = $request->get('sector');
+        $idpiso = $request->get('piso');
+        $disposits = Dispositivo::where('piso_id', $idpiso)
+                    ->where('sector_id', $s)->orderBy('nombre', 'desc')->get();
+        //Paginacion
+        
+        $filter_products = []; // Manual filter or your array for pagination
 
-                $dispositivos = Dispositivo::where('piso_id', $idPiso)
-                    ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->paginate(3);
-                $pisos = Piso::all();
-                return view('dispositivo.index', compact('pisos', 'dispositivos'));
-            } else {
-                $pisos  = Piso::all();
-                $idPiso = $request->get('piso');
+        foreach($disposits as $disp){
+            array_push($filter_products, $disp);    
+        }
 
-                $dispositivos = Dispositivo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->paginate(3);
-                $pisos        = Piso::all();
-                return view('dispositivo.index', compact('pisos', 'dispositivos'));
-            }
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $dispositivos = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $dispositivos = new Paginator($dispositivos, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
+       $pisos = Piso::all();
+        return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
+
         } else {
 
-            $pisos = Piso::all();
+        $disposits = Dispositivo::all();
 
-            $dispositivos = Dispositivo::paginate(2);
+        //Paginacion 
+        
+        $filter_products = []; // Manual filter or your array for pagination
 
-            return view('dispositivo.index', compact('pisos', 'dispositivos'));
+        foreach($disposits as $disp){            
+                array_push($filter_products, $disp);            
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 2;
+        $offset = ($page-1) * $perPage;
+        $dispositivos = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $dispositivos = new Paginator($dispositivos, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+        //Fin Paginacion
+
+        $pisos = Piso::all();
+        return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
 
         }
     }
@@ -122,10 +151,16 @@ class DispositivoController extends Controller
  */
     public function edit($id)
     {
-        $sectores    = Sector::all();
+        $pisos    = Piso::lists('nombre', 'id');
         $dispositivo = Dispositivo::findOrFail($id);
-        return view('dispositivo.edit', compact('dispositivo', 'sectores'));
+        $p          = $dispositivo->piso_id;
+        $s          = $dispositivo->sector_id;
+        $e          =$dispositivo->estado;
+        $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
+       
+        $estados = ["a" => "Activo", "m" => "Mantenimiento", "i" => "Inactivo", "f" => "Falla"];
 
+        return view('dispositivo.edit', compact('dispositivo', 'pisos','sectdelp','p','s','estados','e'));
     }
 
 /**
@@ -138,13 +173,20 @@ class DispositivoController extends Controller
     public function update($id, DispositivoUpdateRequest $request)
     {
         $dispositivo = Dispositivo::find($id);
-        $dispositivo->fill($request->all());
-        $dispositivo->save();
 
-        Session::flash('message', 'Dispositivo Editada Correctamente');
-        return redirect('dispositivo');
+        if(($request->estado != 'i') && ($request->fecha_baja != "")){
+            return redirect('dispositivo')->with('error','La fecha de desinstalación debe estar vacía. Intentelo nuevamente.');
+        }elseif(($request->estado == 'i') && ($request->fecha_baja < $request->fecha_alta)){
+             return redirect('dispositivo')->with('error','La fecha de desinstalación debe ser posterior a la de instalación. Intentelo nuevamente.');
+        }else{
+            $dispositivo->fill($request->all());
+            $dispositivo->save();
 
-    }
+            Session::flash('message', 'Dispositivo Editada Correctamente');
+            return redirect('dispositivo');   
+            }
+    }   
+
 
 /**
  * Remove the specified resource from storage.
@@ -156,8 +198,24 @@ class DispositivoController extends Controller
     {
         Dispositivo::destroy($id);
         Session::flash('message', 'Dispositivo Eliminada Correctamente');
+
         return redirect('dispositivo');
-    }
+    }   
+
+        public function eliminar($id)
+    { 
+        $dispositivo = Dispositivo::find($id);
+
+       if ($dispositivo->estado == 'i')
+       { 
+        Dispositivo::destroy($id);
+        Session::flash('message', 'Dispositivo Eliminada Correctamente');
+        return redirect('dispositivo');
+    } else {   
+       Session::flash('error', 'El dispositivo no puede eliminarse, se encuentra activo');
+        return redirect('dispositivo');  
+       }
+   }
 
     public function getSectores(Request $request, $id)
     {

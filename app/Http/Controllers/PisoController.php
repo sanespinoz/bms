@@ -76,14 +76,10 @@ class PisoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { 
         $piso = Piso::find($id);
 
         $sectores = Sector::where('piso_id', $id)->get();
-        /*echo '<pre>';
-        print_r($sectores);
-        echo '</pre>';
-         */
 
         return view('pisos.show', compact('piso', 'sectores'));
 
@@ -97,9 +93,11 @@ class PisoController extends Controller
      */
     public function edit($id)
     {
-        $piso      = Piso::find($id);
-        $edificios = Edificio::all();
-        return view('pisos.edit', compact('piso', 'edificios'));
+        $piso      = Piso::findOrFail($id);
+        $edificios = Edificio::lists('nombre', 'id');
+        $e = $piso->edificio_id;
+        return view('pisos.edit', compact('piso', 'edificios','e'));
+
     }
 
     /**

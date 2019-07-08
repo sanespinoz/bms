@@ -48,9 +48,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        /*$schedule->command('read:energia')
+        /*
         ->hourly();*/
-        // $schedule->command('log:demo')->everyMinute();
+        // ->everyMinute();
         //$schedule->command('energia:cero');
         //$schedule->command('energia:uno');
         // $schedule->command('energia:dos');
@@ -63,7 +63,6 @@ class Kernel extends ConsoleKernel
         // $schedule->command('activaciones:uno');
         // $schedule->command('activaciones:dos');
          //$schedule->command('activaciones:tres');
-        //$schedule->command('mostrar:alarmas');
       $schedule->command('alarmas:cero'); // CADA 10 MIN EMPIEZA 00:11 AM???
        //  $schedule->command('alarmas:uno');
     //$schedule->command('alarmas:dos');
