@@ -15,7 +15,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-
+Route::post('contacto', [
+    'uses' => 'MessagesController@store',
+    'as'   => 'contacto',
+]);
 // Authentication routes...
 
 Route::get('login', [
@@ -110,7 +113,7 @@ Route::post('/luminaria/create/obtsectores', 'LuminariaController@obtsectores')-
 Route::resource('dispositivo', 'DispositivoController');
 Route::resource('energiapiso', 'EnergiaPisoController');
 Route::resource('reporte', 'ReporteController');
-Route::resource('mail', 'MailController');
+//Route::resource('mail', 'MailController');
 Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('estadoluminaria/estados_prev/{id}', 'EstadoLuminariaController@estados_prev')->name('estadoluminaria.estados_prev');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
@@ -126,8 +129,12 @@ Route::get('/listado', 'GrupoController@listado');
 Route::get('grupo/buscar_grupos/{piso}/{sector}', 'GrupoController@buscar_grupos');
 Route::get('luminaria/buscar_luminarias/{piso}/{sector}/{grupo}', 'LuminariaController@buscar_luminarias');
 
+Route::get('gestion/alarmas', 'AlarmaController@ver_alarmas')->name('alarmas');
+Route::get('gestion/magia', 'PdfController@index');
 
-Route::get('sendemail', function () {
+
+
+/*Route::get('sendemail', function () {
     $data = array(
         'name' => "curso laravel",
     );
@@ -138,6 +145,4 @@ Route::get('sendemail', function () {
     });
     return "tu email a sido enviado";
 });
-
-Route::get('gestion/alarmas', 'AlarmaController@ver_alarmas')->name('alarmas');
-Route::get('gestion/magia', 'PdfController@index');
+*/

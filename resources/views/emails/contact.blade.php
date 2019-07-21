@@ -1,30 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
             <title>
-                Document
+                Mensaje Recibido
             </title>
-        </meta>
     </head>
     <body>
-        <p>
-            <strong>
-                Nombre:
-            </strong>
-            {!!$name!!}
-        </p>
-        <p>
-            <strong>
-                Correo:
-            </strong>
-            {!!$email!!}
-        </p>
-        <p>
-            <strong>
-                Mensaje:
-            </strong>
-            {!!$mensaje!!}
-        </p>
+        <p> Recibiste un mensaje de {!!$name!!} {!!$email!!}</p>
+        <p><strong>Asunto:</strong> {!!$subject!!}</p>
+        <p> Contenido {!!$mensaje!!}</p>
+     
     </body>
 </html>

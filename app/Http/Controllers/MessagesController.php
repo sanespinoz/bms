@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Mail;
+
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\MessageCreateRequest;
+use Illuminate\Support\Facades\Mail;
 use Redirect;
 use Session;
-use Illuminate\Support\Facades\Auth;
 
-class MailController extends Controller
+
+class MessagesController extends Controller
 {
-     public function __construct()
-    {
-        $this->middleware('auth');
-    } 
     /**
      * Display a listing of the resource.
      *
@@ -41,14 +40,17 @@ class MailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MessageCreateRequest $request)
     {
+    
+        Mail::send('emails.contact', $request->all(), function ($m) {
+     //$m->from($request->email, $request->name);
 
-        Mail::send('emails.contact', $request->all(), function ($msj) {
-            $msj->subject('Correo de Contacto');
-            $msj->to('san.espinoz@gmail.com');
-        });
-        Session::flash('message', 'Mensaje enviado correctamente');
+            $m->to('san.espinoz@gmail.com','Sandra Espinoza');
+            $m->subject('Email de contacto');
+ 
+});
+     Session::flash('message', 'Mensaje enviado correctamente');
         return Redirect::to('/');
 
     }

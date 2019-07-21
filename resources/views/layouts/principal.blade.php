@@ -46,14 +46,16 @@
 
       ?>
        $("ul li:first").show();
-
-
+      
+       $("section#contacto").hide();
        <?php }
        else{
            ?>
 
-            $("ul li:first").hide();
+            $("ul li:first").show();
+            $("ul li:seconds").show();
             $("section#login").hide();
+            $("section#contacto").show();
             <?php }
             ?>
 
@@ -86,12 +88,8 @@
                         </a>
                         <!--tenia un ancla al pie de la pagina #Auth-->
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#contacto">
-                            Contáctenos
-                        </a>
-                        <!--tenia un ancla al pie de la pagina #Auth-->
-                    </li>
+           
+
                     <!--  <li>
                         <a class="page-scroll" href="#register">
                             Registrarse
@@ -100,18 +98,25 @@
                     @else
                     <!--<li class="hidden">
                         <a href="#page-top"></a>
-                    </li>-->
+                    </li>
                     <li>
                         <a class="page-scroll" href="#dreams">
                             Luminarias
                         </a>
-                    </li>
+                    </li>-->
                     @if ((Auth::user()->rol_id != 5) && (Auth::user()->rol_id != 1) && (Auth::user()->rol_id != 6))
                     <li>
                         <a class="page-scroll" href="#monitoreo">
                             Monitoreo
                         </a>
                     </li>
+                                                                     <li>
+                        <a class="page-scroll" href="#contacto">
+                            Contacto
+                        </a>
+                        <!--tenia un ancla al pie de la pagina #Auth-->
+                    </li>
+
                     @endif
                     @if (Auth::user()->rol_id != 3)
                     <li>
@@ -119,6 +124,13 @@
                             Gestión
                         </a>
                     </li>
+                                                                     <li>
+                        <a class="page-scroll" href="#contacto">
+                            Contacto
+                        </a>
+                        <!--tenia un ancla al pie de la pagina #Auth-->
+                    </li>
+
                     @endif
                     <li>
                         <a href="{!!URL::to('logout')!!}">
@@ -160,41 +172,62 @@
         <!--    http://scada/BMS/login.html-->
     </section>
     <section class="container-fluid content-section text-center" id="contacto">
+    @if(Session::has('message'))
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+    {{Session::get('message')}}
+</div>
+@endif
         <div class="row" style="background-color:#022B59">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel-heading">
                 <br>
                     <h4>
-                        Contáctenos
+                        CONTACTO
                     </h4>
                     <h5>
                         Estamos para ayudarle
                     </h5>
                     <div class="panel-body">
                         <div class="contact-form">
-                            {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
+                            {!!Form::open(['route'=>'contacto','method'=>'POST'])!!}
                     {!! csrf_field() !!}
+                          
            <div class="container-fluid  col-sm-12 col-md-12 col-lg-12">
         <div class="form-group row text-right">
        
-        {!! Form::label('nombre', 'Nombre de usuario', ['class'=>'col-sm-6 col-form-label']) !!}
+        {!! Form::label('name', 'Nombre de usuario', ['class'=>'col-sm-6 col-form-label']) !!}
         <div class="col-sm-6">
-        {!!Form::text('name',null,['class'=> 'form-control'])!!}
+        {!!Form::text('name', old('name'),['class'=> 'form-control'])!!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('name') }}</small>
                                 </div>
                                 </div>
        <div class="form-group row text-right">
         {!! Form::label('email', 'Correo Electrónico', ['class'=>'col-sm-6 col-form-label']) !!}
         <div class="col-sm-6">
-                                {!!Form::text('email',null,['class'=> 'form-control'])!!}
+        {!!Form::text('email', old('email'),['class'=> 'form-control'])!!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('email') }}</small>
                             </div>
 
                             </div>
-                      
+        <div class="form-group row text-right">
+        {!! Form::label('subject', 'Asunto', ['class'=>'col-sm-6 col-form-label']) !!}
+        <div class="col-sm-6">
+        {!!Form::text('subject', old('subject'),['class'=> 'form-control'])!!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('subject') }}</small>
+                            </div>
+
+                            </div>              
                      
-                          <div class="form-group row text-right">
+        <div class="form-group row text-right">
         {!! Form::label('mensaje', 'Mensaje', ['class'=>'col-sm-6 col-form-label']) !!}
         <div class="col-sm-6">
-                            {!!Form::textarea('mensaje',null,['class'=> 'form-control'])!!}
+        {!!Form::textarea('mensaje', old('mensaje'),['class'=> 'form-control'])!!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('mensaje') }}</small>
                         </div>
                         </div>
                         <br>
@@ -230,18 +263,14 @@
  <div class="abs-center">
     <form action="login" method="POST">
                         {!! csrf_field() !!}
-        @if (count($errors) > 0)
-        <ul>
-        @foreach ($errors->all() as $error)
-        <lu> {{ $error }} </lu>
-         @endforeach
-        </ul>
-         @endif
+
        <div class="container-fluid  col-sm-12 col-md-12 col-lg-12">
         <div class="form-group row text-right">
         {!! Form::label('email', 'Correo Electrónico', ['class'=>'col-sm-6 col-form-label']) !!}
+
         <div class="col-sm-3">
-        {!! Form::email('email', '', ['class'=> 'form-control']) !!}
+        {!! Form::email('email', old('email'), ['class'=> 'form-control']) !!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('email') }}</small>
         </div>
         </div>
 
@@ -249,6 +278,7 @@
         {!! Form::label('contraseña', 'Contraseña', ['class'=>'col-sm-6 col-form-label']) !!}
         <div class="col-sm-3">
         {!! Form::password('password', ['class'=> 'form-control','id'=>'password']) !!}
+        <small class="help-block" style="color:#e88;">{{ $errors->first('password') }}</small>
         </div>
         </div>
         <div class="form-group row text-center">

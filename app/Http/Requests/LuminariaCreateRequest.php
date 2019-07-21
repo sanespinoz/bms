@@ -38,15 +38,10 @@ class LuminariaCreateRequest extends Request
             'grupo_id'          => 'required|numeric',
         ];
     }
-        /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
+     public function messages()
     {
     return [
-        'grupo_id.required' => 'El Sector y Grupo debe seleccionarse del desplegable.',
+        'grupo_id.required' => 'Necesitamos el Sector y Grupo de la lista desplegable',
     ];
     }
 }
