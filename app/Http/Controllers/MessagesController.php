@@ -51,7 +51,7 @@ class MessagesController extends Controller
  
 });
      Session::flash('message', 'Mensaje enviado correctamente');
-        return Redirect::to('/');
+        return Redirect::to('/#contacto');
 
     }
 
