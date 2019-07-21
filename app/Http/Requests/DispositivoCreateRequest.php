@@ -30,8 +30,21 @@ class DispositivoCreateRequest extends Request
             'nombre'     => 'required|min:4|max:15',
             'estado'     => 'required|string|size:1',
             'fecha_alta' => 'required|date',
-            'sector_id'  => 'required',
-
+            'piso_id'    => 'required',
+            'sector_id'  => 'required|numeric',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+    return [
+        'sector_id.required' => 'El sector debe seleccionarse del desplegable.',
+    ];
+    }
+
 }

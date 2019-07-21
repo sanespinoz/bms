@@ -59,7 +59,6 @@ class Grupo extends Model
     {
 
         $nombsector = $s->nombre;
-        //dd($nombsector); first()->nombre;
         return $nombsector;
 
     }

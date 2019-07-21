@@ -14,6 +14,7 @@ use Redirect;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\MessageBag;
 
 class UserController extends Controller
 {
@@ -122,9 +123,6 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
- //$fechaIni = Carbon::now();
-      //  dd($fechaIni);
-       // $fi   = $fechaIni; 'last_login_at'=>$fi,
         \App\User::create([
             'apellido' => $request['apellido'],
             'nombre'   => $request['nombre'],
@@ -150,13 +148,8 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        //dd($user->last_login_at);
- 
-        // $fechaInicio = Carbon::today()->format('Y-m-d'); 
-  
-      // dd($fechaInicio);
-        //$uid = Auth::user()->id;
-//dd($uid);
+        $this->notFound($user);
+
         return view('user.show', compact('user'));
     }
 
@@ -171,6 +164,7 @@ class UserController extends Controller
         // get the user
 
         $user   = User::findOrFail($id);
+        $this->notFound($user);
         $userid = $user->rol_id;
         $rolse  = Rol::where('id', $userid)->lists('rol', 'id');
         $rols   = Rol::lists('rol', 'id');
@@ -189,7 +183,7 @@ class UserController extends Controller
     public function update($id, UserUpdateRequest $request)
     {
         $user = User::find($id);
-
+        $this->notFound($user);
         $user->fill($request->all());
         $user->save();
 

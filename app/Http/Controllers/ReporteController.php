@@ -9,18 +9,16 @@ use App\Luminaria;
 use App\Piso;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 //Solo accesible a los usuarios admin y de mantenimiento
 class ReporteController extends Controller
 {
-    public function __construct()
+ public function __construct()
     {
-        //$this->middleware('area');
-        // $this->middleware('mantenimiento');
-
-        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
-    }
+        $this->middleware('auth');
+    } 
 
     /**
      * Display a listing of the resource.

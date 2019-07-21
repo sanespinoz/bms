@@ -26,7 +26,18 @@ class SectorCreateRequest extends Request
         return [
             'nombre'            => 'required|min:2',
             'descripcion'       => 'required|min:10|max:200',
-            'piso_id'           => 'required|numeric|',
+            'piso_id'           => 'required|numeric',
         ];
+    }
+        /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+    return [
+        'piso_id.required' => 'El piso debe seleccionarse del desplegable.',
+    ];
     }
 }

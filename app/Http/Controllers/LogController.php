@@ -10,9 +10,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    } 
     /**
      * Display a listing of the resource.
      *

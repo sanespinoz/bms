@@ -30,7 +30,7 @@
     </div>
 <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
 {!! Form::open(['route'=>'sector.store']) !!}
-{!! csrf_field() !!}
+ {!! csrf_field() !!}
 <br>
 @include('sector.partials.form')
 <br>

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin');
 
 @if(Session::has('message'))
 <div class="alert alert-success alert-dismissible" role="alert">
@@ -143,7 +143,7 @@
                 <td>
                     {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!}
 
-                    {!!link_to_route('luminaria.eliminar', $title = 'Eliminar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-danger'])!!}
+                   {{-- {!!link_to_route('luminaria.eliminar', $title = 'Eliminar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-danger'])!!} --}} 
                 </td>
             </tr>
 @endforeach

@@ -19,9 +19,4 @@ class Rol extends Model
         return $this->hasMany('App\User');
     }
 
-    public function reports()
-    {
-        //creamos una relacion con el modelo report
-        return $this->belongsToMany('App\Report')->withTimestamps();;
-    }
 }

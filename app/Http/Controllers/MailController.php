@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use Mail;
 use Redirect;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class MailController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    } 
     /**
      * Display a listing of the resource.
      *

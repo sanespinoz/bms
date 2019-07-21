@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support; 
 use Illuminate\Foundation; 
+use Illuminate\Support\Facades\Auth;
 
 class AlarmaController extends Controller
 {
@@ -126,11 +127,7 @@ class AlarmaController extends Controller
                 $ns = $l->nombre;
 
             }
-       
-            /*$a = array_prepend($a, $np);
-            $a = array_prepend($a, $ng);
-            $a = array_prepend($a, $ns);
-            */
+
            $ag = ["piso" => $np, "sector" => $ns , "grupo" => $ng];
            $alarm = array_prepend($alarm, $ag); 
 

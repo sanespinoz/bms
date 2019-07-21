@@ -31,8 +31,8 @@
 </div>
 <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
 
-	{!!Form::open(['route'=>'edificio.store', 'method'=>'POST'])!!}
-	{!! csrf_field() !!}
+{!!Form::open(['route'=>'edificio.store', 'method'=>'POST'])!!}
+	 {!! csrf_field() !!}
 <br>
     @include('edificio.partials.form')
     <br>

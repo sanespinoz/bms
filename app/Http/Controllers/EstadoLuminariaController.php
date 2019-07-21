@@ -10,6 +10,7 @@ use Redirect;
 use Session;
 use DB;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
     
 
 
@@ -19,9 +20,6 @@ class EstadoLuminariaController extends Controller
     {
 
         $this->middleware('auth');
-        //$this->middleware('mantenimiento');
-
-        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -54,7 +52,12 @@ class EstadoLuminariaController extends Controller
 
         EstadoLuminaria::create($request->all());
         Session::flash('message', 'Estado editado'); // En efecto se crea un estado nuevo
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+         return redirect('luminaria');
+     }
+
     }
 
     /**
@@ -65,12 +68,6 @@ class EstadoLuminariaController extends Controller
      */
     public function show($id)
     {
-   
-     /*    $estado = DB::table('estado_luminarias')
-        ->join('luminarias', 'luminarias.id', '=','estado_luminarias.luminaria_id')
-        ->where('luminarias.id', '=',  $id)
-        ->orderBy('fecha', 'desc')
-        ->first();*/
         $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
                     ->join('luminarias', 'estado_luminarias.luminaria_id', '=', 'luminarias.id')
                     ->where('luminarias.id', '=', $id)
@@ -84,9 +81,14 @@ class EstadoLuminariaController extends Controller
          
         $estado = EstadoLuminaria::where('id', $estad)->first();
         $lumi = Luminaria::findOrFail($id);
-    
+        $this->notFound($lumi);
+    if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.estadoluminaria.show', compact('estado', 'lumi'));
+        }else {
 
         return view('estadoluminaria.show', compact('estado', 'lumi'));
+     }
+
     }
 
     public function estados_prev($id)
@@ -98,14 +100,27 @@ class EstadoLuminariaController extends Controller
         if (count($estados) == 1){
             $e = "No hay estados previos para la luminaria ";
              $lumi = Luminaria::findOrFail($id); 
-            return view('estadoluminaria.showprev', compact('e','lumi'));
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.estadoluminaria.showprev', compact('e','lumi'));
+        }else {
+
+        return view('estadoluminaria.showprev', compact('e','lumi'));
+     }
+
+            
       }else {
         $lumi = Luminaria::findOrFail($id); 
+        $this->notFound($lumi);
          $estados = DB::table('estado_luminarias')
         ->where('luminaria_id',$id)
         ->orderBy('fecha', 'desc')->paginate(6);
-  
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.estadoluminaria.showprev', compact('estados', 'lumi'));
+        }else {
+
         return view('estadoluminaria.showprev', compact('estados', 'lumi'));
+     }
+        
     }
     }
 
@@ -119,6 +134,7 @@ class EstadoLuminariaController extends Controller
     {
       
          $estadolumi = EstadoLuminaria::find($id);
+         $this->notFound($estadolumi);
          $lumid = $estadolumi->luminaria_id;
         
         $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
@@ -136,13 +152,13 @@ class EstadoLuminariaController extends Controller
         $estad= $est->id;
          
         $estadoluminaria = EstadoLuminaria::where('id', $estad)->first();
-        //dd($estadoluminaria);
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.estadoluminaria.edit', compact('estadoluminaria'));
+        }else {
 
-      /*  $estadoluminaria = EstadoLuminaria::where('luminaria_id', $id)
-        ->orderBy('fecha', 'desc')
-        ->first();
-*/
-        return view('estadoluminaria.edit', compact('estadoluminaria'));
+         return view('estadoluminaria.edit', compact('estadoluminaria'));
+     }
+       
     }
 
     /**
@@ -156,13 +172,20 @@ class EstadoLuminariaController extends Controller
     {
 
         $luminaria = Luminaria::find($id);
+        $this->notFound($luminaria);
 
         $luminaria->fill($request->all());
 
         $luminaria->save();
 
         Session::flash('message', 'Estado de Luminaria Editado Correctamente');
-        return redirect('luminaria');
+        if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+
+         return redirect('luminaria');
+     }
+        
 
     }
 

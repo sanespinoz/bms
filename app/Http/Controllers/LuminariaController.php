@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Auth;
 
 class LuminariaController extends Controller
 {
@@ -37,12 +39,11 @@ class LuminariaController extends Controller
 
     public function index(Request $request)
    {
-// dd($request->get('piso'),$request->get('sector'),$request->get('grupo'));
         if ($request->get('piso') != "") {
 //viene piso
 
         if ($request->get('sector') && $request->get('grupo')) {
-//dd($request->get('grupo'));
+
                 $s      = $request->get('sector');
                 $g      = $request->get('grupo');
                 $idpiso = $request->get('piso');
@@ -71,7 +72,12 @@ class LuminariaController extends Controller
         //Fin Paginacion
 
         $pisos = Piso::all();
-        return view('luminaria.index', compact('pisos', 'luminarias'));
+         if(Auth::user()->rol_id == 5){
+                       
+                        return view('mantenimiento.luminaria.index', compact('pisos', 'luminarias'));
+                    }else {
+                        return view('luminaria.index', compact('pisos', 'luminarias'));                    
+                    }
              
             } else {
 // hay grupo o sector
@@ -132,7 +138,12 @@ class LuminariaController extends Controller
 
                         //$luminarias = Luminaria::searchluminarias($piso, "", "");
                         //dd($luminarias);
-                        return view('luminaria.index', compact('pisos', 'luminarias'));
+                    if(Auth::user()->rol_id == 5){
+                        die('mante');
+                        return view('mantenimiento.luminaria.index', compact('pisos', 'luminarias'));
+                    }else{
+                        return view('luminaria.index', compact('pisos', 'luminarias'));                    
+                    }                      
                     }
 
                 }
@@ -164,8 +175,14 @@ class LuminariaController extends Controller
         $luminarias = new Paginator($luminarias, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
 
         //Fin Paginacion
+                           if(Auth::user()->rol_id == 5){
+                       
+                        return view('mantenimiento.luminaria.index', compact('pisos', 'luminarias'));
+                    }else {
+                        return view('luminaria.index', compact('pisos', 'luminarias'));                    
+                    }
 
-            return view('luminaria.index', compact('pisos', 'luminarias'));
+            
         }
     }
 
@@ -176,10 +193,12 @@ class LuminariaController extends Controller
  */
     public function create()
     {
-
         $pisos = Piso::lists('nombre', 'id');
-        //dd($pisos);
-        return view('luminaria.create', compact('pisos'));
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.luminaria.create', compact('pisos'));
+        }else {
+         return view('luminaria.create', compact('pisos'));                    
+        }
     }
 
 /**
@@ -191,11 +210,26 @@ class LuminariaController extends Controller
 
     public function store(LuminariaCreateRequest $request)
     {
+        if (isset($errors) && $errors->any()){
+             if(Auth::user()->rol_id == 5){                       
+             return redirect('mantenimiento.luminaria')->withInput($request->all());
+        }else {
+
+              return redirect('luminaria')->withInput($request->all());
+     }
+       
+        } else {
         $r = Luminaria::create($request->all());
-        //dd($r);
         Session::flash('message', 'Luminaria Creada Correctamente');
 
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+             return redirect('mantenimiento.luminaria')->withInput($request->all());
+        }else {
+
+              return redirect('luminaria')->withInput($request->all());
+     }
+        }  
+
     }
 
 /**
@@ -208,6 +242,7 @@ class LuminariaController extends Controller
     {
 
         $l = Luminaria::find($id);
+        $this->notFound($l);
         $f = $l->fecha_alta;
 
         $gip        = $l->grupo_id;
@@ -218,8 +253,13 @@ class LuminariaController extends Controller
         $s          = Sector::find($sid);
         $estado     = $l->estado($id);
         $estado_lum = $estado->estado;
-        return view('luminaria.show', compact('p', 's', 'g', 'l', 'estado_lum'));
-        //return view('luminaria.show', compact('p', 's', 'g', 'l'));
+
+         if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.luminaria.show', compact('p', 's', 'g', 'l', 'estado_lum'));
+        }else {
+         return view('luminaria.show', compact('p', 's', 'g', 'l', 'estado_lum'));
+     }
+    
     }
 
 /**
@@ -232,6 +272,7 @@ class LuminariaController extends Controller
     {
 
         $luminaria  = Luminaria::findOrFail($id);
+        $this->notFound($luminaria);
         $pisos      = Piso::lists('nombre', 'id');
         $g          = $luminaria->grupo_id;
         $gr         = Grupo::findOrFail($g);
@@ -240,8 +281,12 @@ class LuminariaController extends Controller
         $s          = $gr->sector_id;
         $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
 
-        //dd($gruposdelp);die();
-        return view('luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's'));
+               if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's'));
+        }else {
+        return view('luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's'));                   
+        }
+
 
     }
 
@@ -255,6 +300,7 @@ class LuminariaController extends Controller
     public function update($id, LuminariaUpdateRequest $request)
     {
         $luminaria = Luminaria::find($id);
+        $this->notFound($luminaria);
         $luminaria->fill($request->all());
         if ($luminaria->fecha_baja == ""){
             $luminaria->fecha_baja = null;
@@ -263,7 +309,12 @@ class LuminariaController extends Controller
         $luminaria->save();
 
         Session::flash('message', 'Luminaria Editada Correctamente');
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+
+         return redirect('luminaria');
+     }
 
     }
 
@@ -277,22 +328,38 @@ class LuminariaController extends Controller
     {
         Luminaria::destroy($id);
         Session::flash('message', 'Luminaria Eliminada Correctamente');
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+
+         return redirect('luminaria');
+     }
     }
     public function eliminar($id)
     { 
         $luminaria = Luminaria::find($id);
+        $this->notFound($luminaria);
 
        if ($luminaria->estado($id)->estado == 0)
        { 
         Luminaria::destroy($id);
         Session::flash('message', 'Luminaria Eliminada Correctamente');
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+
+         return redirect('luminaria');
+     }
     } else {   
 
         Session::flash('error', 'La luminaria no puede eliminarse, se encuentra activa');
 
-        return redirect('luminaria');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.luminaria');
+        }else {
+
+         return redirect('luminaria');
+     }
     }    
        
     }
@@ -328,8 +395,12 @@ class LuminariaController extends Controller
         if ($request->ajax()) {
             $luminarias = Luminaria::where('grupo_id', '=', $grupo)->get();
             $pisos      = Piso::lists('nombre', 'id');
-
-            return view('luminaria.index', compact('pisos', 'luminarias'));
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.luminaria.index', compact('pisos', 'luminarias'));
+        }else {
+         return view('luminaria.index', compact('pisos', 'luminarias'));                
+        }
+            
         }
 
     }
@@ -540,12 +611,7 @@ class LuminariaController extends Controller
             return $data->id;
         }
     }
-   /* public function paginate($items, $perPage = 2, $page = null, $options = [])
-{
-    $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-    $items = $items instanceof Collection ? $items : Collection::make($items);
-    return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-}*/
+
   public function paginate($items, $perPage = 2, $page = null, $baseUrl = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);

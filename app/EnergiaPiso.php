@@ -16,4 +16,8 @@ class EnergiaPiso extends Model
     {
         return $this->belongsTo('App\Piso');
     }
+        public function report()
+    {
+        return $this->belongsTo('App\Report');
+    }
 }

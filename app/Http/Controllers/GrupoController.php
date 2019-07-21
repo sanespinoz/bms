@@ -13,6 +13,8 @@ use Illuminate\Http\Response;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Auth;
 
 class GrupoController extends Controller
 {
@@ -127,10 +129,14 @@ class GrupoController extends Controller
      */
     public function store(GrupoCreateRequest $request)
     {
-        $grupo = Grupo::create($request->all());
-        Session::flash('message', 'Grupo Creado Correctamente');
-        //return redirect('/usuario')->with('message','store');
-        return redirect('grupo');
+        if (isset($errors) && $errors->any()){
+            return redirect('grupo')->withInput($request->all());
+        } else {
+            $grupo = Grupo::create($request->all());
+            Session::flash('message', 'Grupo Creado Correctamente');
+
+            return redirect('grupo'); 
+        }  
     }
 
     /**
@@ -142,6 +148,7 @@ class GrupoController extends Controller
     public function show($id)
     {
         $grupo      = Grupo::find($id);
+        $this->notFound($grupo);
         $luminarias = Luminaria::where('grupo_id', $id)->get();
         // dd($grupo,$luminarias);
 
@@ -160,6 +167,7 @@ class GrupoController extends Controller
         
         $pisos    = Piso::lists('nombre', 'id');
         $grupo    = Grupo::findOrFail($id);
+        $this->notFound($grupo);
         $p          = $grupo->piso_id;
         $s          = $grupo->sector_id;
         $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
@@ -177,6 +185,7 @@ class GrupoController extends Controller
     public function update($id, GrupoUpdateRequest $request)
     {
         $grupo = Grupo::find($id);
+        $this->notFound($grupo);
         $grupo->fill($request->all());
         $grupo->save();
 

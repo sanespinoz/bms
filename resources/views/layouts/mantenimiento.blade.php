@@ -4,6 +4,15 @@
         <meta charset="utf-8"/>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="cache-control" content="no-store" />
+<meta http-equiv="cache-control" content="must-revalidate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
         <title style="font-weight: bold;">
             SAI
         </title>
@@ -112,45 +121,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#" style="font-weight: bold;">
-                                <i aria-hidden="true" class="fa fa-file">
-                                </i>
-                                Reportes
-                                <span class="fa arrow">
-                                </span>
-                            </a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{!!URL::to('/reporte')!!}" style="font-weight: bold;">
-                                        <i aria-hidden="true" class="fa fa-pie-chart">
-                                        </i>
-                                        Energía
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/tendencia')!!}" style="font-weight: bold;">
-                                        <i aria-hidden="true" class="fa fa-line-chart">
-                                        </i>
-                                        Tendencia de Consumo
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/eficiencia')!!}" style="font-weight: bold;">
-                                        <i aria-hidden="true" class="fa fa-line-chart">
-                                        </i>
-                                        índice de Eficiencia Energética
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/performance')!!}" style="font-weight: bold;">
-                                        <i aria-hidden="true" class="fa fa-bar-chart">
-                                        </i>
-                                        Performance de Luminarias
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

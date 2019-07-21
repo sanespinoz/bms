@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SectorCreateRequest;
 use App\Http\Requests\SectorUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Piso;
 use App\Sector;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Http\Response;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\MessageBag;
 
 class SectorController extends Controller
 {
@@ -21,6 +23,8 @@ class SectorController extends Controller
         $this->middleware('auth');
 
     }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -121,6 +125,7 @@ class SectorController extends Controller
     public function show($id)
     {
         $sector = Sector::find($id);
+        $this->notFound($sector);
         $grupos = $sector->grupos;
         //dd($sector,$grupos);
 
@@ -138,6 +143,7 @@ class SectorController extends Controller
 
         $pisos = Piso::lists('nombre', 'id');
         $sector = Sector::findOrFail($id);
+        $this->notFound($sector);
         $p          = $sector->piso_id;
         return view('sector.edit', compact('sector', 'pisos','p'));
     }
@@ -153,6 +159,7 @@ class SectorController extends Controller
     {
 
         $sector = Sector::find($id);
+        $this->notFound($sector);
         $sector->fill($request->all());
         $sector->save();
 
@@ -186,10 +193,7 @@ class SectorController extends Controller
 
         $sectores = Sector::where('piso_id', $piso)->get();
         return $sectores;
-        //return \Response::json(['success' => $sectores]);
-        /* return response()->json([
-    "mensaje" => $request->all()
-    ]);*/
+
     }
 
 }

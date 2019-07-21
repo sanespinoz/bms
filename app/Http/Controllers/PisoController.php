@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
 use Session;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Auth;
 
 class PisoController extends Controller
 {
@@ -78,6 +80,7 @@ class PisoController extends Controller
     public function show($id)
     { 
         $piso = Piso::find($id);
+        $this->notFound($piso);
 
         $sectores = Sector::where('piso_id', $id)->get();
 
@@ -94,6 +97,7 @@ class PisoController extends Controller
     public function edit($id)
     {
         $piso      = Piso::findOrFail($id);
+        $this->notFound($piso);
         $edificios = Edificio::lists('nombre', 'id');
         $e = $piso->edificio_id;
         return view('pisos.edit', compact('piso', 'edificios','e'));
@@ -110,6 +114,7 @@ class PisoController extends Controller
     public function update($id, Request $request)
     {
         $piso = Piso::find($id);
+        $this->notFound($piso);
         $piso->fill($request->all());
         $piso->save();
         Session::flash('message', 'Piso Editado Correctamente');

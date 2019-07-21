@@ -10,6 +10,8 @@ use App\Piso;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Auth;
 
 class EdificioController extends Controller
 {
@@ -18,9 +20,6 @@ class EdificioController extends Controller
     {
 
         $this->middleware('auth');
-        // $this->middleware('mantenimiento');
-
-        //$this->beforeFilter('@findUser',['only'=>['show','edit','update','destroy']]);
     }
 
     /**
@@ -30,7 +29,6 @@ class EdificioController extends Controller
      */
     public function index()
     {
-
         $edificios = Edificio::orderBy('nombre', 'asc')->paginate(3);
         //dd($edificios);
 
@@ -61,16 +59,6 @@ class EdificioController extends Controller
         Session::flash('message', 'Edificio Creado Correctamente');
 
         return redirect('edificio');
-//  var_dump($request);
-        //    die();
-        /*$updat = Carbon::now()->format('Y-m-d H:i:s.000');
-
-        $request['created_at'] = $creat;
-        $request['updated_at'] = $updat;
-        $edificio = Edificio::create($request->all());*/
-//$event = new Edificio($requestData);
-        //$event->save();
-        //  $edificio = Edificio::create($request->all());
 
     }
 
@@ -83,6 +71,7 @@ class EdificioController extends Controller
     public function show($id)
     {
         $edificio = Edificio::find($id);
+        $this->notFound($edificio);
 
         $pisos = Piso::where('edificio_id', $id)->get();
 
@@ -99,6 +88,7 @@ class EdificioController extends Controller
     public function edit($id)
     {
         $edificio = Edificio::find($id);
+        $this->notFound($edificio);
         return view('edificio.edit', ['edificio' => $edificio]);
     }
 

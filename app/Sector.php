@@ -43,8 +43,6 @@ class Sector extends Model
             return $query->where('piso_id', '=', $piso);
         }
 
-        //dd($piso);
-
     }
 
 }

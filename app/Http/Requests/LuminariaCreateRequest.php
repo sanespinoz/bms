@@ -35,8 +35,18 @@ class LuminariaCreateRequest extends Request
             'fecha_alta'        => 'required|date',
             'vida_util'         => 'numeric',
             'temperatura'       => 'numeric',
-            'grupo_id'          => 'required',
-
+            'grupo_id'          => 'required|numeric',
         ];
+    }
+        /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+    return [
+        'grupo_id.required' => 'El Sector y Grupo debe seleccionarse del desplegable.',
+    ];
     }
 }

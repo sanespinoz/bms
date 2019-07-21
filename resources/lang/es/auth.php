@@ -14,6 +14,6 @@ return [
     */
 
     'failed' => 'Estas credenciales no se corresponden con sus registros.',
-    'throttle' => 'Demasiados intentos. Pro favor ingrese nuevamente en: 10 segundos.',
+    'throttle' => 'Demasiados intentos. Por favor ingrese nuevamente en 54 segundos.',
 
 ];

@@ -13,6 +13,8 @@ use Illuminate\Http\Response;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Auth;
 
 class DispositivoController extends Controller
 {
@@ -59,7 +61,12 @@ class DispositivoController extends Controller
 
         //Fin Paginacion
        $pisos = Piso::all();
-        return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
+               if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
+        }else {
+          return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);              
+        }
+       
 
         } else {
 
@@ -86,7 +93,11 @@ class DispositivoController extends Controller
         //Fin Paginacion
 
         $pisos = Piso::all();
-        return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);
+        }else {
+          return view('dispositivo.index',['dispositivos' => $dispositivos,'pisos'=>$pisos]);              
+        }
 
         }
     }
@@ -100,9 +111,11 @@ class DispositivoController extends Controller
     {
 
         $pisos = Piso::lists('nombre', 'id');
-        //dd($sectores);
-
-        return view('dispositivo.create')->with('pisos', $pisos);
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.dispositivo.create')->with('pisos', $pisos);
+        }else {
+          return view('dispositivo.create')->with('pisos', $pisos);              
+        }        
 
     }
 
@@ -114,13 +127,22 @@ class DispositivoController extends Controller
  */
     public function store(DispositivoCreateRequest $request)
     {
-
-        //dd($request->all());
+        if (isset($errors) && $errors->any()){
+            if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo')->with('error','seleccione piso y sector de los desplegables.')->withInput($request->all()); 
+        }else {
+          return redirect('dispositivo')->with('error','seleccione piso y sector de los desplegables.')->withInput($request->all());          
+        }       
+        } else {
         $dispositivo = Dispositivo::create($request->all());
         Session::flash('message', 'Dispositivo Creado Correctamente');
-
-        return redirect('dispositivo');
-
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo');
+        }else {
+          return redirect('dispositivo');             
+        }  
+        
+        }  
     }
 
 /**
@@ -132,6 +154,7 @@ class DispositivoController extends Controller
     public function show($id)
     {
         $dis = Dispositivo::find($id);
+        $this->notFound($dis);
 
         $sip = $dis->sector_id;
 
@@ -139,8 +162,13 @@ class DispositivoController extends Controller
         $pid = $s->piso_id;
 
         $p = Piso::find($pid);
+         if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.dispositivo.show', compact('p', 's', 'dis'));
+        }else {
+         return view('dispositivo.show', compact('p', 's', 'dis'));             
+        } 
 
-        return view('dispositivo.show', compact('p', 's', 'dis'));
+        
     }
 
 /**
@@ -153,14 +181,19 @@ class DispositivoController extends Controller
     {
         $pisos    = Piso::lists('nombre', 'id');
         $dispositivo = Dispositivo::findOrFail($id);
+        $this->notFound($dispositivo);
         $p          = $dispositivo->piso_id;
         $s          = $dispositivo->sector_id;
-        $e          =$dispositivo->estado;
+        $e          = $dispositivo->estado;
         $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
        
         $estados = ["a" => "Activo", "m" => "Mantenimiento", "i" => "Inactivo", "f" => "Falla"];
+        if(Auth::user()->rol_id == 5){                       
+        return view('mantenimiento.dispositivo.edit', compact('dispositivo', 'pisos','sectdelp','p','s','estados','e'));
+        }else {
+        return view('dispositivo.edit', compact('dispositivo', 'pisos','sectdelp','p','s','estados','e'));          
+        }
 
-        return view('dispositivo.edit', compact('dispositivo', 'pisos','sectdelp','p','s','estados','e'));
     }
 
 /**
@@ -173,17 +206,35 @@ class DispositivoController extends Controller
     public function update($id, DispositivoUpdateRequest $request)
     {
         $dispositivo = Dispositivo::find($id);
+        $this->notFound($dispositivo);
 
         if(($request->estado != 'i') && ($request->fecha_baja != "")){
-            return redirect('dispositivo')->with('error','La fecha de desinstalación debe estar vacía. Intentelo nuevamente.');
+
+            if(Auth::user()->rol_id == 5){                       
+            return redirect('mantenimiento.dispositivo')->with('error','La fecha de desinstalación debe estar vacía. Intentelo nuevamente.');
+        }else {
+            return redirect('dispositivo')->with('error','La fecha de desinstalación debe estar vacía. Intentelo nuevamente.');             
+        } 
+
         }elseif(($request->estado == 'i') && ($request->fecha_baja < $request->fecha_alta)){
-             return redirect('dispositivo')->with('error','La fecha de desinstalación debe ser posterior a la de instalación. Intentelo nuevamente.');
+
+             if(Auth::user()->rol_id == 5){                       
+             return redirect('mantenimiento.dispositivo')->with('error','La fecha de desinstalación debe ser posterior a la de instalación. Intentelo nuevamente.');
+        }else {
+             return redirect('dispositivo')->with('error','La fecha de desinstalación debe ser posterior a la de instalación. Intentelo nuevamente.');           
+        } 
+
         }else{
             $dispositivo->fill($request->all());
             $dispositivo->save();
 
             Session::flash('message', 'Dispositivo Editada Correctamente');
-            return redirect('dispositivo');   
+              if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo');
+        }else {
+         return redirect('dispositivo');            
+        } 
+               
             }
     }   
 
@@ -199,7 +250,11 @@ class DispositivoController extends Controller
         Dispositivo::destroy($id);
         Session::flash('message', 'Dispositivo Eliminada Correctamente');
 
-        return redirect('dispositivo');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo');
+        }else {
+         return redirect('dispositivo');            
+        } 
     }   
 
         public function eliminar($id)
@@ -210,10 +265,18 @@ class DispositivoController extends Controller
        { 
         Dispositivo::destroy($id);
         Session::flash('message', 'Dispositivo Eliminada Correctamente');
-        return redirect('dispositivo');
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo');
+        }else {
+         return redirect('dispositivo');            
+        } 
     } else {   
        Session::flash('error', 'El dispositivo no puede eliminarse, se encuentra activo');
-        return redirect('dispositivo');  
+         if(Auth::user()->rol_id == 5){                       
+        return redirect('mantenimiento.dispositivo');
+        }else {
+         return redirect('dispositivo');            
+        }  
        }
    }
 

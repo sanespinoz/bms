@@ -4,6 +4,14 @@
         <meta charset="utf-8">
             <meta content="IE=edge" http-equiv="X-UA-Compatible">
                 <meta content="width=device-width, initial-scale=1" name="viewport">
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="cache-control" content="no-store" />
+<meta http-equiv="cache-control" content="must-revalidate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
                     <title>
                         SAI
                     </title>
@@ -171,7 +179,7 @@
        
         {!! Form::label('nombre', 'Nombre de usuario', ['class'=>'col-sm-6 col-form-label']) !!}
         <div class="col-sm-6">
-                                    {!!Form::text('name',null,['class'=> 'form-control'])!!}
+        {!!Form::text('name',null,['class'=> 'form-control'])!!}
                                 </div>
                                 </div>
        <div class="form-group row text-right">
@@ -244,7 +252,7 @@
         </div>
         </div>
         <div class="form-group row text-center">
-        <input name="remember" type="checkbox"> Recuérdame </input>
+        <input name="remember" type="checkbox"> Recuerdame </input>
         </div>
         <div class="form-group row text-center">
         <a class="forgot-password" href="password/email">Restablecer Contraseña</a>

@@ -19,6 +19,8 @@
 </nav>
 @section('content')
 @include('alerts.request')
+@include('alerts.errors')
+@include('alerts.success')
 <html>
 <head>
 </head>
@@ -31,8 +33,7 @@
 </div>
 <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
 {!! Form::open(['route'=>'dispositivo.store']) !!}
-
-{!! csrf_field() !!}
+ {!! csrf_field() !!}
 <br>
 	@include('dispositivo.partials.form')
 <br>

@@ -31,12 +31,6 @@ class PasswordController extends Controller
         $this->middleware('guest');
     }
 
-    protected function ResetsPassword($user, $password)
-    {
-        $user->password = $password;
-        $user->save();
-        Auth::login($user);
 
-    }
 
 }

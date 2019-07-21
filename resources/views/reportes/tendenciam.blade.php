@@ -204,7 +204,7 @@
             <br/>
                 <div class="form-group">
                     <h4>
-                        Pico Máximo de Consumo en el Año: {{ $maximo }} ????que?? el día {{ $fechpic->fecha }}
+                        Pico Máximo de Consumo en el Año: {{ $maximo }} kW el día {{ $fechpic->fecha }}
                     </h4>
                     
                 </div>

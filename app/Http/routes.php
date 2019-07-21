@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
-Route::get('contacto', 'FrontController@contacto');
+
 
 // Authentication routes...
 

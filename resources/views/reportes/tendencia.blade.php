@@ -10,8 +10,8 @@
             function drawCurveTypes() {
                 var data = new google.visualization.DataTable();
                 data.addColumn('number', 'fecha');
-                data.addColumn('number', 'Energia');
-                data.addColumn('number', 'Energia de Iluminacion');
+                data.addColumn('number', 'Energía');
+                data.addColumn('number', 'Energía de Iluminación');
                 data.addRows([
                 @foreach($tendencia as $t)
                 [{{$t->fecha}}, {{$t->energia}},{{$t->energia_iluminacion}}],
@@ -201,7 +201,7 @@
             <br/>
                 <div class="form-group">
                     <h4>
-                        Pico Máximo de Consumo en el Año: {{ $maximo }}????que?? el día {{ $fechpic->fecha }}
+                        Pico Máximo de Consumo en el Año: {{ $maximo }} kW, el día {{ $fechpic->fecha }}
                     </h4>
                     
                 </div>
