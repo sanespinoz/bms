@@ -113,6 +113,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Modelizer\Selenium\SeleniumServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,

@@ -54,10 +54,10 @@ return [
     |
      */
 
-        'from' => [
+    /*    'from' => [
     'address' => 'san.espinoz@gmail.com',
     'name' => 'Sandra Espinoza'
-],
+],*/
     'to' => [
     'address' => 'san.espinoz@gmail.com',
     'name' => 'Sandra Espinoza'

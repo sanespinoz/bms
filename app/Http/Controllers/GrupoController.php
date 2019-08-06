@@ -8,6 +8,7 @@ use App\Http\Requests\GrupoUpdateRequest;
 use App\Luminaria;
 use App\Piso;
 use App\Sector;
+use App\Alarma;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
@@ -39,16 +40,16 @@ class GrupoController extends Controller
             if ($request->get('sector')) {
                 $s      = $request->get('sector');
                 $sector = Sector::where('nombre', 'like', "%$s%")
-                    ->where('piso_id', $request->get('piso'))->get();
+                ->where('piso_id', $request->get('piso'))->get();
                 $idSector = $sector->first()->id;
                 //dd($sector);
                 $idPiso = $request->get('piso');
 
                 $grups = Grupo::where('piso_id', $idPiso)
-                    ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->get();
+                ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->get();
 
                 //Paginacion
-        
+                
         $filter_products = []; // Manual filter or your array for pagination
 
         foreach($grups as $grup){
@@ -59,7 +60,7 @@ class GrupoController extends Controller
         $page = $request->page; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 2;
+        $perPage = 3;
         $offset = ($page-1) * $perPage;
         $grupos = array_slice($filter_products, $offset, $perPage);
 
@@ -69,12 +70,12 @@ class GrupoController extends Controller
         //Fin Paginacion
         $pisos = Piso::all();
         return view('grupo.index', compact('pisos', 'grupos'));
-            } else {
+    } else {
 
-                $pisos  = Piso::all();
-                $idPiso = $request->get('piso');
+        $pisos  = Piso::all();
+        $idPiso = $request->get('piso');
 
-                $grups = Grupo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->get();
+        $grups = Grupo::where('piso_id', $idPiso)->orderBy('nombre', 'desc')->get();
                 //Paginacion
         
         $filter_products = []; // Manual filter or your array for pagination
@@ -87,7 +88,7 @@ class GrupoController extends Controller
         $page = $request->pge; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 2;
+        $perPage = 3;
         $offset = ($page-1) * $perPage;
         $grupos = array_slice($filter_products, $offset, $perPage);
 
@@ -96,17 +97,17 @@ class GrupoController extends Controller
 
         //Fin Paginacion
 
-                return view('grupo.index', compact('pisos', 'grupos'));
-            }
-        } else {
-            $pisos = Piso::all();
-
-            $grupos = Grupo::paginate(3);
-            //dd($grupos);
-            return view('grupo.index', compact('pisos', 'grupos'));
-        }
-
+        return view('grupo.index', compact('pisos', 'grupos'));
     }
+} else {
+    $pisos = Piso::all();
+
+    $grupos = Grupo::paginate(3);
+            //dd($grupos);
+    return view('grupo.index', compact('pisos', 'grupos'));
+}
+
+}
 
     /**
      * Show the form for creating a new resource.
@@ -210,9 +211,22 @@ class GrupoController extends Controller
 
     public function eliminar($id)
     {
-        Grupo::destroy($id);
-        Session::flash('message', 'Grupo Eliminado Correctamente');
-        return redirect('grupo');
+        $grupo = Grupo::find($id);
+        //$a = $grupo->alarmas;
+        $a = Alarma::where('grupo_id', '=', $id)
+        ->where('mensaje', 1)
+        ->orderBy('fecha', 'desc')
+        ->get(); 
+//Ordena las alarmas del grupo por fechas mas actuales con true
+        if ($a->isEmpty()){
+            Grupo::destroy($id);
+            Session::flash('message', 'Grupo Eliminado Correctamente');
+            return redirect('grupo');
+        } else {
+            Session::flash('message', 'No puede realizar la acción. Contacte al Administrador de Energía');
+            return redirect('grupo');
+        }
+        
     }
     /**
      * Update the specified resource in storage.
