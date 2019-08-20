@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modelizer\Selenium\SeleniumTestCase;
 
-class SeleSaiTest extends SeleniumTestCase
+class SeleSaiTest extends TestCase
 {
 	  /*public function setUp() {
        
@@ -24,22 +24,6 @@ class SeleSaiTest extends SeleniumTestCase
 
     }
 
-    /**
-     * A basic submission test example.
-     *
-     * @return void
-     */
-    public function testLoginFormExample()
-    {
-    	
-
-      /*  $loginInput = [
-            'email' => 'san.espinoz@gmail.com',
-            'password' => '123456'
-        ];
-*/
-      /*  // Login form test case scenario
-        $this->visit('/login')
-             ->submitForm('#login', $loginInput)*/
-    }
+  
+   
 }

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -16,8 +17,8 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        HttpException::class,
-        ModelNotFoundException::class,
+    HttpException::class,
+    ModelNotFoundException::class,
     ];
 
     /**
@@ -42,10 +43,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        }
+        switch($e){
+           case ($e instanceof ModelNotFoundException):
 
-        return parent::render($request, $e);
-    }
+           $e = new NotFoundHttpException($e->getMessage(), $e);
+           break;
+           case ($e instanceof TokenMismatchException):
+
+           return redirect('/')->withErrors(['token_error' => 'Disculpe. Su sesión a expirado. Por favor ingrese nuevamente.']);
+           break;
+           default:
+
+           return parent::render($request, $e);
+           break;
+       }
+   }
 }

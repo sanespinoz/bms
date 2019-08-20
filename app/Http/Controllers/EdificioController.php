@@ -6,6 +6,7 @@ use App\Edificio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EdificioCreateRequest;
 use App\Http\Requests\EdificioUpdateRequest;
+use Illuminate\Database\QueryException;
 use App\Piso;
 use Illuminate\Http\Request;
 use Redirect;
@@ -30,9 +31,11 @@ class EdificioController extends Controller
     public function index()
     {
         $edificios = Edificio::orderBy('nombre', 'asc')->paginate(3);
-        //dd($edificios);
-
-        return view('edificio.index', compact('edificios'));
+        
+        $nomb_edificio = Edificio::first();
+        $nombre = $nomb_edificio->nombre;
+        
+        return view('edificio.index', compact('edificios','nombre'));
     }
 
     /**
@@ -124,9 +127,15 @@ class EdificioController extends Controller
 
     public function eliminar($id)
     {
-        Edificio::destroy($id);
-        Session::flash('message', 'Edificio Eliminado Correctamente');
-        return redirect('edificio');
+        try{
+            Edificio::destroy($id);
+            Session::flash('message', 'Edificio Eliminado Correctamente');
+            return redirect('edificio'); 
+        } catch (QueryException $e){
+
+            Session::flash('message1', 'No se puede eliminar el Edificio, tiene Pisos asociados');
+            return redirect('edificio'); 
+        }
     }
 }
 

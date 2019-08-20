@@ -17,10 +17,10 @@
         {!! Form::select('piso_id',$pisos, $p,['id'=>'piso_id','class'=>'form-control']) !!}
         </div>
     </div>
-    <div class="form-group row">
+  <!--  <div class="form-group row">
         {!! Form::label('cantp', 'Cantidad de personas', ['class'=>'col-sm-3 col-form-label']) !!}
         <div class="col-sm-7">
         {!!Form::text('Cant. personas',old('cant_personas'),['class'=>'form-control'])!!}
-    </div>
+    </div> -->
     </div>
 </div>

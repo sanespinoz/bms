@@ -98,7 +98,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                      <!--  <li>
                             <a href="#" style="font-weight: bold;">
                                 <i aria-hidden="true" class="fa fa-tablet">
                                 </i>
@@ -118,7 +118,7 @@
                                         </i>
                                         Dispositivos
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                         

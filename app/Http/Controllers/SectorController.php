@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SectorCreateRequest;
 use App\Http\Requests\SectorUpdateRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 use App\Piso;
+use App\Edificio;
 use App\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -33,11 +35,15 @@ class SectorController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->get('piso') != "") {
-            $p = $request->get('piso');
-            $pisos    = Piso::all();
-            $sects = Sector::where('piso_id', $p)->orderBy('nombre', 'asc')->get();
-             
+      $nomb_edificio = Edificio::first();
+      $nombre = $nomb_edificio->nombre;
+      if ($request->get('piso') != "") {
+        $p = $request->get('piso');
+        $pisos    = Piso::all();
+        $nomb_piso = Piso::select('nombre')->where('id',$p)->first();
+        $nombre_piso= 'para el '.$nomb_piso->nombre;
+        $sects = Sector::where('piso_id', $p)->orderBy('nombre', 'asc')->get();
+
             //Paginacion
         
         $filter_products = []; // Manual filter or your array for pagination
@@ -59,10 +65,10 @@ class SectorController extends Controller
 
         //Fin Paginacion
 
-            return view('sector.index', compact('pisos', 'sectores'));
-        } else {
-            $sects = Sector::all();
-            $pisos    = Piso::all();
+        return view('sector.index', compact('pisos', 'sectores','nombre','nombre_piso'));
+    } else {
+        $sects = Sector::all();
+        $pisos    = Piso::all();
 
            //Paginacion
         
@@ -82,11 +88,12 @@ class SectorController extends Controller
 
         // your pagination 
         $sectores = new Paginator($sectores, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+        $nombre_piso ='en el edificio';
 
-            return view('sector.index', compact('pisos', 'sectores'));
-        }
-
+        return view('sector.index', compact('pisos', 'sectores','nombre','nombre_piso'));
     }
+
+}
 
     /**
      * Show the form for creating a new resource.
@@ -95,11 +102,12 @@ class SectorController extends Controller
      */
     public function create()
     {
+      $nomb_edificio = Edificio::first();
+      $nombre = $nomb_edificio->nombre;
+      $pisos = Piso::all();
 
-        $pisos = Piso::all();
-
-        return view('sector.create', compact('pisos'));
-    }
+      return view('sector.create', compact('pisos','nombre'));
+  }
 
     /**
      * Store a newly created resource in storage.
@@ -109,8 +117,7 @@ class SectorController extends Controller
      */
     public function store(SectorCreateRequest $request)
     {
-        // dd($request->all());
-        // die();
+
         Sector::create($request->all());
         Session::flash('message', 'Sector Creado Correctamente');
         return redirect('sector');
@@ -124,13 +131,15 @@ class SectorController extends Controller
      */
     public function show($id)
     {
-        $sector = Sector::find($id);
-        $this->notFound($sector);
-        $grupos = $sector->grupos;
+      $nomb_edificio = Edificio::first();
+      $nombre = $nomb_edificio->nombre;
+      $sector = Sector::find($id);
+      $this->notFound($sector);
+      $grupos = $sector->grupos;
         //dd($sector,$grupos);
 
-        return view('sector.show', compact('sector', 'grupos'));
-    }
+      return view('sector.show', compact('sector', 'grupos','nombre'));
+  }
 
     /**
      * Show the form for editing the specified resource.
@@ -140,13 +149,14 @@ class SectorController extends Controller
      */
     public function edit($id)
     {
-
-        $pisos = Piso::lists('nombre', 'id');
-        $sector = Sector::findOrFail($id);
-        $this->notFound($sector);
-        $p          = $sector->piso_id;
-        return view('sector.edit', compact('sector', 'pisos','p'));
-    }
+      $nomb_edificio = Edificio::first();
+      $nombre = $nomb_edificio->nombre;
+      $pisos = Piso::lists('nombre', 'id');
+      $sector = Sector::findOrFail($id);
+      $this->notFound($sector);
+      $p          = $sector->piso_id;
+      return view('sector.edit', compact('sector', 'pisos','p','nombre'));
+  }
 
     /**
      * Update the specified resource in storage.
@@ -183,11 +193,16 @@ class SectorController extends Controller
 
     public function eliminar($id)
     {
-        Sector::destroy($id);
-        Session::flash('message', 'Sector Eliminado Correctamente');
-        return redirect('sector');
-    }
+        try{
+            Sector::destroy($id);
+            Session::flash('message', 'Sector Eliminado Correctamente');
+            return redirect('sector'); 
+        } catch (QueryException $e){
 
+            Session::flash('message1', 'No se puede eliminar el Sector, tiene Grupos asociados');
+            return redirect('sector'); 
+        }
+    }
     public function sectores($piso)
     {
 

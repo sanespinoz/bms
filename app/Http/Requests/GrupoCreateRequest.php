@@ -24,12 +24,13 @@ class GrupoCreateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'            => 'required|min:2',
+            'nombre'            => 'required|min:5|unique:grupos',
             'descripcion'       => 'required|min:10|max:200',
             'cant_luminarias'   => 'required|numeric|min:1|max:15',
-            'piso_id'           => 'required|numeric|',
-            'sector_id'         => 'required|numeric|',
+            'piso_id'           => 'required|numeric',
+            'sector_id'         => 'required|numeric',
 
         ];
     }
+   
 }

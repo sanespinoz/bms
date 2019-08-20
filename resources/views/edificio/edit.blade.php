@@ -3,7 +3,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio Registrado</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{$edificio->nombre}}</a></li>
     <li class="breadcrumb-item active" aria-current="page">Edición de edificio</li>
   </ol>
 </nav>

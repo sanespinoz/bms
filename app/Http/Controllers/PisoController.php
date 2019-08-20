@@ -9,6 +9,7 @@ use App\Piso;
 use App\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Database\QueryException;
 use Redirect;
 use Session;
 use Illuminate\Support\MessageBag;
@@ -29,20 +30,27 @@ class PisoController extends Controller
      */
     public function index(Request $request)
     {
+        $nomb_edificio = Edificio::first();
+        $nombre = $nomb_edificio->nombre;
         if ($request->get('piso') != "") {
-            $n = $request->get('piso');
 
-            $pisos = Piso::where('nombre', 'like', "%$n%")->paginate(2);
+            $p = $request->get('piso');
+            $pisos    = Piso::all();
+            $piss = Piso::where('id', $p)->paginate(3);        
 
-            return view('pisos.index', compact('pisos'));
-            //dd($piso);
+
+            return view('pisos.index', compact('pisos','piss','nombre'));
+            
+
             //dd($request->get('piso'));
 
         } else {
-            $pisos = Piso::orderBy('nombre', 'asc')->paginate(2);
-
-            return view('pisos.index', compact('pisos'));
+            $pisos    = Piso::all();
+            $piss = Piso::orderBy('nombre', 'asc')->paginate(3);
+            return view('pisos.index', compact('pisos','piss','nombre'));
+            
         }
+        
     }
 
     /**
@@ -52,9 +60,11 @@ class PisoController extends Controller
      */
     public function create()
     {
-        $edificios = Edificio::all();
-        return view('pisos.create', compact('edificios'));
-    }
+     $nomb_edificio = Edificio::first();
+     $nombre = $nomb_edificio->nombre;
+     $edificios = Edificio::all();
+     return view('pisos.create', compact('edificios','nombre'));
+ }
 
     /**
      * Store a newly created resource in storage.
@@ -79,14 +89,16 @@ class PisoController extends Controller
      */
     public function show($id)
     { 
-        $piso = Piso::find($id);
-        $this->notFound($piso);
+     $nomb_edificio = Edificio::first();
+     $nombre = $nomb_edificio->nombre;
+     $piso = Piso::find($id);
+     $this->notFound($piso);
 
-        $sectores = Sector::where('piso_id', $id)->get();
+     $sectores = Sector::where('piso_id', $id)->get();
 
-        return view('pisos.show', compact('piso', 'sectores'));
+     return view('pisos.show', compact('piso', 'sectores','nombre'));
 
-    }
+ }
 
     /**
      * Show the form for editing the specified resource.
@@ -96,13 +108,15 @@ class PisoController extends Controller
      */
     public function edit($id)
     {
-        $piso      = Piso::findOrFail($id);
-        $this->notFound($piso);
-        $edificios = Edificio::lists('nombre', 'id');
-        $e = $piso->edificio_id;
-        return view('pisos.edit', compact('piso', 'edificios','e'));
+      $nomb_edificio = Edificio::first();
+      $nombre = $nomb_edificio->nombre;
+      $piso      = Piso::findOrFail($id);
+      $this->notFound($piso);
+      $edificios = Edificio::lists('nombre', 'id');
+      $e = $piso->edificio_id;
+      return view('pisos.edit', compact('piso', 'edificios','e','nombre'));
 
-    }
+  }
 
     /**
      * Update the specified resource in storage.
@@ -113,13 +127,14 @@ class PisoController extends Controller
      */
     public function update($id, Request $request)
     {
-        $piso = Piso::find($id);
-        $this->notFound($piso);
-        $piso->fill($request->all());
-        $piso->save();
-        Session::flash('message', 'Piso Editado Correctamente');
-        return redirect('pisos');
-    }
+
+      $piso = Piso::find($id);
+      $this->notFound($piso);
+      $piso->fill($request->all());
+      $piso->save();
+      Session::flash('message', 'Piso Editado Correctamente');
+      return redirect('pisos');
+  }
 
     /**
      * Remove the specified resource from storage.
@@ -133,5 +148,17 @@ class PisoController extends Controller
         Session::flash('message', 'Piso Eliminado Correctamente');
         return redirect('pisos');
 
+    }
+    public function eliminar($id)
+    {
+        try{
+            Piso::destroy($id);
+            Session::flash('message', 'Piso Eliminado Correctamente');
+            return redirect('pisos'); 
+        } catch (QueryException $e){
+
+            Session::flash('message1', 'No se puede eliminar el Piso, tiene Sectores asociados');
+            return redirect('pisos'); 
+        }
     }
 }

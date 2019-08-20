@@ -7,6 +7,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Rol;
+use App\Edificio;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,18 +32,20 @@ class UserController extends Controller
  *
  * @return \Illuminate\Http\Response
  */
-    public function index(Request $request)
-    {
-        if ($request->get('rol') != "") {
+public function index(Request $request)
+{
+ $nomb_edificio = Edificio::first();
+ $nombre = $nomb_edificio->nombre;
+ if ($request->get('rol') != "") {
 
-            if ($request->get('name')) {
-                $n     = $request->get('name');
-                $r     = $request->get('rol');
-                $usuarios = User::where('name', 'LIKE', "%$n%")->
-                    where('rol_id', '=', $r)->get();
+    if ($request->get('name')) {
+        $n     = $request->get('name');
+        $r     = $request->get('rol');
+        $usuarios = User::where('name', 'LIKE', "%$n%")->
+        where('rol_id', '=', $r)->get();
 
                 //Paginacion
-        
+
         $filter_products = []; // Manual filter or your array for pagination
 
         foreach($usuarios as $usu){
@@ -60,14 +63,14 @@ class UserController extends Controller
 
         //Fin Paginacion
 
-                $roles = Rol::all();
-                return view('user.index', compact('roles', 'users'));
-            } else {
+        $roles = Rol::all();
+        return view('user.index', compact('roles', 'users','nombre'));
+    } else {
 
-                $roles = Rol::all();
-                $idRol = $request->get('rol');
+        $roles = Rol::all();
+        $idRol = $request->get('rol');
 
-                $usuarios = User::where('rol_id', $idRol)->orderBy('name', 'desc')->get();
+        $usuarios = User::where('rol_id', $idRol)->orderBy('name', 'desc')->get();
 
                                 //Paginacion
         
@@ -88,19 +91,19 @@ class UserController extends Controller
 
         //Fin Paginacion
 
-                return view('user.index', compact('roles', 'users'));
-            }
-        } else {
-
-            $roles = Rol::all();
-
-            $users = User::paginate(3);
-//dd($users);
-            return view('user.index', compact('roles', 'users'));
-
-        }
-
+        return view('user.index', compact('roles', 'users','n0mbre'));
     }
+} else {
+
+    $roles = Rol::all();
+
+    $users = User::paginate(3);
+
+    return view('user.index', compact('roles', 'users','nombre'));
+
+}
+
+}
 
     /**
      * Show the form for creating a new resource.
@@ -109,11 +112,12 @@ class UserController extends Controller
      */
     public function create()
     {
+     $nomb_edificio = Edificio::first();
+     $nombre = $nomb_edificio->nombre;
+     $rols = Rol::all();
 
-        $rols = Rol::all();
-        //dd($users);
-        return view('user.create', compact('rols'));
-    }
+     return view('user.create', compact('rols','nombre'));
+ }
 
     /**
      * Store a newly created resource in storage.
@@ -129,10 +133,10 @@ class UserController extends Controller
             'name'     => $request['name'],
             'email'    => $request['email'],
             'password' => $request['password'],
-           
+            
             'rol_id'   => $request['rol_id'],
 
-        ]);
+            ]);
         Session::flash('message', 'Usuario Creado Correctamente');
 
         return redirect('user');
@@ -147,11 +151,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        $this->notFound($user);
+     $nomb_edificio = Edificio::first();
+     $nombre = $nomb_edificio->nombre;
+     $user = User::find($id);
+     $this->notFound($user);
 
-        return view('user.show', compact('user'));
-    }
+     return view('user.show', compact('user','nombre'));
+ }
 
     /**
      * Show the form for editing the specified resource.
@@ -162,16 +168,17 @@ class UserController extends Controller
     public function edit($id)
     {
         // get the user
-
-        $user   = User::findOrFail($id);
-        $this->notFound($user);
-        $userid = $user->rol_id;
-        $rolse  = Rol::where('id', $userid)->lists('rol', 'id');
-        $rols   = Rol::lists('rol', 'id');
+     $nomb_edificio = Edificio::first();
+     $nombre = $nomb_edificio->nombre;
+     $user   = User::findOrFail($id);
+     $this->notFound($user);
+     $userid = $user->rol_id;
+     $rolse  = Rol::where('id', $userid)->lists('rol', 'id');
+     $rols   = Rol::lists('rol', 'id');
         // show the edit form and pass the user
-        return view('user.edit', compact('user', 'rols', 'rolse','userid'));
+     return view('user.edit', compact('user', 'rols', 'rolse','userid','nombre'));
 
-    }
+ }
 
     /**
      * Update the specified resource in storage.
@@ -213,7 +220,7 @@ class UserController extends Controller
 
 
     public function getDateFormat()
-{
-    return 'Y-m-d H:i:s.u';
-}
+    {
+        return 'Y-m-d H:i:s.u';
+    }
 }

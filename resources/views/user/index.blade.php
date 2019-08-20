@@ -13,6 +13,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
   </ol>
 </nav>
@@ -57,7 +58,7 @@
 <br>
 
   <section class="resultados" id="resultados">
-
+ @if(!$users->isEmpty())
   <div align="left" class="container">
  <p><strong>Cantidad de usuarios: {{ $users->total() }}</strong></p>
  </div>
@@ -104,6 +105,8 @@
         </tbody>
     </table>
     {!! $users->render() !!}
+        @else <h4><strong>No se registra/n Usuario/s</strong></h4>
+    @endif
     </section>
 
 </div>

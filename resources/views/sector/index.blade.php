@@ -9,58 +9,68 @@
     {{Session::get('message')}}
 </div>
 @endif
+@if(Session::has('message1'))
+<div class="alert alert-info alert-dismissible" role="alert">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+    {{Session::get('message1')}}
+</div>
+@endif
 <br>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">Sectores registrados</li>
-  </ol>
+</ol>
 </nav>
 @section('content')
 <html>
 <head>
 </head>
 <body>
-<div align="left" class="container">
-<div class="container-fluid">
-<h2>
-    Sectores Registrados
-</h2>
-</div>
-<br>
+    <div align="left" class="container">
+        <div class="container-fluid">
+            <h2>
+            Sectores Registrados {{ $nombre_piso }}
+            </h2>
+        </div>
+        <br>
 
-<div class="container-fluid col-sm-6 col-md-6 col-lg-8">
-    <div class="input-group" role="menu">
-        {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
-        {!! csrf_field() !!}
+        <div class="container-fluid col-sm-8 col-md-8 col-lg-10">
+            <div class="input-group" role="menu">
+                {!! Form::open(['route'=>'sector.index', 'method'=>'GET','class'=>'navbar-form pull-center form-group','role'=>'search']) !!}
+                {!! csrf_field() !!}
 
-        <div class="form-group">
-        <select  class="form-control" name="piso" id="piso_id">            
-            <option selected="selected" value=""> Seleccione el Piso
-                    </option>
-            @foreach($pisos as $piso){
-                <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
-                                        } 
-            @endforeach
-        </select>
-        
+                <div class="form-group">
+                    <select  class="form-control" name="piso" id="piso_id">
+                        <option selected="selected" value="">Seleccione el Piso
+                        </option>
+                        @foreach($pisos as $piso){
+                        <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
+                    } 
+                    @endforeach
+                </select>
                 <button class="form-control btn btn-primary" type="submit">
-                 Buscar
+                    Buscar
                 </button>
-                </div>
-                {!! Form::close() !!}
-    </div>
+            </div>
+            {!! Form::close() !!}
+        </div>
 
-<br>
-    <!-- contenido principal -->
-<section class="resultados" id="resultados">
+        <br>
+        <!-- contenido principal -->
+        <section class="resultados" id="resultados">
+           @if(!$sectores->isEmpty())
+           <div align="left" class="container">
+               <p><strong>Cantidad de sectores: {{ $sectores->total() }}</strong></p>
+           </div>
+           <br>
 
-<div align="left" class="container">
- <p><strong>Cantidad de sectores: {{ $sectores->total() }}</strong></p>
- </div>
- <br>
-
-    <table class="table table-bordered table-striped">
+           <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>
@@ -81,9 +91,9 @@
                 @foreach($sectores as $sector)
                 <tr>
                     <td>
-                    <a href="{{ route('sector.show', $sector->id) }}">
-                        {{ $sector->nombre }}
-                    </a> 
+                        <a href="{{ route('sector.show', $sector->id) }}">
+                            {{ $sector->nombre }}
+                        </a> 
                     </td>
                     <td>
                         {{ $sector->descripcion }}
@@ -99,7 +109,9 @@
                 @endforeach
             </tbody>
         </table>
-        {!! $sectores->render() !!}     
+        {!! $sectores->render() !!} 
+        @else <h4><strong>No se registra/n Sector/es</strong></h4>
+        @endif    
     </section>
 </div>
 </div>

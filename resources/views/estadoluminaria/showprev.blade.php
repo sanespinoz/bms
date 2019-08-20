@@ -4,6 +4,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
     <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias instaladas</a></li>
     <li class="breadcrumb-item"><a href="{{ route('estadoluminaria.show', $lumi->id) }}">Estado Actual de la luminaria</a></li>
     <li class="breadcrumb-item active" aria-current="page">Estados previos de la Luminaria</li>
@@ -65,17 +66,18 @@
                    {{-- {{$estado->id}} --}} 
                 </td>
                 <td>
-                   {{-- {{$lumi->id}} --}} 
+                   {{-- {{$lumi->id}} --}} $lumi->estado($lumi->id)->estado == 1)
                 </td> -->
                 <td>
                      <?php if($estado->estado == 0)
                { ?>
                     Inactiva
- 
-                <?php }elseif($lumi->estado($lumi->id)->estado == 1){ ?>
+
+                <?php }elseif($estado->estado == 1)   
+                 { ?>
                     Activa
 
-                <?php }elseif ($lumi->estado($lumi->id)->estado == 2)
+                <?php }elseif ($estado->estado == 2)
                         { ?>
                     Fallo
              

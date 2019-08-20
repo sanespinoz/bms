@@ -33,12 +33,9 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
             <div class="navbar-header">
                 <a class="navbar-brand" href="gestion" style="font-weight: bold;">
-                 
-                    SAI
-                    
-                </a>
-            </div>
-            <ul class="nav navbar-top-links navbar-right">
+                 SAI</a>
+             </div>
+             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;">
                         {!! Auth::user()->name !!}
@@ -91,13 +88,6 @@
                                 Edificio
                             </a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{!!URL::to('/edificio/create')!!}" style="font-weight: bold;">
-                                        <i aria-hidden="true" class="fa fa-newspaper-o">
-                                        </i>
-                                        Agregar
-                                    </a>
-                                </li>
                                 <li>
                                     <a href="{!!URL::to('/edificio')!!}" style="font-weight: bold;">
                                         <i aria-hidden="true" class="fa fa-list">
@@ -201,7 +191,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                       <!-- <li>
                             <a href="#" style="font-weight: bold;">
                                 <i aria-hidden="true" class="fa fa-tablet">
                                 </i>
@@ -223,7 +213,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
                         @endif
                         @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 5 || Auth::user()->rol_id == 6)
                         <li>

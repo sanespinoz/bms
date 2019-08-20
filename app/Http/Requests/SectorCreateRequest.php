@@ -24,7 +24,7 @@ class SectorCreateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'            => 'required|min:2',
+            'nombre'            => 'required|min:2|unique:sectores',
             'descripcion'       => 'required|min:10|max:200',
             'piso_id'           => 'required|numeric',
         ];
