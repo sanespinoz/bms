@@ -20,8 +20,7 @@
     <!-- Custom CSS -->
     <link href="css/grayscale.css" rel="stylesheet">
     <link href="css/monitoreo.css" rel="stylesheet">
-    <!-- MetisMenu CSS -->
-    <!-- <link href="js/metisMenu.min.css" rel="stylesheet">-->
+
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
@@ -78,13 +77,7 @@
                     </li>
 
                     @else
-                    <!--<li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#dreams">
-                            Luminarias
-                        </a>a                    </li>-->
+
                         @if ((Auth::user()->rol_id != 5) && (Auth::user()->rol_id != 1) && (Auth::user()->rol_id != 6))
                         <li>
                             <a class="page-scroll" href="#monitoreo">
@@ -137,7 +130,7 @@
                             <p class="intro-text">
                                 Gestión de recursos, monitoreo de dispositivos en tiempo real y visualización de reportes, para edificios de oficinas
                             </p>
-                            <a class="btn btn-circle page-scroll" href="#dreams">
+                            <a class="btn btn-circle page-scroll" href="#login">
                                 <i class="fa fa-angle-double-down animated">
                                 </i>
                             </a>
@@ -319,7 +312,6 @@
 </script>
 <script src="../bower_components/moment/min/moment-with-locales.js">
 </script>
-<!-- <script src="js/metisMenu.min.js">
-</script> -->
-<script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js">
-</script>
+
+<!--<script src="https://raw.githubusercontent.com/Eonasdan/bootstrap-datetimepicker/master/build/js/bootstrap-datetimepicker.min.js"> 
+</script>-->

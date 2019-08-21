@@ -270,9 +270,7 @@
     {!!Html::script('js/sb-admin-2.js')!!}
     {!!Html::script('datePicker/js/bootstrap-datepicker.js')!!} 
     {!! Html::script('js/datepick.js') !!}
-    
-    <!-- Languaje -->
-    {{-- {!!Html::script('datePicker/locales/bootstrap-datepicker.es.min.js')!!}    --}}           
+           
 
 </body>
 </html>
