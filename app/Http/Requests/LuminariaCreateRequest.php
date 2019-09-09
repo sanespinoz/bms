@@ -24,11 +24,11 @@ class LuminariaCreateRequest extends Request
     public function rules()
     {
         return [
-            'codigo'            => 'required|numeric|unique:luminarias',
+            'codigo'            => 'required|numeric',
             'nombre'            => 'required',
             'tipo'              => 'required',
-            'descripcion'       => '',
-            'dimensiones'       => '',
+            'descripcion'       => 'required',
+            'dimensiones'       => 'required',
             'voltaje_nominal'   => 'numeric',
             'potencia_nominal'  => 'numeric',
             'corriente_nominal' => 'numeric',

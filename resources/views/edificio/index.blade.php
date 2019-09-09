@@ -35,7 +35,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <h2>
-              Edificios Registrados
+              Edificio Registrado
           </h2>
       </div>
       <br>
@@ -76,7 +76,8 @@
                         </td>
                         <td>
                             {!!link_to_route('edificio.edit', $title = 'Editar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                            {!!link_to_route('edificio.eliminar', $title = 'Eliminar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-danger'])!!}
+                           {{-- {!!link_to_route('edificio.eliminar', $title = 'Eliminar', $parameters = $edificio->id, $attributes = ['class'=>'btn btn-danger'])!!} --}} 
+                             <a href="{{ url('edificio/eliminar/'.$edificio->id) }}" class="btn btn-danger" onclick="return confirm('Esta seguro de perder la informacion del Edificio')"> Eliminar </a>
                         </td>
                     </tr>
                     @endforeach

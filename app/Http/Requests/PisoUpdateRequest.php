@@ -25,7 +25,7 @@ class PisoUpdateRequest extends Request
     {
         return [
             'nombre'           => 'required|min:3',
-            'descripcion'       => 'required|min:10|max:200',
+            'descripcion'       => 'required|min:10',
             'edificio_id'       => 'required|numeric|',
         ];
     }

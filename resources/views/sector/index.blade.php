@@ -103,7 +103,8 @@
                     </td>
                     <td>
                         {!!link_to_route('sector.edit', $title = 'Editar', $parameters = $sector->id, $attributes = ['class'=>'btn btn-primary'])!!}
-                        {!!link_to_route('sector.eliminar', $title = 'Eliminar', $parameters = $sector->id, $attributes = ['class'=>'btn btn-danger'])!!}
+                       {{-- {!!link_to_route('sector.eliminar', $title = 'Eliminar', $parameters = $sector->id, $attributes = ['class'=>'btn btn-danger'])!!} --}} 
+                         <a href="{{ url('sector/eliminar/'.$sector->id) }}" class="btn btn-danger" onclick="return confirm('Esta seguro de perder la informacion del Sector')"> Eliminar </a>
                     </td>
                 </tr>
                 @endforeach

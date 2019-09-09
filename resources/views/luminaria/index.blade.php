@@ -142,7 +142,8 @@
             @endif
           </td>
           <td>
-            {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!} <a href="{{ url('luminaria/eliminar/'.$luminaria->id) }}" class="btn btn-danger" onclick="return confirm('Esta seguro de perder la informacion de la Luminaria')"> Eliminar </a>
+            {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!} 
+            
           </td>
         </tr>
         @endforeach

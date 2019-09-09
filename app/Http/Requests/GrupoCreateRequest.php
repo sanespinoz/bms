@@ -24,9 +24,9 @@ class GrupoCreateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'            => 'required|min:5|unique:grupos',
+            'nombre'            => 'required|min:2',
             'descripcion'       => 'required|min:10|max:200',
-            'cant_luminarias'   => 'required|numeric|min:1|max:15',
+            'cant_luminarias'   => 'required|numeric|min:1|max:5',
             'piso_id'           => 'required|numeric',
             'sector_id'         => 'required|numeric',
 

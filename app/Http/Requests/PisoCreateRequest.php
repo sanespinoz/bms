@@ -24,8 +24,8 @@ class PisoCreateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'           => 'required|min:6|unique:pisos',
-            'descripcion'       => 'required|min:10|max:200',
+            'nombre'           => 'required|min:6',
+            'descripcion'       => 'required|min:10',
             'edificio_id'       => 'required|numeric',
             ];
     }

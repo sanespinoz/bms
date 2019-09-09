@@ -3,7 +3,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
+    <li class="breadcrumb-item">Edificio {{ $nombre }}</li>
     <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias registradas</a></li>
     <li class="breadcrumb-item active" aria-current="page">Información de la luminaria</li>
 </ol>

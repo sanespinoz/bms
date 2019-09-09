@@ -81,9 +81,9 @@
     function drawTable() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Piso');
-        data.addColumn('number', 'Consumo Energía');
-        data.addColumn('number', 'Consumo Energía de Iluminación');
-        data.addColumn('number', 'Demanda Máxima');
+        data.addColumn('number', 'Consumo Energía [Kw]');
+        data.addColumn('number', 'Consumo Energía de Iluminación [Kw]');
+        data.addColumn('number', 'Demanda Máxima [Kw]');
         data.addRows([ 
            @foreach($demanda as $e)       
            ['{{ $e->nombre }}',  {{ $e->energia }}, {{ $e->energiailu}},{{ $e->max_demanda }}],

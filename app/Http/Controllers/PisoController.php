@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Edificio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PisoCreateRequest;
+use App\Http\Requests\PisoUpdateRequest;
 use App\Piso;
 use App\Sector;
 use Illuminate\Http\Request;
@@ -32,22 +33,20 @@ class PisoController extends Controller
     {
         $nomb_edificio = Edificio::first();
         $nombre = $nomb_edificio->nombre;
+        $total = Piso::count();
+
         if ($request->get('piso') != "") {
 
             $p = $request->get('piso');
             $pisos    = Piso::all();
             $piss = Piso::where('id', $p)->paginate(3);        
 
-
-            return view('pisos.index', compact('pisos','piss','nombre'));
-            
-
-            //dd($request->get('piso'));
+            return view('pisos.index', compact('pisos','piss','nombre','total'));
 
         } else {
             $pisos    = Piso::all();
             $piss = Piso::orderBy('nombre', 'asc')->paginate(3);
-            return view('pisos.index', compact('pisos','piss','nombre'));
+            return view('pisos.index', compact('pisos','piss','nombre','total'));
             
         }
         
@@ -76,7 +75,7 @@ class PisoController extends Controller
     {
 
         $piso = Piso::create($request->all());
-        Session::flash('message', 'Grupo Creado Correctamente');
+        Session::flash('message', 'Piso Creado Correctamente');
         return redirect('pisos');
 
     }
@@ -125,7 +124,7 @@ class PisoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request)
+    public function update($id, PisoUpdateRequest $request)
     {
 
       $piso = Piso::find($id);

@@ -19,7 +19,7 @@
 <div align="left" class="container">
 <div class="container-fluid">
 <h2>
-    Editar el Estado de la Luminaria
+    Editar el Estado de la Luminaria {{ $lumi->codigo }}
 </h2>
 </div>
 <br>
@@ -36,12 +36,13 @@
         {!!Form::select('estado',['1' => 'Activa', '0' => 'Inactiva','2' => 'Fallo','3' => 'Mantenimiento'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
         </div>
     </div>
-    <div class="form-group row">
+   <div class="form-group row">
         {!! Form::label('lumin', 'Luminaria', ['class'=>'col-sm-3 col-form-label']) !!}
         <div class="col-sm-7">
         {!! Form::text('luminaria_id',old('luminaria_id'), ['class'=>'form-control floating-label']) !!}
         </div>
-    </div>
+    </div> 
+   {{--  {!! Form::hidden('luminaria_id',old('luminaria_id')) !!} --}} 
     <div class="form-group row">
         {!! Form::label('obs', 'Observación', ['class'=>'col-sm-3 col-form-label']) !!}
         <div class="col-sm-7">

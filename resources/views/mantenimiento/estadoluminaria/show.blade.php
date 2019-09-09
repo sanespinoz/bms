@@ -4,7 +4,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
+    <li class="breadcrumb-item">Edificio {{ $nombre }}</li>
     <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias instaladas</a></li>
     <li class="breadcrumb-item active" aria-current="page">Estado de la Luminaria</li>
   </ol>
@@ -18,7 +18,7 @@
    <div class="container-fluid">
     <br>
     <h2>
-      Estado de la luminaria {{ $lumi->nombre }}
+      Estado de la luminaria {{$lumi->nombre}}, Código {{$lumi->codigo}}
     </h2>
     <br>
   </div>

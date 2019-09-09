@@ -90,6 +90,7 @@ class EstadoLuminariaController extends Controller
       $fech= $f->fecha;
       $est = EstadoLuminaria::select('id')
       ->where('fecha', $fech)
+      ->where('luminaria_id',$id)
       ->orderBy('id', 'desc')
       ->first();
       $estad= $est->id;
@@ -100,7 +101,6 @@ class EstadoLuminariaController extends Controller
       if(Auth::user()->rol_id == 5){                       
         return view('mantenimiento.estadoluminaria.show', compact('estado', 'lumi','nombre'));
     }else {
-
         return view('estadoluminaria.show', compact('estado', 'lumi','nombre'));
     }
 
@@ -154,6 +154,7 @@ public function estados_prev($id)
       $estadolumi = EstadoLuminaria::find($id);
       $this->notFound($estadolumi);
       $lumid = $estadolumi->luminaria_id;
+      $lumi = Luminaria::findOrFail($lumid);
 
       $f = EstadoLuminaria::select(DB::raw('MAX(fecha) as fecha'))
       ->join('luminarias', 'estado_luminarias.luminaria_id', '=', 'luminarias.id')
@@ -171,10 +172,10 @@ public function estados_prev($id)
 
       $estadoluminaria = EstadoLuminaria::where('id', $estad)->first();
       if(Auth::user()->rol_id == 5){                       
-        return view('mantenimiento.estadoluminaria.edit', compact('estadoluminaria','nombre'));
+        return view('mantenimiento.estadoluminaria.edit', compact('estadoluminaria','nombre','lumi'));
     }else {
 
-       return view('estadoluminaria.edit', compact('estadoluminaria','nombre'));
+       return view('estadoluminaria.edit', compact('estadoluminaria','nombre','lumi'));
    }
 
 }

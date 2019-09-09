@@ -25,8 +25,6 @@ class GrupoController extends Controller
   {
 
     $this->middleware('auth');
-        //$this->middleware('mantenimiento');
-
   }
     /**
      * Display a listing of the resource.
@@ -35,6 +33,7 @@ class GrupoController extends Controller
      */
     public function index(Request $request)
     {
+
       $nomb_edificio = Edificio::first();
       $nombre = $nomb_edificio->nombre;
 
@@ -109,6 +108,7 @@ class GrupoController extends Controller
         return view('grupo.index', compact('pisos', 'grupos','nombre','nombre_sect_pis'));
       }
     } else {
+
       $pisos = Piso::all();
 
       $grupos = Grupo::paginate(4);
@@ -125,11 +125,12 @@ class GrupoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {      $nomb_edificio = Edificio::first();
+    {      
+      $nomb_edificio = Edificio::first();
       $nombre = $nomb_edificio->nombre;
 
       $pisos = Piso::lists('nombre', 'id');
-        //dd($pisos);
+
       return view('grupo.create', compact('pisos','nombre'));
     }
 
@@ -164,7 +165,7 @@ class GrupoController extends Controller
       $grupo      = Grupo::find($id);
       $this->notFound($grupo);
       $luminarias = Luminaria::where('grupo_id', $id)->get();
-        // dd($grupo,$luminarias);
+
 
       return view('grupo.show', compact('grupo', 'luminarias','nombre'));
 
@@ -217,6 +218,7 @@ class GrupoController extends Controller
     public function destroy($id)
     {
 
+
       Grupo::destroy($id);
       Session::flash('message', 'Grupo Eliminado Correctamente');
       return redirect('grupo');
@@ -226,7 +228,7 @@ class GrupoController extends Controller
     public function eliminar($id)
     {   
      try{
-      
+
       Grupo::destroy($id);
       Session::flash('message', 'Grupo Eliminado Correctamente');
       return redirect('grupo'); 
@@ -267,7 +269,7 @@ class GrupoController extends Controller
       }
 
       $grupos = Grupo::Busqueda($pisosel, $sector)->paginate(3);
-        // var_dump($grupos);
+
       return view('grupo.index', ['pisos' => $pisos, 'pisosel' => $pisosel, 'grupos' => $grupos]);
     }
 

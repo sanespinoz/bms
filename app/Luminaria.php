@@ -42,16 +42,19 @@ class Luminaria extends Model
                     ->where('luminarias.id', '=', $id)
                     ->first();
         $fech= $f->fecha;
+        $lumi = Luminaria::findOrFail($id);
+       // dd($lumi->id);
         $est = EstadoLuminaria::select('id')
                 ->where('fecha', $fech)
+                ->where('luminaria_id',$lumi->id)
                 ->orderBy('id', 'desc')
                 ->first();
         $estad= $est->id;
          
         $estado = EstadoLuminaria::where('id', $estad)->first();
-        $lumi = Luminaria::findOrFail($id);
+       // $lumi = Luminaria::findOrFail($id);
     
-//$estado = Collection::make($estado);
+
 //dd($estado);
         return $estado;
 

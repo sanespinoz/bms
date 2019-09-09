@@ -30,8 +30,8 @@
 
       var options = {
         title: '',
-        width:550,
-        height:450, 
+        width:600,
+        height:500, 
         hAxis: {
           title: 'Días',
           format: '0'
@@ -111,7 +111,7 @@
     var table_a = document.getElementById('table_div');
     var tab_datos = new google.visualization.Table(table_a);
 
-    tab_datos.draw(data, {showRowNumber: false, align:'center', width: '60%', height: '70%'});
+    tab_datos.draw(data, {showRowNumber: false, align:'center', width: '80%', height: '20%'});
 
   }
 </script>
@@ -198,7 +198,7 @@
          </div>
          {{-- TABLA DE DETALLE --}}
          <div align="center" class="panel-heading" style="width: 500px;
-       margin: 0 auto; ">
+       margin: 0 auto;">
           <h4 align="center">
             Detalle
           </h4>

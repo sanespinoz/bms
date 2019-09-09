@@ -32,7 +32,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
             <div class="navbar-header">
-                <a class="navbar-brand" href="gestion" style="font-weight: bold;">
+                <a class="navbar-brand" href="{{ url('gestion') }}" style="font-weight: bold;">
                  SAI</a>
              </div>
              <ul class="nav navbar-top-links navbar-right">
@@ -220,7 +220,7 @@
                             <a href="#" style="font-weight: bold;">
                                 <i aria-hidden="true" class="fa fa-file">
                                 </i>
-                                Reportes
+                                Reporte
                                 <span class="fa arrow">
                                 </span>
                             </a>

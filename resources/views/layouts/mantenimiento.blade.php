@@ -41,6 +41,7 @@
             });
          });
         });
+
     </script>
 </head>
 </html>
@@ -48,7 +49,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="gestion" style="font-weight: bold;">
+                <a class="navbar-brand" href="{{ url('gestion') }}" style="font-weight: bold;">
                     <i class="fas fa-bell"></i> SAI Alarmas
                 </a>
             </div>
@@ -119,9 +120,9 @@
                                         </i>
                                         Dispositivos
                                     </a>
-                                </li> -->
+                                </li> 
                             </ul>
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>

@@ -41,18 +41,22 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(MessageCreateRequest $request)
-    {
-    
-        Mail::send('emails.contact', $request->all(), function ($m) {
+    { 
+        if (isset($errors) && $errors->any()){
+
+            return Redirect::to('/#contacto')->withInput($request->all());
+            
+        } else {
+            Mail::send('emails.contact', $request->all(), function ($m) {
      //$m->from($request->email, $request->name);
 
-            $m->to('san.espinoz@gmail.com','Sandra Espinoza');
-            $m->subject('Email de contacto');
- 
-});
-     Session::flash('message', 'Mensaje enviado correctamente');
-        return Redirect::to('/#contacto');
-
+                $m->to('san.espinoz@gmail.com','Sandra Espinoza');
+                $m->subject('Email de contacto');
+                
+            });
+            Session::flash('message', 'Mensaje enviado correctamente');
+            return Redirect::to('/#contacto');
+        }
     }
 
     /**

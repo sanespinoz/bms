@@ -24,10 +24,10 @@ class GrupoUpdateRequest extends Request
     public function rules()
     {
         return [
-            'nombre'            => 'required|string|min:2',
-            'cant_luminarias'   => 'numeric|min:1|max:15',
-            'energia_consumida' => 'numeric|min:1',
-            'sector_id'         => 'required',
+        'nombre'            => 'required|min:2',
+        'cant_luminarias'   => 'required|numeric|min:1|max:5',
+        'piso_id'           => 'required|numeric',
+        'sector_id'         => 'required|numeric',
         ];
     }
 }

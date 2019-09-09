@@ -83,7 +83,7 @@ class LuminariaController extends Controller
         $luminarias = new Paginator($luminarias, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
 
         //Fin Paginacion
-        $nombre_sect_pis_grup = 'para el '.$nombre_piso .',' .$nombre_sect .' grupo '. $nombre_grup;
+        $nombre_sect_pis_grup = 'para el '.$nombre_piso .', ' .$nombre_sect .' grupo '. $nombre_grup;
         $pisos = Piso::all();
         if(Auth::user()->rol_id == 5){
 
@@ -115,7 +115,7 @@ class LuminariaController extends Controller
             $nomb_sector = Sector::select('nombre')->where('id',$idSector)->first();
             $nombre_sect= $nomb_sector->nombre;
 
-            $nombre_sect_pis_grup = 'para el '.$nombre_piso .',' .$nombre_sect;
+            $nombre_sect_pis_grup = 'para el '.$nombre_piso .', ' .$nombre_sect;
 
             return view('luminaria.index', compact('pisos', 'luminarias','nombre','nombre_sect_pis_grup'));
 
@@ -139,7 +139,7 @@ class LuminariaController extends Controller
 
                 $nomb_grupo = Grupo::select('nombre')->where('id',$g)->first();
                 $nombre_grup= $nomb_grupo->nombre;
-                $nombre_sect_pis_grup = 'para el '.$nombre_piso .',' .$nombre_grup;
+                $nombre_sect_pis_grup = 'para el '.$nombre_piso .', ' .$nombre_grup;
 
                 return view('luminaria.index', compact('pisos', 'luminarias','nombre_sect_pis_grup'));
             } else {
@@ -181,7 +181,7 @@ class LuminariaController extends Controller
         $nombre_piso= $nomb_piso->nombre;
         $nombre_sect_pis_grup = 'para el '.$nombre_piso;
         if(Auth::user()->rol_id == 5){
-         
+
             return view('mantenimiento.luminaria.index', compact('pisos', 'luminarias','nombre','nombre_sect_pis_grup'));
         }else{
             return view('luminaria.index', compact('pisos', 'luminarias','nombre','nombre_sect_pis_grup'));                    
@@ -256,7 +256,9 @@ public function create()
 public function store(LuminariaCreateRequest $request)
 {
     if (isset($errors) && $errors->any()){
-       if(Auth::user()->rol_id == 5){                       
+
+       if(Auth::user()->rol_id == 5){     
+
            return redirect('mantenimiento.luminaria')->withInput($request->all());
        }else {
 
@@ -264,15 +266,17 @@ public function store(LuminariaCreateRequest $request)
       }
 
   } else {
-    $r = Luminaria::create($request->all());
-    Session::flash('message', 'Luminaria Creada Correctamente');
 
-    if(Auth::user()->rol_id == 5){                       
-       return redirect('mantenimiento.luminaria')->withInput($request->all());
-   }else {
+    if(Auth::user()->rol_id == 5){        
+        $r = Luminaria::create($request->all());
+        Session::flash('message', 'Luminaria Creada Correctamente');               
+        return view('mantenimiento.luminaria.index');
+    }else {
 
-      return redirect('luminaria')->withInput($request->all());
-  }
+        $r = Luminaria::create($request->all());
+        Session::flash('message', 'Luminaria Creada Correctamente');
+        return redirect('luminaria');
+    }
 }  
 
 }
@@ -472,33 +476,27 @@ public function fetch(Request $request)
 
 public function tipo(Request $request)
 {
-
     if ($request->get('query')) {
         $query = $request->get('query');
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->tipo;
         }
-
         return $output;
     }
 }
 public function descripcion(Request $request)
 {
-
     if ($request->get('query')) {
         $query = $request->get('query');
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->descripcion;
         }
-
         return $output;
     }
 }
@@ -510,7 +508,6 @@ public function dimensiones(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->dimensiones;
         }
@@ -526,7 +523,6 @@ public function voltaje_nominal(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->voltaje_nominal;
         }
@@ -543,7 +539,6 @@ public function corriente_nominal(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->corriente_nominal;
         }
@@ -560,7 +555,6 @@ public function potencia_nominal(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->potencia_nominal;
         }
@@ -576,7 +570,6 @@ public function vida_util(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->vida_util;
         }
@@ -593,7 +586,6 @@ public function temperatura(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-
         foreach ($data as $row) {
             $output = $row->temperatura;
         }
@@ -610,7 +602,6 @@ public function obtsectores(Request $request)
         $data  = Sector::where('piso_id', '=', $id)->get();
         foreach ($data as $row) {
             $output = $row->temperatura;
-
         }
 
         return $output;

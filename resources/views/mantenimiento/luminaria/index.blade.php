@@ -25,7 +25,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="gestion">Inicio</a></li>
-    <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
+    <li class="breadcrumb-item">Edificio {{ $nombre }}</li>
     <li class="breadcrumb-item active" aria-current="page">Luminarias</li>
 </ol>
 </nav>
@@ -140,11 +140,11 @@
                             </div>
                         </a>
                         @endif
+
                     </td>
                     <td>
                         {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!}
 
-                        {{-- {!!link_to_route('luminaria.eliminar', $title = 'Eliminar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-danger'])!!} --}} 
                     </td>
                 </tr>
                 @endforeach

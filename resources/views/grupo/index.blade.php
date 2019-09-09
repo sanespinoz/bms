@@ -41,7 +41,7 @@
     </div>
 
     <br>
-    <div class="container-fluid col-sm-6 col-md-6 col-lg-8">
+    <div class="container-fluid col-sm-8 col-md-8 col-lg-10">
       <div class="input-group" role="menu">
         {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-left form-group','role'=>'search']) !!}
         {!! csrf_field() !!}
@@ -88,6 +88,9 @@
           <th>
             Sector
           </th>
+            <th>
+            Cantidad luminarias
+          </th>
           <th>
             Acciones
           </th>
@@ -109,13 +112,16 @@
             {{ $grupo->piso->nombre }}
           </td>
           <td>
-           {{ $grupo->sector->nombre}}
+          {{ $grupo->sector->nombre }}
          </td>
+            <td>
+            {{ $grupo->cant_luminarias }}
+          </td>
          <td>
           {!!link_to_route('grupo.edit', $title = 'Editar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-primary'])!!}
-          {!!link_to_route('grupo.eliminar', $title = 'Eliminar', $parameters = $grupo->id, $attributes = ['class'=>'btn btn-danger'])!!}
+            <a href="{{ url('grupo/eliminar/'.$grupo->id) }}" class="btn btn-danger" onclick="return confirm('Esta seguro de perder la informacion del Grupo')"> Eliminar </a>
+          </td>
 
-        </td>
       </tr>
       @endforeach
     </tbody>

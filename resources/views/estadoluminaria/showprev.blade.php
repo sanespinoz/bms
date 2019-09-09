@@ -26,7 +26,7 @@
 <div class="container-fluid">
 <br>
     <h2>
-        Estado de la luminaria {{$lumi->nombre}}
+        Estado de la luminaria {{$lumi->nombre}}, Código {{$lumi->codigo }}
     </h2>
     <br>
 </div>

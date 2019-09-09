@@ -55,6 +55,9 @@ Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::get('gestion', function () {
+   if (Auth::guest()){
+    return view('index');
+} else {
     if (Auth::user()->rol_id == '3') {
         return view('index');
     } elseif (Auth::user()->rol_id == '5') {
@@ -62,7 +65,9 @@ Route::get('gestion', function () {
     } else {
         return view('admin.index');
     }
+}
 });
+
 
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
 Route::get('dispositivo/create/sectores/{id}', 'DispositivoController@getSectores');

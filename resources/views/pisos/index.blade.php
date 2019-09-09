@@ -57,54 +57,58 @@
                 </select>
 
                 <button class="form-control btn btn-primary" type="submit">
-                   Buscar
-               </button>
-           </div>
-           {!! Form::close() !!}
-       </div>
+                 Buscar
+             </button>
+         </div>
+         {!! Form::close() !!}
+     </div>
 
-       <br>
-       <!-- contenido principal -->
-       <section class="resultados" id="resultados">
-          @if(!$pisos->isEmpty())
-          <table class="table table-bordered table-striped">
-            <head>
-                <tr>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>
-                        Descripción
-                    </th>
-                    <th class="col-sm-3">
-                        Acciones
-                    </th>
-                </tr>
-            </head>
-            <tbody>
-                @foreach($piss as $piso)
-                <tr>
-                    <td>
-                        <a href="{{ route('pisos.show', $piso->id) }}">
-                            {{$piso->nombre}}
-                        </a>
-                    </td>
-                    <td>
-                        {{ $piso->descripcion }}
-                    </td>
-                    <td>
-                        {!!link_to_route('pisos.edit', $title = 'Editar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-primary'])!!} 
-                        {!!link_to_route('pisos.eliminar', $title = 'Eliminar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-danger'])!!}
-
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {!! $piss->render() !!}     
-        @else <h4><strong>No se registra/n Piso/s</strong></h4>
-        @endif
-    </section>
+     <br>
+     <!-- contenido principal -->
+     <section class="resultados" id="resultados">
+      @if(!$pisos->isEmpty())
+      <div align="left" class="container">
+         <p><strong>Cantidad total de pisos: {{ $total }}</strong></p>
+     </div>
+     <br>
+     <table class="table table-bordered table-striped">
+        <head>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Descripción
+                </th>
+                <th class="col-sm-3">
+                    Acciones
+                </th>
+            </tr>
+        </head>
+        <tbody>
+            @foreach($piss as $piso)
+            <tr>
+                <td>
+                    <a href="{{ route('pisos.show', $piso->id) }}">
+                        {{$piso->nombre}}
+                    </a>
+                </td>
+                <td>
+                    {{ $piso->descripcion }}
+                </td>
+                <td>
+                    {!!link_to_route('pisos.edit', $title = 'Editar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-primary'])!!} 
+                    {{--  {!!link_to_route('pisos.eliminar', $title = 'Eliminar', $parameters = $piso->id, $attributes = ['class'=>'btn btn-danger'])!!} --}}
+                    <a href="{{ url('pisos/eliminar/'.$piso->id) }}" class="btn btn-danger" onclick="return confirm('Esta seguro de perder la informacion del Piso')"> Eliminar </a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {!! $piss->render() !!}     
+    @else <h4><strong>No se registra/n Piso/s</strong></h4>
+    @endif
+</section>
 </div>
 </div>
 </body>

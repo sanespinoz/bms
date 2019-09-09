@@ -55,7 +55,7 @@
 
       var datapei = new google.visualization.DataTable();
       datapei.addColumn('number', 'Fecha');
-      datapei.addColumn('number', 'PEI');
+      datapei.addColumn('number', 'PEI [%]');
       datapei.addRows([
         @foreach($pei as $p)
         [{{$p->fecha}},{{$p->division}}],
@@ -93,7 +93,7 @@
     function drawTable() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Mes');
-      data.addColumn('number', 'PEI');
+      data.addColumn('number', 'PEI [%]');
       data.addColumn('string', 'Valoración');
       data.addRows([ 
         @if (!$pei->isEmpty())

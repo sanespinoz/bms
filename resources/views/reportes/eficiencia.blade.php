@@ -109,7 +109,7 @@
     var data = new google.visualization.DataTable();
     @if (isset($eficiencias))
     data.addColumn('string', 'Mes');
-    data.addColumn('number', 'IEE');
+    data.addColumn('number', 'IEE [W][Lux]/[m^2]');
     data.addColumn('string', 'Valoración');
     data.addRows([ 
 
@@ -123,7 +123,7 @@
 ]);
 @elseif (isset($eficienciamensual))
 data.addColumn('number', 'Día');
-data.addColumn('number', 'IEE');
+data.addColumn('number', 'IEE [W][Lux]/[m^2]');
 data.addColumn('string', 'Valoración');
 data.addRows([ 
 
@@ -137,7 +137,7 @@ data.addRows([
   ]);
 @elseif (isset($eficienciagral))
 data.addColumn('string', 'Día');
-data.addColumn('number', 'IEE');
+data.addColumn('number', 'IEE [W][Lux]/[m^2]');
 data.addColumn('string', 'Valoración');
 data.addRows([ 
  @foreach($eficienciagral as $e)      
@@ -155,7 +155,7 @@ data.addRows([
 var table_a = document.getElementById('table_div');
 var tab_datos = new google.visualization.Table(table_a);
 
-tab_datos.draw(data, {showRowNumber: false, align:'center', width: '60%', height: '70%'});
+tab_datos.draw(data, {showRowNumber: false, align:'center'});
 }
 </script>
 <div class="container-fluid">
@@ -236,7 +236,7 @@ tab_datos.draw(data, {showRowNumber: false, align:'center', width: '60%', height
        </div>
        <br/>
        <div align="center" class="panel-heading" style="width: 500px;
-       margin: 0 auto; ">
+       margin: 0 auto;">
        <h4 align="center">
         Detalle
       </h4>
@@ -246,9 +246,11 @@ tab_datos.draw(data, {showRowNumber: false, align:'center', width: '60%', height
       <br/>
     </div>
     <br/>
-    <div align="center" class="panel-body" style="width: 500px;
-    margin: 0 auto; ">
-    <div align="center" id="table_div">
+    <div align="center" class="panel-heading" style="width: 500px;
+    margin: 0 auto;">
+    <div align="center" class="panel-body">
+      <div align="center" id="table_div">
+      </div>
     </div>
   </div>
 </div>
