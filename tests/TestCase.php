@@ -7,14 +7,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://localhost';
+   protected $baseUrl = 'http://localhost';
 
     /**
      * Creates the application.
      *
      * @return \Illuminate\Foundation\Application
      */
-    public function createApplication()
+ public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
@@ -22,4 +22,5 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+  
 }

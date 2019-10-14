@@ -82,7 +82,7 @@ class ActivacionesPisoCero extends Command
             }
             \Log::info('L ' . $i . 'Piso 0 id grupo' . $idg . ' sector' . ' ' . $se . ' ACTIV' . $k . ' ' . $cac);
         }
-//Sector A3 Sur o A3S CAMBIAR NOMBRE
+//Sector A3S 
         for ($i = 1; $i < 5; $i++) {
             $knxActivacionesa3n1 = DB::connection('netx')
                 ->table('dbo.NETX_DEFINITION')

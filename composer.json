@@ -13,14 +13,22 @@
         "nesbot/carbon": "^1.36",
         "barryvdh/laravel-debugbar": "~2.4",
         "itsgoingd/clockwork": "^3.1",
-        "modelizer/selenium": "~1.0"
+        "modelizer/selenium": "~1.0",
+        "spatie/laravel-backup": "^3.0.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "league/flysystem-dropbox": "^1.0",
+        "srmklive/flysystem-dropbox-v2": "^1.0",
+        "symfony/dom-crawler": "^2.7"
+
+       
     },
     "require-dev": {
         "fzaninotto/faker": "1.5.*@dev",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
-        "barryvdh/laravel-dompdf": "0.6.*"
+        "barryvdh/laravel-dompdf": "0.6.*",
+        "symfony/css-selector": "^2.7"
     },
     "autoload": {
         "classmap": ["database"],

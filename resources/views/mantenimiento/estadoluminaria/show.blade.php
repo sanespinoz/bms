@@ -49,8 +49,17 @@
   <br>
   <br>
   <div class="form-group">
+    <?php if($estado->estado == 0)
+    { ?>
+
+    {!!link_to_route('estadoluminaria.estados_prev', $title = 'Ver estados previos', $parameters = $lumi->id, $attributes = ['class'=>'btn btn-primary'])!!}   
+
+    <?php }else{ ?>
+
     {!!link_to_route('estadoluminaria.edit', $title = 'Editar', $parameters = $estado->id, $attributes = ['class'=>'btn btn-primary'])!!} 
     {!!link_to_route('estadoluminaria.estados_prev', $title = 'Ver estados previos', $parameters = $lumi->id, $attributes = ['class'=>'btn btn-primary'])!!}   
+    <?php } ?>
+
   </div>
 </div>
 </div>

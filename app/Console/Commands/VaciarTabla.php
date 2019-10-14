@@ -39,9 +39,9 @@ class VaciarTabla extends Command
     public function handle()
     {
         DB::connection('netx')
-            ->table('dbo.NETX_HISTORICAL_VALUE')
+            ->table('dbo.NETX_HISTORICAL_VALUE ')
             ->truncate();
 
-        \Log::info('truncar tabla NETX_HISTORICAL_VALUE' . \Carbon\Carbon::now());
+        \Log::info('truncar tabla NETX_HISTORICAL_VALUE ' . \Carbon\Carbon::now());
     }
 }

@@ -68,7 +68,6 @@ Route::get('gestion', function () {
 }
 });
 
-
 Route::get('grupo/create/sectores/{id}', 'GrupoController@getSectores');
 Route::get('dispositivo/create/sectores/{id}', 'DispositivoController@getSectores');
 
@@ -80,8 +79,6 @@ Route::get('luminaria/create/grupos/{idp}/{ids}', 'LuminariaController@getGrupos
 
 Route::get('luminaria/grupos/{idp}/{ids}', 'LuminariaController@getGrupos');
 Route::get('luminaria/{idp}/{ids}/{idg}', 'LuminariaController@getLuminarias');
-
-
 
 Route::resource('user', 'UserController');
 Route::resource('edificio', 'EdificioController');
@@ -98,7 +95,6 @@ Route::get('user/eliminar/{id}', 'UserController@eliminar')->name('user.eliminar
 
 Route::get('sector/eliminar/{id}', 'SectorController@eliminar')->name('sector.eliminar');
 Route::get('grupo/eliminar/{id}', 'GrupoController@eliminar')->name('grupo.eliminar');
-
 
 Route::post('/autocomplete/fetch', 'LuminariaController@fetch')->name('autocomplete.fetch');
 Route::post('/autocomplete/tipo', 'LuminariaController@tipo')->name('autocomplete.tipo');
@@ -123,7 +119,6 @@ Route::resource('estadoluminaria', 'EstadoLuminariaController');
 Route::get('estadoluminaria/estados_prev/{id}', 'EstadoLuminariaController@estados_prev')->name('estadoluminaria.estados_prev');
 Route::get('tendencia', 'ReporteController@tendenciaConsumo');
 Route::post('reporte/create_pdf/{graf}/{titulo}', 'ReporteController@createPDF');
-
 
 Route::get('eficiencia', 'ReporteController@eficienciaEnergetica');
 Route::get('performance', 'ReporteController@performanceLuminaria');

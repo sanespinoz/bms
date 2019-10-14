@@ -79,7 +79,7 @@
                             <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
                             @if (Auth::guest())
                             <li>
-                                <a id="iniciar" class="page-scroll" href="#login">Iniciar Sesión</a>
+                                <a id="iniciar" name="iniciar" class="page-scroll" href="#login">Iniciar Sesión</a>
                                 <!--tenia un ancla al pie de la pagina #Auth-->
                             </li>
 
@@ -266,7 +266,7 @@
                         {!! Form::label('email', 'Correo Electrónico', ['class'=>'col-sm-6 col-form-label']) !!}
 
                         <div class="col-sm-3">
-                            {!! Form::email('email', old('email'), ['class'=> 'form-control','id'=>'email']) !!}
+                            {!! Form::email('email', old('email'), ['class'=> 'form-control','id'=>'email','name'=>'email']) !!}
                             <small class="help-block" style="color:#e88;">{{ $errors->first('email') }}</small>
                         </div>
                     </div>
@@ -279,11 +279,11 @@
                         </div>
                     </div>
                     <div class="form-group row text-center">
-                        <input name="remember" type="checkbox"> Recuerdame
+                        <input name="remember" type="checkbox"> Recuérdame
                     </div> 
                     <div class="form-group row text-center">
 
-                      <a class="forgot-password" href="password/email">Restablecer Contraseña</a>
+                      <a class="forgot-password" href="password/email">Restablecer contraseña</a>
 
 
                   </div>
@@ -292,7 +292,7 @@
                   <div>
                     {!! Form::submit('Ingresar',['class' => 'btn btn-info']) !!}
                 </div>
-                <?php } else{ ?> <h2>Bienvenid@!</h2>
+                <?php } else{ ?> <h2>Bienvenido</h2>
 
                 <?php }?>
                 <br>
@@ -322,7 +322,7 @@
 <footer>
     <div class="container text-center">
         <p>
-            Proyecto Final de Grado
+            Proyecto final de grado - 2019
         </p>
     </div>
 </footer>

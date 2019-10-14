@@ -33,36 +33,23 @@
                 <div class="form-group row">
                     {!! Form::label('est','Estado', ['class'=>'col-sm-3 col-form-label']) !!}
                     <div class="col-sm-7">
-                        {!!Form::select('estado',['1' => 'Activa', '0' => 'Inactiva','2' => 'Falla','3' => 'Mantenimiento'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
+                        {!!Form::select('estado',['1' => 'Activa', '0' => 'Inactiva','2' => 'Fallo','3' => 'Mantenimiento'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
                     </div>
                 </div>
-              <div class="form-group row">
+                <div class="form-group row">
                     {!! Form::label('lumin', 'Luminaria', ['class'=>'col-sm-3 col-form-label']) !!}
                     <div class="col-sm-7">
-                        {!! Form::text('luminaria_id',old('luminaria_id'), ['class'=>'form-control floating-label']) !!}
+                        {!! Form::text('luminaria_id',old('luminaria_id'), ['class'=>'form-control floating-label','disabled'=>'disabled']) !!}
                     </div>
                 </div> 
-                  {{--  {!! Form::hidden('luminaria_id',old('luminaria_id')) !!} --}} 
+                {!! Form::hidden('luminaria_id',old('luminaria_id')) !!} 
                 <div class="form-group row">
                     {!! Form::label('obs', 'Observación', ['class'=>'col-sm-3 col-form-label']) !!}
                     <div class="col-sm-7">
                         {!! Form::textarea('observacion',old('observacion'), ['class'=>'form-control floating-label', 'rows' => '3', 'cols' => '54']) !!}
                     </div>
                 </div>
-                <div class="form-group row">
-                    {!! Form::label('fech', 'Fecha de Actualización', ['class'=>'col-sm-3 col-form-label']) !!}
-                    <div class="col-sm-7">
-                        <div class="input-group">
-                            {!! Form::text('fecha',old('fecha'), ['id'=>'fecha','class'=>'form-control floating-label datepicker']) !!}
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th">
-                                </span>
-                            </div>
-                        </div>
-                        <p id="msg" style ="font-weight: bold;"></p>
 
-                    </div>
-                </div>
             </div>
             <br>
             {!!  Form::button('Guardar', ['type'=>'submit', 'class'=>'btn btn-primary']) !!}
@@ -72,24 +59,7 @@
             {!! Form::close() !!}
         </div>
     </div>
-    <script>
-        $(document).ready(function(){
-            $("#fecha").focus(function(){
-                $('#msg').html('');
-            });
-            $("#fecha").blur(function(){
-                var hoy = new Date();
-                var fecha = $('#fecha').val();
-                var fechaFormulario = Date.parse(fecha);
-                
-                if (hoy <= fechaFormulario) {
-                    $('#msg').html("Fecha Válida");
-                } else {
-                    $('#msg').html("Fecha Pasada, no válida");
-                }
-            });
-        });
-    </script>
+    
 </body>
 </html>
 @endsection

@@ -43,7 +43,7 @@ class Luminaria extends Model
                     ->first();
         $fech= $f->fecha;
         $lumi = Luminaria::findOrFail($id);
-       // dd($lumi->id);
+
         $est = EstadoLuminaria::select('id')
                 ->where('fecha', $fech)
                 ->where('luminaria_id',$lumi->id)
@@ -52,10 +52,7 @@ class Luminaria extends Model
         $estad= $est->id;
          
         $estado = EstadoLuminaria::where('id', $estad)->first();
-       // $lumi = Luminaria::findOrFail($id);
-    
 
-//dd($estado);
         return $estado;
 
     }
