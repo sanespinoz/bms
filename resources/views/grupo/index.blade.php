@@ -36,18 +36,18 @@
   <div align="left" class="container">
     <div class="container-fluid">
       <br>
-      <h2>Grupos Registrados {{ $nombre_sect_pis }}</h2>
+      <h2>Grupos registrados {{ $nombre_sect_pis }}</h2>
       <br>
     </div>
 
     <br>
-    <div class="container-fluid col-sm-8 col-md-8 col-lg-10">
+    <div class="container-fluid col-md-3 col-lg-10">
       <div class="input-group" role="menu">
         {!! Form::open(['route'=>'grupo.index', 'method'=>'GET','class'=>'navbar-form pull-left form-group','role'=>'search']) !!}
         {!! csrf_field() !!}
         <div class="form-group">
           <select  class="form-control" name="piso" id="piso_id">
-            <option selected="selected" value=""> Seleccione el Piso
+            <option selected="selected" value=""> Seleccione el piso
             </option>
             @foreach($pisos as $piso){
             <option value="{{ $piso->id }}">
@@ -57,7 +57,7 @@
           @endforeach
         </select>
 
-        {!! Form::select('sector',['placeholder'=>'Selecciona Sector'],null,['class'=>'form-control','id'=>'sector_id']) !!}
+        {!! Form::select('sector',['placeholder'=>'Seleccione el sector'],null,['class'=>'form-control','id'=>'sector_id']) !!}
         
         <button class="form-control btn btn-primary" type="submit">
          Buscar
@@ -89,7 +89,7 @@
             Sector
           </th>
             <th>
-            Cantidad luminarias
+            N° de luminarias
           </th>
           <th>
             Acciones
@@ -127,7 +127,7 @@
     </tbody>
   </table>
   {!! $grupos->render() !!}
-  @else <h4><strong>No se registra/n Grupo/s</strong></h4>
+  @else <h4><strong>No se registra/n grupo/s</strong></h4>
   @endif
 </section>
 </div>

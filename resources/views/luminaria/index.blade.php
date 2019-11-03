@@ -38,7 +38,7 @@
     <div class="container-fluid">
       <br>
       <h2>
-        Luminarias Registradas {{ $nombre_sect_pis_grup }}
+        Luminarias registradas {{ $nombre_sect_pis_grup }}
       </h2>
       <br>
     </div>
@@ -49,7 +49,7 @@
         {!! csrf_field() !!}
         <div class="form-group">
           <select class="form-control" name="piso" id="piso_id">
-            <option selected="selected" value=""> Selecciona Piso
+            <option selected="selected" value=""> Seleccione un piso
             </option>
             @foreach($pisos as $piso){
             <option value="{{ $piso->id }}">{{ $piso->nombre }} </option>
@@ -58,7 +58,7 @@
         </select>
         {!! Form::select('sector',['placeholder'=>'Selecciona Sector'],null,['id'=>'sector_id', 'class'=> 'form-control']) !!}
         <select class="form-control" name="grupo" id="grupo_id">
-          <option selected="selected" value="">Selecciona Grupo </option>
+          <option selected="selected" value="">Seleccione grupo </option>
         </select>
         <button class="form-control btn btn-primary" type="submit">
          Buscar
@@ -142,7 +142,11 @@
             @endif
           </td>
           <td>
-            {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!} 
+            @if($luminaria->estado($luminaria->id)->estado == 0)
+          
+            @else
+            {!!link_to_route('luminaria.edit', $title = 'Editar', $parameters = $luminaria->id, $attributes = ['class'=>'btn btn-primary'])!!}
+            @endif
             
           </td>
         </tr>
@@ -150,7 +154,7 @@
       </tbody> 
     </table>  
     {!! $luminarias->render() !!}
-    @else <h4><strong>No se registra/n Luminaria/s</strong></h4>
+    @else <h4><strong>No se registra/n luminaria/s</strong></h4>
     @endif
   </section>
 

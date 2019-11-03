@@ -19,7 +19,7 @@
     <div class="container-fluid">
       <br>
       <h2>
-        Editar Grupo de Luminarias
+        Editar el grupo de luminaria/s
       </h2>
     </div>
     <br>

@@ -29,12 +29,12 @@
          <p><strong>Tipo:</strong> {{ $l->tipo }}</p>
          <p><strong>Descripción:</strong> {{ $l->descripcion }}</p>
          <p><strong>Dimensiones:</strong> {{ $l->dimensiones }}</p>
-         <p><strong>Voltaje Nominal:</strong> {{ $l->voltaje_nominal }}</p>
-         <p><strong>Potencia Nominal:</strong> {{ $l->potencia_nominal }}</p>
-         <p><strong>Corriente Nominal:</strong> {{ $l->corriente_nominal }}</p>
-         <p><strong>Fecha de Instalación:</strong> {{ $l->fecha_alta }}</p>
+         <p><strong>Voltaje nominal:</strong> {{ $l->voltaje_nominal }}</p>
+         <p><strong>Potencia nominal:</strong> {{ $l->potencia_nominal }}</p>
+         <p><strong>Corriente nominal:</strong> {{ $l->corriente_nominal }}</p>
+         <p><strong>Fecha de instalación:</strong> {{ $l->fecha_alta }}</p>
          <p>
-            @if ($l->fecha_baja) <strong>Fecha de Desinstalación:</strong> {{ $l->fecha_baja }}
+            @if ($l->fecha_baja) <strong>Fecha de desinstalación:</strong> {{ $l->fecha_baja }}
             @endif
         </p>
         <p><strong>Vida Útil:</strong> {{ $l->vida_util }}
@@ -42,17 +42,17 @@
         <p>
             <?php if($estado_lum == 0)
             { ?>
-            <strong>Estado Actual:</strong> Inactiva
+            <strong>Estado actual:</strong> Inactiva
             
             <?php }elseif($estado_lum == 1){ ?>
-            <strong>Estado Actual:</strong> Activa
+            <strong>Estado actual:</strong> Activa
 
             <?php }elseif ($estado_lum == 2)
             { ?>
-            <strong>Estado Actual:</strong> Fallo
+            <strong>Estado actual:</strong> Fallo
             
             <?php }else{ ?>
-            <strong>Estado Actual:</strong> Mantenimiento
+            <strong>Estado actual:</strong> Mantenimiento
             
             <?php } ?>
         </p>

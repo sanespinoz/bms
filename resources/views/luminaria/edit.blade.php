@@ -5,7 +5,7 @@
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
     <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
     <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias instaladas</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Edición de la Luminaria</li>
+    <li class="breadcrumb-item active" aria-current="page">Edición de la luminaria</li>
   </ol>
 </nav>
 @section('content')
@@ -16,7 +16,7 @@
 <body>
   <div align="left" class="container">
     <h2>
-      Editar Luminaria
+      Editar luminaria
     </h2>
     <br>
     <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
@@ -58,74 +58,21 @@
             url:"{{ route('autocomplete.tipo') }}",
             method:"POST",
             data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#tipo').val(data);
-            }
-          }); 
-           $.ajax({
-            url:"{{ route('autocomplete.descripcion') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#descripcion').val(data);
-            }
-          });   
-           $.ajax({
-            url:"{{ route('autocomplete.dimensiones') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#dimensiones').val(data);
+                  success:function(data){
+              console.log(data[0]);
+              var o = data[0]
+              $('#tipo').val(o.tipo);
+              $('#descripcion').val(o.descripcion);
+              $('#dimensiones').val(o.dimensiones);
+              $('#voltaje_nominal').val(o.voltaje_nominal);
+              $('#potencia_nominal').val(o.potencia_nominal);
+              $('#corriente_nominal').val(o.corriente_nominal);
+              $('#vida_util').val(o.vida_util);
+              $('#temperatura').val(o.temperatura);
+
             }
           });  
-           $.ajax({
-            url:"{{ route('autocomplete.voltaje_nominal') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#voltaje_nominal').val(data);
-            }
-          }); 
-           $.ajax({
-            url:"{{ route('autocomplete.potencia_nominal') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#potencia_nominal').val(data);
-            }
-          }); 
-           $.ajax({
-            url:"{{ route('autocomplete.corriente_nominal') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#corriente_nominal').val(data);
-            }
-          }); 
-           $.ajax({
-            url:"{{ route('autocomplete.vida_util') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#vida_util').val(data);
-            }
-          }); 
-           $.ajax({
-            url:"{{ route('autocomplete.temperatura') }}",
-            method:"POST",
-            data:{query:query, _token:_token},
-            success:function(data){
-              console.log(data);
-              $('#temperatura').val(data);
-            }
-          }); 
+    
          });  
           $("#piso_id").change(function(event) {
             var query = $('#piso_id').val();

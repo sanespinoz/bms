@@ -26,7 +26,7 @@ class GrupoCreateRequest extends Request
         return [
             'nombre'            => 'required|min:2',
             'descripcion'       => 'required|min:10|max:200',
-            'cant_luminarias'   => 'required|numeric|min:1|max:5',
+            'cant_luminarias'   => 'required|numeric|min:1|max:10',
             'piso_id'           => 'required|numeric',
             'sector_id'         => 'required|numeric',
 

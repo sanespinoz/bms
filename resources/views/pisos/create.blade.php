@@ -14,7 +14,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
     <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Registrar un Piso</li>
+    <li class="breadcrumb-item active" aria-current="page">Registrar un piso</li>
 </ol>
 </nav>
 @section('content')
@@ -26,7 +26,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <br>
-            <h2>Registrar Piso</h2>
+            <h2>Registrar piso</h2>
             <br>
         </div>
         <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">

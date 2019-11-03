@@ -6,8 +6,8 @@
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
     <li class="breadcrumb-item">Edificio {{ $nombre }}</li>
     <li class="breadcrumb-item"><a href="{{ url('luminaria') }}">Luminarias instaladas</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('estadoluminaria.show', $lumi->id) }}">Estado Actual de la luminaria</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Estados previos de la Luminaria</li>
+    <li class="breadcrumb-item"><a href="{{ route('estadoluminaria.show', $lumi->id) }}">Estado actual de la luminaria</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Estados previos de la luminaria</li>
 </ol>
 </nav>
 @section('content')

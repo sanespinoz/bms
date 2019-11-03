@@ -35,7 +35,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <h2>
-              Edificio Registrado
+              Edificio registrado
           </h2>
       </div>
       <br>

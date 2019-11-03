@@ -51,7 +51,7 @@ class GrupoController extends Controller
           $idSector = $sector->first()->id;
 
           
-          $nombre_sect_pis = 'para el '.$nombre_piso .', sector ' .$s;
+          $nombre_sect_pis = 'para el '.$nombre_piso .', Sector ' .$s;
 
           $grups = Grupo::where('piso_id', $idPiso)
           ->where('sector_id', $idSector)->orderBy('nombre', 'desc')->get();
@@ -68,7 +68,7 @@ class GrupoController extends Controller
         $page = $request->page; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 4;
+        $perPage = 6;
         $offset = ($page-1) * $perPage;
         $grupos = array_slice($filter_products, $offset, $perPage);
 
@@ -96,7 +96,7 @@ class GrupoController extends Controller
         $page = $request->pge; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 4;
+        $perPage = 6;
         $offset = ($page-1) * $perPage;
         $grupos = array_slice($filter_products, $offset, $perPage);
 
@@ -111,7 +111,7 @@ class GrupoController extends Controller
 
       $pisos = Piso::all();
 
-      $grupos = Grupo::paginate(4);
+      $grupos = Grupo::paginate(6);
       $nombre_sect_pis ='en el edificio';
 
       return view('grupo.index', compact('pisos', 'grupos','nombre','nombre_sect_pis'));

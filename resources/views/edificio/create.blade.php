@@ -13,7 +13,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Registrar Edificio</li>
+    <li class="breadcrumb-item active" aria-current="page">Registrar edificio</li>
   </ol>
 </nav>
 @section('content')
@@ -25,7 +25,7 @@
 <div align="left" class="container">
 <div class="container-fluid">
 <br>
-<h2>Registrar Edificio
+<h2>Registrar edificio
 </h2>
 <br>
 </div>

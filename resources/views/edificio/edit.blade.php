@@ -18,7 +18,7 @@
 <div class="container-fluid">
 <br>
 <h2>
-    Editar Edificio
+    Editar edificio
 </h2>
 </div>
 <br>

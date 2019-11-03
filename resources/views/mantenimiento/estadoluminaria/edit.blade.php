@@ -19,7 +19,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <h2>
-                Editar el Estado de la Luminaria {{ $lumi->codigo }}
+                Editar el estado de la luminaria {{ $lumi->codigo }}
             </h2>
         </div>
         <br>
@@ -33,7 +33,13 @@
                 <div class="form-group row">
                     {!! Form::label('est','Estado', ['class'=>'col-sm-3 col-form-label']) !!}
                     <div class="col-sm-7">
-                        {!!Form::select('estado',['1' => 'Activa', '0' => 'Inactiva','2' => 'Fallo','3' => 'Mantenimiento'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
+                         @if ($estadoluminaria->estado == 1)
+                        {!!Form::select('estado',['0' => 'Inactiva','2' => 'Fallo'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
+                        @elseif ($estadoluminaria->estado == 2)
+                        {!!Form::select('estado',['1' => 'Activa','3' => 'Mantenimiento'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
+                        @elseif ($estadoluminaria->estado == 3)
+                        {!!Form::select('estado',['1' => 'Activa','0' => 'Inactiva'],old('estado'),['placeholder' => 'Selecciona Estado'])!!}
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">

@@ -10,6 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Input;
 use App\Edificio;
 use App\Luminaria;
+use App\EstadoLuminaria;
 use App\Piso;
 use App\Sector;
 use App\Catalogo;
@@ -40,6 +41,7 @@ class LuminariaController extends Controller
 
     public function index(Request $request)
     {
+      // var_dump($request->get('grupo'));die();
        $nomb_edificio = Edificio::first();
        $nombre = $nomb_edificio->nombre;
        if ($request->get('piso') != "") {
@@ -75,7 +77,7 @@ class LuminariaController extends Controller
         $page = $request->page; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 4;
+        $perPage = 10;
         $offset = ($page-1) * $perPage;
         $luminarias = array_slice($filter_products, $offset, $perPage);
 
@@ -95,8 +97,9 @@ class LuminariaController extends Controller
     } else {
 // hay grupo o sector
 
-        if ($request->get('sector') != "") {
+        if (($request->get('sector') != "")|| ($request->get('sector') != "NULL")){
                     //hay sector y no grupo
+           // dd($request->get('piso'),$request->get('sector'),$request->get('grupo'));  //solo piso
             $idPiso     = $request->get('piso');
             $idSector = $request->get('sector');
 
@@ -116,13 +119,33 @@ class LuminariaController extends Controller
             $nombre_sect= $nomb_sector->nombre;
 
             $nombre_sect_pis_grup = 'para el '.$nombre_piso .', ' .$nombre_sect;
+                        //Paginacion
+
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($luminarias as $lum){
+            array_push($filter_products, $lum);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 10;
+        $offset = ($page-1) * $perPage;
+        $luminarias = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $luminarias = new Paginator($luminarias, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
 
             return view('luminaria.index', compact('pisos', 'luminarias','nombre','nombre_sect_pis_grup'));
 
         } else {
                     //hay grupo o nada
 
-            if ($request->get('grupo') != "") {
+            if(($request->get('grupo') != "") || ($request->get('grupo') != "NULL")){
 
                 $g = $request->get('grupo');
                         //Hay grupo
@@ -141,13 +164,34 @@ class LuminariaController extends Controller
                 $nombre_grup= $nomb_grupo->nombre;
                 $nombre_sect_pis_grup = 'para el '.$nombre_piso .', ' .$nombre_grup;
 
+                            //Paginacion
+
+        $filter_products = []; // Manual filter or your array for pagination
+
+        foreach($luminarias as $lum){
+            array_push($filter_products, $lum);    
+        }
+
+        $count = count($filter_products); // total dispositivos for pagination
+        $page = $request->page; // current page for pagination
+
+        // manually slice array of product to display on page
+        $perPage = 10;
+        $offset = ($page-1) * $perPage;
+        $luminarias = array_slice($filter_products, $offset, $perPage);
+
+        // your pagination 
+        $luminarias = new Paginator($luminarias, $count, $perPage, $page, ['path'  => $request->url(),'query' => $request->query(),]);
+
+        //Fin Paginacion
+
                 return view('luminaria.index', compact('pisos', 'luminarias','nombre_sect_pis_grup'));
             } else {
-                        //solo piso
+                  
                 $pisos  = Piso::all();
                 $piso   = $request->get('piso');
                 $grupos = Grupo::where('piso_id', $piso)->orderBy('nombre', 'desc')->get();
-                        //dd($grupos);
+                      //  dd($grupos);
                 $luminarias = new Collection;
                 foreach ($grupos as $g) {
                     $idg   = $g->id;
@@ -161,7 +205,7 @@ class LuminariaController extends Controller
 
         $filter_products = []; // Manual filter or your array for pagination
 
-        foreach($lumins as $lum){
+        foreach($luminarias as $lum){
             array_push($filter_products, $lum);    
         }
 
@@ -169,7 +213,7 @@ class LuminariaController extends Controller
         $page = $request->page; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 4;
+        $perPage = 10;
         $offset = ($page-1) * $perPage;
         $luminarias = array_slice($filter_products, $offset, $perPage);
 
@@ -209,7 +253,7 @@ class LuminariaController extends Controller
         $page = $request->page; // current page for pagination
 
         // manually slice array of product to display on page
-        $perPage = 4;
+        $perPage = 10;
         $offset = ($page-1) * $perPage;
         $luminarias = array_slice($filter_products, $offset, $perPage);
 
@@ -324,6 +368,10 @@ public function edit($id)
    $nombre = $nomb_edificio->nombre;
    $luminaria  = Luminaria::findOrFail($id);
    $this->notFound($luminaria);
+
+   $est = $luminaria->estado($id);
+   $e =$est->estado;
+
    $pisos      = Piso::lists('nombre', 'id');
    $g          = $luminaria->grupo_id;
    $gr         = Grupo::findOrFail($g);
@@ -333,9 +381,9 @@ public function edit($id)
    $sectdelp   = Sector::where('piso_id', $p)->lists('nombre', 'id');
 
    if(Auth::user()->rol_id == 5){                       
-    return view('mantenimiento.luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's','nombre'));
+    return view('mantenimiento.luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's','nombre','e'));
 }else {
-    return view('luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's','nombre'));                   
+    return view('luminaria.edit', compact('luminaria', 'pisos', 'sectdelp', 'gruposdelp', 'p', 'g', 's','nombre','e'));                   
 }
 
 
@@ -351,6 +399,7 @@ public function edit($id)
 public function update($id, LuminariaUpdateRequest $request)
 {
     $luminaria = Luminaria::find($id);
+    //var_dump($luminaria);die();
     $this->notFound($luminaria);
     $luminaria->fill($request->all());
     if ($luminaria->fecha_baja == ""){
@@ -481,13 +530,11 @@ public function tipo(Request $request)
         $data  = DB::table('catalogos')
         ->where('nombre', 'LIKE', "%{$query}%")
         ->get();
-        foreach ($data as $row) {
-            $output = $row->tipo;
-        }
-        return $output;
+
+        return $data;
     }
 }
-public function descripcion(Request $request)
+/*public function descripcion(Request $request)
 {
     if ($request->get('query')) {
         $query = $request->get('query');
@@ -593,7 +640,7 @@ public function temperatura(Request $request)
         return $output;
     }
 }
-
+*/
 public function obtsectores(Request $request)
 {
         //dd($request);die();

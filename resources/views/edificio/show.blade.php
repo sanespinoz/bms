@@ -16,7 +16,7 @@
 <div align="left" class="container">
 <div class="container-fluid">
 <br>
-       <h2> Datos del Edificio {{$edificio->nombre}}
+       <h2> Datos del edificio {{$edificio->nombre}}
     </h2>
 <br>
 </div>

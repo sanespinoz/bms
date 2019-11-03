@@ -26,7 +26,7 @@
   <div align="left" class="container">
     <div class="container-fluid">
       <br>
-      <h2>Registrar Grupo</h2>
+      <h2>Registrar grupo</h2>
       <br>
     </div>
     <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">

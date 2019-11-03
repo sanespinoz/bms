@@ -14,7 +14,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('gestion') }}">Inicio</a></li>
     <li class="breadcrumb-item"><a href="{{ url('edificio') }}">Edificio {{ $nombre }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Registar Sector</li>
+    <li class="breadcrumb-item active" aria-current="page">Registar sector</li>
 </ol>
 </nav>
 
@@ -27,7 +27,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <br>
-            <h2>Registrar Sector</h2>
+            <h2>Registrar sector</h2>
         </div>
         <div class="container-fluid  col-sm-6 col-md-6 col-lg-6">
             {!! Form::open(['route'=>'sector.store']) !!}

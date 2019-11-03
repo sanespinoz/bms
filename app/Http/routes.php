@@ -98,13 +98,13 @@ Route::get('grupo/eliminar/{id}', 'GrupoController@eliminar')->name('grupo.elimi
 
 Route::post('/autocomplete/fetch', 'LuminariaController@fetch')->name('autocomplete.fetch');
 Route::post('/autocomplete/tipo', 'LuminariaController@tipo')->name('autocomplete.tipo');
-Route::post('/autocomplete/descripcion', 'LuminariaController@descripcion')->name('autocomplete.descripcion');
-Route::post('/autocomplete/dimensiones', 'LuminariaController@dimensiones')->name('autocomplete.dimensiones');
-Route::post('/autocomplete/voltaje_nominal', 'LuminariaController@voltaje_nominal')->name('autocomplete.voltaje_nominal');
-Route::post('/autocomplete/potencia_nominal', 'LuminariaController@potencia_nominal')->name('autocomplete.potencia_nominal');
-Route::post('/autocomplete/corriente_nominal', 'LuminariaController@corriente_nominal')->name('autocomplete.corriente_nominal');
-Route::post('/autocomplete/vida_util', 'LuminariaController@vida_util')->name('autocomplete.vida_util');
-Route::post('/autocomplete/temperatura', 'LuminariaController@temperatura')->name('autocomplete.temperatura');
+//Route::post('/autocomplete/descripcion', 'LuminariaController@descripcion')->name('autocomplete.descripcion');
+//Route::post('/autocomplete/dimensiones', 'LuminariaController@dimensiones')->name('autocomplete.dimensiones');
+//Route::post('/autocomplete/voltaje_nominal', 'LuminariaController@voltaje_nominal')->name('autocomplete.voltaje_nominal');
+//Route::post('/autocomplete/potencia_nominal', 'LuminariaController@potencia_nominal')->name('autocomplete.potencia_nominal');
+//Route::post('/autocomplete/corriente_nominal', 'LuminariaController@corriente_nominal')->name('autocomplete.corriente_nominal');
+//oute::post('/autocomplete/vida_util', 'LuminariaController@vida_util')->name('autocomplete.vida_util');
+//Route::post('/autocomplete/temperatura', 'LuminariaController@temperatura')->name('autocomplete.temperatura');
 
 Route::post('/autocomplete/sectores', 'LuminariaController@sect')->name('autocomplete.sectores');
 Route::post('/autocomplete/grupos', 'LuminariaController@groups')->name('autocomplete.grupos');

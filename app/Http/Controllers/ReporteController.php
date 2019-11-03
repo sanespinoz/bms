@@ -368,7 +368,7 @@ class ReporteController extends Controller
     				$nom_piso = Piso::select('nombre')->where('id',$piso)->first();
     				$nom_piso = $nom_piso->nombre;
     				$datos = array();
-                    //dd($mes, $anio, $piso);
+                
 
                     //Detalle total de cambios
     				$c = Luminaria::select(DB::raw('count(*) as total'))
@@ -384,7 +384,7 @@ class ReporteController extends Controller
     				->where(DB::raw('YEAR(fecha_alta)'), '=', $anio)
     				->groupBy(DB::raw('tipo'))
     				->get();
-                    //dd($tiposLumi);
+                  
     				foreach ($tiposLumi as $tipol) {
     					$t       = $tipol->tipo;
     					$bajasAt = Luminaria::select(DB::raw('count(*) as bajas'))
@@ -423,7 +423,7 @@ class ReporteController extends Controller
     				->groupBy(DB::raw('YEAR(fecha_alta)'))
     				->get();
 
-                    //dd($anios);
+                
     				$pisos  = Piso::all();
     				$tit= 'Eficiencia de las Luminarias para el '. 
     				$nom_piso . ', '. $mes . '/'. $anio;

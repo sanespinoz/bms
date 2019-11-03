@@ -35,7 +35,7 @@
     <div align="left" class="container">
         <div class="container-fluid">
             <h2>
-            Sectores Registrados {{ $nombre_piso }}
+            Sectores registrados {{ $nombre_piso }}
             </h2>
         </div>
         <br>

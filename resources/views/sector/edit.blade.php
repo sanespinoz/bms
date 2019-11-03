@@ -16,7 +16,7 @@
 <body>
 	<div align="left" class="container">
 		<h2>
-			Editar Sector de Luminarias
+			Editar sector de luminarias
 		</h2>
 		<br>
 		<div class="container-fluid  col-sm-6 col-md-6 col-lg-6">

@@ -25,7 +25,7 @@ class GrupoUpdateRequest extends Request
     {
         return [
         'nombre'            => 'required|min:2',
-        'cant_luminarias'   => 'required|numeric|min:1|max:5',
+        'cant_luminarias'   => 'required|numeric|min:1|max:10',
         'piso_id'           => 'required|numeric',
         'sector_id'         => 'required|numeric',
         ];

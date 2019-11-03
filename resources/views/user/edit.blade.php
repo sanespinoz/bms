@@ -18,7 +18,7 @@
 <div class="container-fluid">
 <br>
 <h2>
-    Editar Usuario
+    Editar usuario
 </h2>
 </div>
 <br>
