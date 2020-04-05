@@ -113,7 +113,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-       
+
         Spatie\Backup\BackupServiceProvider::class,
         Modelizer\Selenium\SeleniumServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
@@ -151,7 +151,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\DropboxServiceProvider::class,
+        //App\Providers\DropboxServiceProvider::class,
 
     ],
 
